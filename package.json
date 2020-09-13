@@ -1,6 +1,6 @@
 {
   "name": "@bheui/components",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Components fo BHE be UI",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "postbuild": "flow-copy-source -v -i '**/*.spec.js' src lib",
     "test": "jest",
     "test:watch": "jest --watch",
-    "publish:package": "yarn publish"
+    "publish:package": "yarn publish --access public"
   },
   "repository": {
     "type": "git",
