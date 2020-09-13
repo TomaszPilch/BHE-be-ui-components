@@ -1,0 +1,13 @@
+.enum-error-show-label {
+  background-color: $neutralDark;
+  color: $white;
+  padding: 5px 10px;
+
+  &--warn {
+    background-color: $warning;
+  }
+
+  &--error {
+    background-color: $error;
+  }
+}

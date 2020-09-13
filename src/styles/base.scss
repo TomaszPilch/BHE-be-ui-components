@@ -1,0 +1,65 @@
+@import 'variables';
+@import 'toastr';
+@import url('~office-ui-fabric-core/src/sass/Fabric.scss');
+
+// Some best-practice CSS that's useful for most apps
+// Just remove them if they're not what you want
+html {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#__next {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Monaco, Menlo, Consolas', sans-serif;
+  background-color: $themeLighterAlt;
+  color: $black;
+  overflow: hidden;
+}
+
+.app-body {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.submitButtonWrapper {
+  margin-top: 40px !important;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+@import 'errors.scss';
+@import 'pages.scss';
+@import 'components.scss';
+@import 'utils.scss';

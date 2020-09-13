@@ -1,0 +1,15 @@
+# Created by .ignore support plugin (hsz.mobi)
+node_modules
+yarn-error.log
+lib
+.coverage
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+.DS_Store
+DS_Store
+.out

@@ -1,0 +1,98 @@
+{
+  "name": "@bheui/components",
+  "version": "0.0.1",
+  "description": "Components fo BHE be UI",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "rimraf lib && mkdir lib",
+    "build": "babel -d lib src --ignore ./src/**/*.spec.js && copyfiles -u 1 \"./src/styles/**/*.*\" ./lib",
+    "postbuild": "flow-copy-source -v -i '**/*.spec.js' src lib",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "publish:package": "yarn publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TomaszPilch/BHE-be-ui-components.git"
+  },
+  "files": [
+    "package.json",
+    "readme.md",
+    "lib/*",
+    "yarn.lock"
+  ],
+  "author": "devX",
+  "bugs": {
+    "url": "https://github.com/TomaszPilch/BHE-be-ui-components/issues"
+  },
+  "homepage": "https://github.com/TomaszPilch/BHE-be-ui-components#readme",
+  "peerDependencies": {
+    "next": "^9.5.3"
+  },
+  "dependencies": {
+    "@fluentui/react": "^7.137.1",
+    "axios": "^0.20.0",
+    "brace": "^0.11.1",
+    "classnames": "^2.2.6",
+    "cookie": "^0.4.1",
+    "devx-js-utilities": "^0.1.4",
+    "isomorphic-unfetch": "^3.0.0",
+    "moment": "^2.28.0",
+    "office-ui-fabric-core": "^11.0.0",
+    "react-ace": "^9.1.1",
+    "react-dropzone": "^11.1.0",
+    "react-redux": "^7.2.1",
+    "react-select": "^3.1.0",
+    "redux-observable": "^1.2.0",
+    "reduxsauce": "^1.2.0",
+    "rxjs": "^6.6.3",
+    "seamless-immutable": "^7.1.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-export-default-from": "^7.10.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-flow-strip-types": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-flow": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
+    "@types/jest": "^26.0.13",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.3.0",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-react-docgen": "^4.1.0",
+    "copyfiles": "^2.3.0",
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^24.0.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.20.6",
+    "flow-bin": "^0.133.0",
+    "flow-copy-source": "2.0.9",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "rimraf": "^2.6.3"
+  },
+  "jest": {
+    "clearMocks": true,
+    "collectCoverage": true,
+    "coverageDirectory": ".coverage",
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ]
+  }
+}

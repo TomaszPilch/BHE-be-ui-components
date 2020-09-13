@@ -1,0 +1,20 @@
+.enum-change-value {
+  &--error {
+    background-color: $error;
+    color: $white;
+
+    &:hover {
+      background-color: lighten($error, 5%);
+      color: $white;
+    }
+  }
+  &--warning {
+    background-color: $warning;
+    color: $white;
+
+    &:hover {
+      background-color: lighten($warning, 5%);
+      color: $white;
+    }
+  }
+}
