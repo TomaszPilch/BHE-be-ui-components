@@ -27,14 +27,15 @@
   },
   "homepage": "https://github.com/TomaszPilch/BHE-be-ui-components#readme",
   "peerDependencies": {
-    "next": "^9.5.3",
     "@fluentui/react": "^7.137.1",
+    "axios": "^0.20.0",
+    "next": "^9.5.3",
     "office-ui-fabric-core": "^11.0.0",
     "react-redux": "^7.2.1",
-    "redux-observable": "^1.2.0"
+    "redux-observable": "^1.2.0",
+    "rxjs": "^6.6.3"
   },
   "dependencies": {
-    "axios": "^0.20.0",
     "brace": "^0.11.1",
     "classnames": "^2.2.6",
     "cookie": "^0.4.1",
@@ -45,7 +46,6 @@
     "react-dropzone": "^11.1.0",
     "react-select": "^3.1.0",
     "reduxsauce": "^1.2.0",
-    "rxjs": "^6.6.3",
     "seamless-immutable": "^7.1.4"
   },
   "devDependencies": {
