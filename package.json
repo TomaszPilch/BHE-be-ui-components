@@ -1,6 +1,6 @@
 {
   "name": "@bheui/components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Components fo BHE be UI",
   "main": "index.js",
   "scripts": {
