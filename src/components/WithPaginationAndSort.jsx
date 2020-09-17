@@ -34,23 +34,27 @@ const withPaginationAndSort = (Component) => {
       }
     }
 
-    handleLoadData = (sort?: Object, filter?: Object) => {
+    handleLoadData = (sort?: Object, filter?: Object, pageIndex?: number) => {
       const {
         filterData,
         navigationItem: { name },
+        paginator: { limit },
         onLoadListData,
         onLoadListWidgetData,
-        paginator: { page, limit },
         parentId,
         parentModule,
         widgetName,
       } = this.props
       let {
         sort: { column, direction },
+        paginator: { page },
       } = this.props
       if (sort && sort.column) {
         column = sort.column
         direction = sort.direction
+      }
+      if (pageIndex) {
+        page = pageIndex + 1
       }
       if (parentId && parentModule && widgetName) {
         onLoadListWidgetData(
@@ -95,11 +99,16 @@ const withPaginationAndSort = (Component) => {
       this.handleLoadData(undefined, {})
     }
 
+    handleChangePage = (page) => {
+      this.handleLoadData(undefined, undefined, page)
+    }
+
     render() {
       const otherProps = {
         changeFilterValue: this.handleChangeFilterValue,
         getListOptionDataObject: this.getListOptionDataObject,
         loadData: this.handleLoadData,
+        onChangePage: this.handleChangePage,
         onChangeSort: this.handleChangeSort,
         resetFilter: this.handleResetFilter,
       }
