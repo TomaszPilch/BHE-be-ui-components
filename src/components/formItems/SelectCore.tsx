@@ -1,30 +1,26 @@
-// @flow
 import React from 'react'
 import ReactSelect from 'react-select'
 import { Label } from '@fluentui/react'
 
 import { useFieldValidation } from '../../utilities/validation'
 import { getErrorText } from '../../utilities/utilities'
+import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
+import { ValueType } from 'react-select/src/types'
+import { SelectItem } from '../../utilities/selects'
 
-export type SelectCoreProps = {
-  editable: boolean,
-  formFieldConfig: Object,
-  label: string,
-  onBlur: (string) => void,
-  onChange: (string) => void,
-  options: Object[],
-  t: Function,
-  touched: boolean,
-  value: string,
+export interface SelectCoreProps<OptionType, FieldConfig = any>
+  extends DefaultFieldProps<undefined | string, FieldConfig>,
+    DefaultFieldActionProps<string | number> {
+  options: OptionType[]
 }
 
-const SelectCore = (props: SelectCoreProps) => {
+function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: SelectCoreProps<OptionType, FieldConfig>) {
   const [isValid, errors, , touched, setTouched] = useFieldValidation(props.formFieldConfig, props.value, props.touched)
 
-  const handleOnChange = (selected) => {
+  const handleOnChange = (selected: ValueType<OptionType>) => {
     setTouched(true)
-    let selectedValue = ''
-    if (typeof selected === 'object' && selected !== null) {
+    let selectedValue: string | number = ''
+    if (typeof selected === 'object' && selected !== null && 'value' in selected) {
       selectedValue = selected.value
     }
     props.onChange(props.formFieldConfig.column, selectedValue)

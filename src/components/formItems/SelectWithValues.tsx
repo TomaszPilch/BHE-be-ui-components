@@ -1,14 +1,13 @@
-// @flow
 import React from 'react'
 
 import SelectCore from './SelectCore'
 
-import { useFieldWithOptions } from '../../utilities/selects'
+import { SelectItem, useFieldWithOptions } from '../../utilities/selects'
 
 // types
 import type { SelectCoreProps } from './SelectCore'
 
-export type SelectWithValuesProps = SelectCoreProps
+export interface SelectWithValuesProps extends SelectCoreProps<SelectItem> {}
 
 const SelectWithValues = (props: SelectWithValuesProps) => {
   const { column, pattern, values } = props.formFieldConfig
@@ -18,7 +17,6 @@ const SelectWithValues = (props: SelectWithValuesProps) => {
     props.t,
     pattern,
     props.formFieldConfig,
-    props.options,
   )
 
   return <SelectCore {...props} options={options} />

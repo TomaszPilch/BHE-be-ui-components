@@ -1,17 +1,22 @@
-// @flow
 import React from 'react'
 
 import SelectCore from './SelectCore'
-import { useFieldWithFetchResourcesOption } from '../../utilities/selects'
+import { FetchResourceType, SelectItem, useFieldWithFetchResourcesOption } from '../../utilities/selects'
 
 // types
 import type { SelectCoreProps } from './SelectCore'
 
-export type SelectWithResourcesProps = SelectCoreProps & {
-  fetchResources: (string) => any,
-  resourceVersion: number,
-  t: Function,
+export interface SelectWithResourcesProps
+  extends SelectCoreProps<
+    SelectItem,
+    {
+      resourceName: string
+    }
+  > {
+  fetchResources: FetchResourceType
+  resourceVersion: number
 }
+
 const SelectWithResources = (props: SelectWithResourcesProps) => {
   const { column, resourceName, pattern } = props.formFieldConfig
   const [options] = useFieldWithFetchResourcesOption(

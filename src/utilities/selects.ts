@@ -1,21 +1,35 @@
-// @flow
-import { useState, useEffect } from 'react'
+import { useState, useEffect, SetStateAction, Dispatch } from 'react'
 import { formatString } from './utilities'
 
-const processValue = (column: string, value: string, translateFunction?: Function) => {
+import { TranslateFunctionType } from '../types/TranslationTypes'
+
+export type SelectItem = {
+  id: string | number
+  value: string | number
+  label: string
+}
+
+export type FetchResourceType = (key: string) => SelectItem[] | string[]
+
+const processValue = (column: string, value: string, translateFunction?: TranslateFunctionType): string => {
   if (typeof translateFunction === 'function') {
     return translateFunction([`select.${column}.${value}`, value])
   }
   return value
 }
 
-const createStringOption = (value: string, column: string, translateFunction?: Function) => ({
+const createStringOption = (value: string, column: string, translateFunction?: TranslateFunctionType) => ({
   id: value,
   value,
   label: processValue(column, value, translateFunction),
 })
 
-const createObjectOption = (item: Object, column: string, translateFunction?: Function, pattern: string = '') => ({
+const createObjectOption = (
+  item: SelectItem,
+  column: string,
+  translateFunction?: TranslateFunctionType,
+  pattern: string = '',
+) => ({
   id: item.id,
   value: item.id,
   label: processValue(column, formatString(pattern, item), translateFunction),
@@ -23,17 +37,17 @@ const createObjectOption = (item: Object, column: string, translateFunction?: Fu
 
 export const useFieldWithOptions = (
   column: string,
-  values: Object[] | string[],
-  translateFunction?: Function,
+  values: SelectItem[] | string[],
+  translateFunction?: TranslateFunctionType,
   pattern?: string,
   formFieldConfig?: Object,
-) => {
-  const [options, setOptions] = useState([])
+): [SelectItem[], Dispatch<SetStateAction<SelectItem[]>>] => {
+  const [options, setOptions] = useState<SelectItem[]>([])
 
   useEffect(() => {
     if (Array.isArray(values) && values.length) {
-      const newOptions = []
-      values.forEach((item) => {
+      const newOptions: SelectItem[] = []
+      values.forEach((item: SelectItem | string) => {
         switch (typeof item) {
           case 'string':
             newOptions.push(createStringOption(item, column, translateFunction))
@@ -52,13 +66,13 @@ export const useFieldWithOptions = (
 
 export const useFieldWithFetchResourcesOption = (
   column: string,
-  fetchResource: Function,
+  fetchResource: FetchResourceType,
   resourceName: string,
-  resourceVersion: number,
-  translateFunction?: Function,
+  _resourceVersion: number,
+  translateFunction?: TranslateFunctionType,
   pattern?: string,
   formFieldConfig?: Object,
-) => {
+): [SelectItem[], Dispatch<SetStateAction<SelectItem[]>>] => {
   const resourceValues = fetchResource(resourceName)
   const [options, setOptions] = useFieldWithOptions(column, resourceValues, translateFunction, pattern, formFieldConfig)
   return [options, setOptions]

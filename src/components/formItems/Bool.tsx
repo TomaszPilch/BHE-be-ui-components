@@ -1,27 +1,17 @@
-// @flow
 import React, { memo } from 'react'
 import { Label, Toggle } from '@fluentui/react'
 
 import YesNoComponent from '../passive/YesNoComponent'
 
 // types
-import type { FieldConfig } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
 
-type BoolProps = {
-  editable: boolean,
-  formFieldConfig: FieldConfig,
-  label: string,
-  onBlur: (string) => void,
-  onChange: (string) => void,
-  touched: boolean,
-  t: Function,
-  value: string,
-}
+export interface BoolProps extends DefaultFieldProps<string | boolean>, DefaultFieldActionProps<boolean> {}
 
 const Bool = (props: BoolProps) => {
-  const handleOnChange = (event: SyntheticInputEvent<HTMLInputElement>, checked: boolean) => {
-    props.onChange(props.formFieldConfig.column, checked)
-    props.onBlur(props.formFieldConfig.column, checked)
+  const handleOnChange = (_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
+    props.onChange(props.formFieldConfig.column, !!checked)
+    props.onBlur(props.formFieldConfig.column, !!checked)
   }
 
   if (!props.editable) {

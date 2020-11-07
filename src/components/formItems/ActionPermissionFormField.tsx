@@ -1,4 +1,3 @@
-// @flow
 import React, { memo } from 'react'
 import { Stack, Toggle } from '@fluentui/react'
 
@@ -9,26 +8,24 @@ import { useFieldValidation } from '../../utilities/validation'
 import { getErrorText } from '../../utilities/utilities'
 
 // types
-import type { FieldConfig } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
 
-type ActionPermissionFormFieldProps = {
-  editable: boolean,
-  formFieldConfig: FieldConfig,
-  onBlur: (string) => void,
-  onChange: (string) => void,
-  touched: boolean,
-  value: number,
-}
+export interface ActionPermissionFormFieldProps
+  extends DefaultFieldProps<number | string>,
+    DefaultFieldActionProps<number> {}
 
 const stackTokens = { childrenGap: 10 }
 const ActionPermissionFormField = (props: ActionPermissionFormFieldProps) => {
   const [isValid, errors, , touched, setTouched] = useFieldValidation(props.formFieldConfig, props.value, props.touched)
 
   const { editable, value, formFieldConfig, t } = props
-  const valueParsed = value ? parseInt(value) : 0
+  let valueParsed = value ? value : 0
+  if (typeof valueParsed === 'string' && value) {
+    valueParsed = parseInt(valueParsed, 10)
+  }
 
-  const handleOnChange = (checked: boolean, action: number) => {
-    let newValue = valueParsed
+  const handleOnChange = (checked: undefined | boolean, action: number) => {
+    let newValue = valueParsed as number
     if (checked) {
       newValue += action
     } else {
@@ -44,42 +41,42 @@ const ActionPermissionFormField = (props: ActionPermissionFormFieldProps) => {
     <Stack tokens={stackTokens}>
       <Stack horizontal tokens={stackTokens}>
         <Toggle
-          checked={(value & 1) > 0}
+          checked={(valueParsed as number & 1) > 0}
           disabled={!editable}
           label={t('general.action.list')}
-          onChange={(event, checked) => {
+          onChange={(_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
             handleOnChange(checked, 1)
           }}
         />
         <Toggle
-          checked={(value & 2) > 0}
+          checked={(valueParsed as number & 2) > 0}
           disabled={!editable}
           label={t('general.action.view')}
-          onChange={(event, checked) => {
+          onChange={(_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
             handleOnChange(checked, 2)
           }}
         />
         <Toggle
-          checked={(value & 4) > 0}
+          checked={(valueParsed as number & 4) > 0}
           disabled={!editable}
           label={t('general.action.add')}
-          onChange={(event, checked) => {
+          onChange={(_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
             handleOnChange(checked, 4)
           }}
         />
         <Toggle
-          checked={(value & 8) > 0}
+          checked={(valueParsed as number & 8) > 0}
           disabled={!editable}
           label={t('general.action.edit')}
-          onChange={(event, checked) => {
+          onChange={(_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
             handleOnChange(checked, 8)
           }}
         />
         <Toggle
-          checked={(value & 16) > 0}
+          checked={(valueParsed as number & 16) > 0}
           disabled={!editable}
           label={t('general.action.delete')}
-          onChange={(checked) => {
+          onChange={(_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
             handleOnChange(checked, 16)
           }}
         />

@@ -14,7 +14,7 @@ const Select = (props: SelectProps) => {
   const { resourceName } = props.formFieldConfig
 
   if (resourceName) {
-    return <SelectWithResources {...props} />
+    return <SelectWithResources {...(props as SelectWithResourcesProps)} />
   }
 
   return <SelectWithValues {...props} />

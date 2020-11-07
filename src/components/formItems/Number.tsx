@@ -1,4 +1,3 @@
-// @flow
 import React, { memo } from 'react'
 
 import TextField from './TextField'

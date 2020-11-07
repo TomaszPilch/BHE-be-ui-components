@@ -1,8 +1,8 @@
-// @flow
-import React, { memo } from 'react'
+import React, { FormEvent, memo } from 'react'
 
 // components
 import { TextField as FabricTextField, Label } from '@fluentui/react'
+import { ITextFieldProps } from 'office-ui-fabric-react/lib/components/TextField/TextField.types'
 
 // utils
 import { getErrorText } from '../../utilities/utilities'
@@ -11,31 +11,24 @@ import { getErrorText } from '../../utilities/utilities'
 import { useFieldValidation } from '../../utilities/validation'
 
 // types
-import type { FieldConfig } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
 
-export type TextFieldProps = {
-  editable: boolean,
-  formFieldConfig: FieldConfig,
-  iconProps: Object,
-  inputProps: Object,
-  label: string,
-  onBlur: (string) => void,
-  onChange: (string) => void,
-  placeholder: string,
-  touched: boolean,
-  type?: string,
-  value: string,
+export interface TextFieldProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {
+  iconProps: Object
+  placeholder: string
+  type?: string
+  inputProps: ITextFieldProps
 }
 
 const TextField = (props: TextFieldProps) => {
   const [isValid, errors, , touched, setTouched] = useFieldValidation(props.formFieldConfig, props.value, props.touched)
 
-  const handleOnChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  const handleOnChange = (_event: FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
     setTouched(true)
-    props.onChange(props.formFieldConfig.column, event.target.value)
+    props.onChange(props.formFieldConfig.column, newValue || '')
   }
 
-  const handleOnBlur = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  const handleOnBlur = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched(true)
     props.onBlur(props.formFieldConfig.column, event.target.value)
   }

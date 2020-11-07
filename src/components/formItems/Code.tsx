@@ -1,4 +1,3 @@
-// @flow
 import React, { memo } from 'react'
 import AceEditor from 'react-ace'
 import { Label } from '@fluentui/react'
@@ -13,17 +12,9 @@ import 'brace/theme/tomorrow'
 import 'brace/mode/jade'
 
 // types
-import type { FieldConfig } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
 
-type CodeProps = {
-  editable: boolean,
-  formFieldConfig: FieldConfig,
-  label: string,
-  onBlur: (string) => void,
-  onChange: (string) => void,
-  touched: boolean,
-  value: string,
-}
+export interface CodeProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {}
 
 const Code = (props: CodeProps) => {
   const [isValid, errors, , touched, setTouched] = useFieldValidation(props.formFieldConfig, props.value, props.touched)
@@ -35,7 +26,7 @@ const Code = (props: CodeProps) => {
 
   const handleOnBlur = () => {
     setTouched(true)
-    props.onBlur(props.formFieldConfig.column, props.value)
+    props.onBlur(props.formFieldConfig.column, props.value || '')
   }
 
   const errorText = isValid ? '' : getErrorText(errors, props.t)

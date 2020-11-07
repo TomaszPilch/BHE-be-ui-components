@@ -1,4 +1,3 @@
-// @flow
 import React, { memo } from 'react'
 import moment from 'moment'
 import { DatePicker, DayOfWeek, Label } from '@fluentui/react'
@@ -8,23 +7,16 @@ import { useFieldValidation } from '../../utilities/validation'
 import { getErrorText } from '../../utilities/utilities'
 
 // types
-import type { FieldConfig } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
 
-type DatetimeProps = {
-  editable: boolean,
-  formFieldConfig: FieldConfig,
-  label: string,
-  onBlur: (string) => void,
-  onChange: (string) => void,
-  placeholder: string,
-  touched: boolean,
-  value: string,
+export interface DatetimeProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {
+  placeholder: string
 }
 
 const Datetime = (props: DatetimeProps) => {
   const [isValid, errors, , touched, setTouched] = useFieldValidation(props.formFieldConfig, props.value, props.touched)
 
-  const handleOnChange = (date: Date) => {
+  const handleOnChange = (date: Date | null | undefined) => {
     const dateFormatted = moment(date).format('YYYY-MM-DD')
     props.onChange(props.formFieldConfig.column, dateFormatted)
     props.onBlur(props.formFieldConfig.column, dateFormatted)
@@ -44,7 +36,7 @@ const Datetime = (props: DatetimeProps) => {
   }
 
   const valueMoment = moment(value, ['YYYY-MM-DD'], true)
-  const valueParsed = valueMoment.isValid() ? valueMoment.toDate() : ''
+  const valueParsed = valueMoment.isValid() ? valueMoment.toDate() : undefined
   const errorText = isValid ? '' : getErrorText(errors, t)
   return (
     <>
