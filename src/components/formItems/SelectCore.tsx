@@ -41,8 +41,8 @@ function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: Sel
   }
 
   let selectedValue = null
-  if (props.value) {
-    selectedValue = props.options.find((option) => option.value === props.value)
+  if ( typeof props.value !== "undefined") {
+    selectedValue = props.options.find((option) => `${option.value}` === `${props.value}`)
   }
 
   return (

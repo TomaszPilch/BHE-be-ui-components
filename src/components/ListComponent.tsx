@@ -15,6 +15,8 @@ import {
   FontIcon,
 } from '@fluentui/react'
 
+import { Pagination } from '@uifabric/experiments'
+
 // redux
 import EditActions from '../redux/EditRedux'
 import { USER_RIGHTS } from '../redux/NavigationRedux'
@@ -32,7 +34,6 @@ import { TranslateFunctionType } from '../types/TranslationTypes'
 
 // types
 type ListComponentProps = {
-  customComponents?: Object,
   changeFilterValue: (key: string, value: string, reloadData: boolean) => void,
   changeRedirectUrl: (string) => void,
   data: Object,
@@ -41,6 +42,7 @@ type ListComponentProps = {
   getListOptionDataObject: () => Object,
   itemsToDelete: Object[],
   loadData: () => void,
+  onChangePage: (number) => void,
   modalOpened: boolean,
   module: string,
   navigationItem: Object,
@@ -224,6 +226,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
       customComponents,
       settings: { customListComponents, columnValues },
       t,
+      module,
     } = this.props
     let CustomValueComponent = false
     let customProps = {}
@@ -246,13 +249,14 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
           column={column}
           columnValues={columnValues && columnValues[column.key]}
           item={item}
+          module={module}
           requestRedirectTo={changeRedirectUrl}
           t={t}
           value={columnValue}
         />
       )
     }
-    return <ValueToString value={columnValue} />
+    return <ValueToString t={t} value={columnValue} />
   }
 
   handleCopyLink = () => {
@@ -287,6 +291,11 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     })
   }
 
+  handlePageChange = (page) => {
+    const { onChangePage } = this.props
+    onChangePage(page)
+  }
+
   render() {
     const {
       changeFilterValue,
@@ -299,6 +308,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
       rights,
       settings,
       t,
+      paginator: { maxPage, limit, maxCount, page },
     } = this.props
     const { selectedArray, showFilter } = this.state
     return (
@@ -342,6 +352,16 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
               selection={this.selection}
               selectionMode={SelectionMode.multiple}
             />
+            {maxCount > limit && (
+              <Pagination
+                format="buttons"
+                itemsPerPage={limit}
+                onPageChange={this.handlePageChange}
+                pageCount={maxPage} // index
+                selectedPageIndex={page - 1}
+                totalItemCount={maxCount}
+              />
+            )}
           </MarqueeSelection>
           {selectedArray.length > 0 && rights[USER_RIGHTS.DELETE] && (
             <CommandBar

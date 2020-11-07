@@ -1,8 +1,7 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 
 // components
-import { Stack } from '@fluentui/react'
-import { PrimaryButton } from '@fluentui/react'
+import { Stack, PrimaryButton } from '@fluentui/react'
 import { formComponentDefaultProps, useFormComponentHooks } from './FormComponent'
 import FormComponentItem from './FormComponentItem'
 
