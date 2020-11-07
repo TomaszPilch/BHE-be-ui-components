@@ -1,8 +1,9 @@
-// @flow
 import React from 'react'
+import { TranslateFunctionType } from '../../types/TranslationTypes'
 
 type ActualWeatherComponentProps = {
-  value: string,
+  value: string
+  t: TranslateFunctionType
 }
 
 const ActualWeatherComponent = (props: ActualWeatherComponentProps) => {

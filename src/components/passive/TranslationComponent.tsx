@@ -1,10 +1,9 @@
-// @flow
 import React from 'react'
 
 type TranslationComponentProps = {
-  column: string,
-  t: Function,
-  value: string | number | boolean,
+  column: string
+  t: Function
+  value: string | number | boolean
 }
 
 const TranslationComponent = (props: TranslationComponentProps) => {

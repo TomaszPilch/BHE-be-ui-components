@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -9,8 +8,8 @@ import NavigationActions, { getAllRights, getNavigationItem } from '../../redux/
 import type { FieldConfig } from '../../types/FormTypes'
 
 type GeneralWidgetComponentProps = {
-  editable: boolean,
-  formFieldConfig: FieldConfig,
+  editable: boolean
+  formFieldConfig: FieldConfig
 }
 
 class GeneralWidgetComponent extends React.PureComponent<GeneralWidgetComponentProps> {

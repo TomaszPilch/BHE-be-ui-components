@@ -1,19 +1,18 @@
-// @flow
 import React from 'react'
 import { CommandButton } from '@fluentui/react'
 
 type EnumChangeValueProps = {
-  actionOnClick: (Object, any) => void,
-  column: Object,
-  columnValues: string[],
-  item: any,
-  value: string | number | boolean,
+  actionOnClick: (keyObject: { [key: string]: string }, item: any) => void
+  column: { key: string }
+  columnValues: string[]
+  item: any
+  value: string
 }
 
 const EnumChangeValue = (props: EnumChangeValueProps) => {
   const { value, columnValues } = props
 
-  const handleClick = (key) => {
+  const handleClick = (key: string) => {
     props.actionOnClick(
       {
         [props.column.key]: key,

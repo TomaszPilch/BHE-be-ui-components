@@ -1,9 +1,8 @@
-// @flow
 import React from 'react'
 import moment from 'moment'
 
 type ShowDateTimeComponentProps = {
-  value: string | number | boolean,
+  value: string
 }
 
 const ShowDateTimeComponent = (props: ShowDateTimeComponentProps) => {

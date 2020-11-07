@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Label, PrimaryButton } from '@fluentui/react'

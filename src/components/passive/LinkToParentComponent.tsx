@@ -1,14 +1,13 @@
-// @flow
 import React from 'react'
 
 type Props = {
-  column: string,
-  idKey?: string,
-  item: Object,
-  parentDataObject?: string,
-  parentModule?: string,
-  requestRedirectTo: (mode: string, module: string, id: number) => void,
-  value: string | number | boolean,
+  column: string
+  idKey?: string
+  item: { [key: string]: any }
+  parentDataObject?: string
+  parentModule?: string
+  requestRedirectTo: (mode: string, module: string, id: number) => void
+  value: string | number | boolean
 }
 
 const LinkToParentComponent = (props: Props) => {
@@ -16,7 +15,7 @@ const LinkToParentComponent = (props: Props) => {
     return null
   }
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault()
     if (!props.parentModule) {
       const [key, id] = Object.keys(props.item).reduce(
@@ -31,7 +30,7 @@ const LinkToParentComponent = (props: Props) => {
       props.requestRedirectTo('view', key, id)
     } else if (
       typeof props.item[props.parentModule] === 'object' ||
-      typeof props.item[props.parentDataObject] === 'object'
+      typeof props.item[props.parentDataObject || ''] === 'object'
     ) {
       let idKey = 'id'
       let dataKey = props.parentModule

@@ -1,8 +1,7 @@
-// @flow
 import React from 'react'
 
 type EnumErrorShowLabelProps = {
-  value: string | number | boolean,
+  value: string | number | boolean
 }
 
 const EnumErrorShowLabel = (props: EnumErrorShowLabelProps) => {

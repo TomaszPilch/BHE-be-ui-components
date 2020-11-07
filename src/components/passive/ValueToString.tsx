@@ -1,5 +1,6 @@
-// @flow
 import React from 'react'
+
+import { TranslateFunctionType } from '../../types/TranslationTypes'
 
 export const valueToString = (value: any, t: Function) =>
   value === null
@@ -11,8 +12,8 @@ export const valueToString = (value: any, t: Function) =>
     : value
 
 type ValueToStringProps = {
-  value: any,
-  t: Function,
+  value: any
+  t: TranslateFunctionType
 }
 
 const ValueToString = (props: ValueToStringProps) => <span>{valueToString(props.value, props.t)}</span>

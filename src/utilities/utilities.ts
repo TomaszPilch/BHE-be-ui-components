@@ -34,6 +34,7 @@ export const getErrorText = (errors: ValidationResult | ValidationResult[], t: F
 }
 
 export const copyString = (text: string, element: string = 'textarea') => {
+  // @ts-ignore
   const el: HTMLInputElement = document.createElement(element)
   el.value = text
   document.body.appendChild(el)

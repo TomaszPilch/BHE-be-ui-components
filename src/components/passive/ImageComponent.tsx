@@ -1,9 +1,8 @@
-// @flow
 import React from 'react'
 
 // types
 type ImagePropTypes = {
-  value: string,
+  value: string
 }
 
 const ImageComponent = (props: ImagePropTypes) =>

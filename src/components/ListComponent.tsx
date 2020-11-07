@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -29,6 +28,7 @@ import CustomModuleComponents from './modules/CustomModuleComponents'
 import ValueToString from './passive/ValueToString'
 import FilterComponent from './FilterComponent'
 import withPaginationAndSort from './WithPaginationAndSort'
+import { TranslateFunctionType } from '../types/TranslationTypes'
 
 // types
 type ListComponentProps = {
@@ -53,6 +53,14 @@ type ListComponentProps = {
   rights: Object,
   settings: Object,
   sort: Object,
+  t: TranslateFunctionType
+}
+
+type ListComponentStateProps = {
+  fetching: boolean,
+  itemsToDelete: Object[],
+  modalOpened: boolean,
+  refreshSig: boolean,
 }
 
 class ListComponent extends React.PureComponent<ListComponentProps> {
