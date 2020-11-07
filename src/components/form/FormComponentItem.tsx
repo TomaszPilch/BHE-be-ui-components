@@ -1,10 +1,26 @@
-// @flow
 import React, { memo } from 'react'
 
 import formItems from '../formItems'
 
+// types
+import { CustomFormComponentType, DefaultFieldActionProps, FieldConfig } from '../../types/FormTypes'
+import { FetchResourceType } from '../../utilities/selects'
+import { TranslateFunctionType } from '../../types/TranslationTypes'
+
+export interface FormComponentItemProps extends DefaultFieldActionProps<any> {
+  customFormComponents?: CustomFormComponentType
+  editable?: boolean
+  fetchResources?: FetchResourceType
+  t: TranslateFunctionType
+  touched?: boolean
+  resourceVersion?: number
+  labelPrefix: string
+  fieldConfig: FieldConfig
+  data: { [key: string]: any }
+}
+
 const emptyObject = {}
-const FormComponentItem = (props) => {
+const FormComponentItem = (props: FormComponentItemProps) => {
   const {
     customFormComponents,
     data,
@@ -15,7 +31,6 @@ const FormComponentItem = (props) => {
     onBlur,
     onChange,
     resourceVersion,
-    standalone,
     t,
     touched,
   } = props
@@ -37,7 +52,7 @@ const FormComponentItem = (props) => {
     )
   }
 
-  let value = standalone ? data[fieldConfig.column] : props.data[fieldConfig.column]
+  let value = data[fieldConfig.column]
   if (typeof value === 'undefined') {
     value = ''
   }
@@ -56,7 +71,7 @@ const FormComponentItem = (props) => {
       placeholder={fieldConfig.defaultValue || ''}
       resourceVersion={resourceVersion}
       t={t}
-      touched={props.touched || touched}
+      touched={touched}
       value={value}
     />
   )

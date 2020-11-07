@@ -1,5 +1,4 @@
-// @flow
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FormEvent } from 'react'
 
 // components
 import { Stack } from '@fluentui/react'
@@ -11,13 +10,14 @@ import FormComponentItem from './FormComponentItem'
 import { validate } from '../../utilities/validation'
 
 // types
-import type { FieldConfig, FormConfig } from '../../types/FormTypes'
+import type { FieldConfig, FieldConfigWithStackRow, FormConfig } from '../../types/FormTypes'
 import type { FormComponentProps } from './FormComponent'
+import { ImmutableDataType } from '../../types/FormTypes'
 
 const getColumnFromField = (field: FieldConfig) => (field.stackSettings ? field.stackSettings.column || 0 : 0)
 const generateFormConfigWithStackTokens = (formConfig: FormConfig) =>
   formConfig
-    .reduce((acc, field: FieldConfig) => {
+    .reduce<FieldConfigWithStackRow[]>((acc, field: FieldConfig) => {
       let row = acc.length
       if (field.stackSettings) {
         row = field.stackSettings.row || 0
@@ -57,12 +57,12 @@ const FormComponentStack = (props: FormComponentProps) => {
     setFormConfig(generateFormConfigWithStackTokens(props.formConfig))
   }, [props.formConfig])
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement> | React.MouseEvent<PrimaryButton | HTMLSpanElement>) => {
     const { formConfig, onSubmit } = props
     if (event) {
       event.preventDefault()
     }
-    const dataToValidate = standalone ? data : props.data
+    const dataToValidate = (standalone ? data : props.data) as ImmutableDataType
     const [isValid] = validate(formConfig, dataToValidate)
     if (isValid) {
       onSubmit(dataToValidate)
@@ -96,7 +96,7 @@ const FormComponentStack = (props: FormComponentProps) => {
               styles={{ root: { overflow: 'visible' } }}
               tokens={fieldsRow.tokens}
             >
-              {fieldsRow.items.map((fieldConfig: FieldConfig) => (
+              {fieldsRow.items.map((fieldConfig) => (
                 <Stack
                   key={`component-${fieldConfig.column}`}
                   grow
@@ -113,7 +113,6 @@ const FormComponentStack = (props: FormComponentProps) => {
                     onBlur={handleOnBlur}
                     onChange={handleOnChange}
                     resourceVersion={resourceVersion}
-                    standalone={standalone}
                     t={t}
                     touched={touched}
                   />

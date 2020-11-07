@@ -1,3 +1,4 @@
+import { ElementType } from 'react'
 import ActionPermissionFormField, { ActionPermissionFormFieldProps } from './ActionPermissionFormField'
 import Bool, { BoolProps } from './Bool'
 import Code, { CodeProps } from './Code'
@@ -31,4 +32,4 @@ export default {
   text: TextField,
   textArea: TextArea,
   widget: GeneralWidgetComponent,
-}
+} as { [key: string]: ElementType }

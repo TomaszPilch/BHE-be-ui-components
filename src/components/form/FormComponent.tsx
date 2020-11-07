@@ -1,6 +1,5 @@
-// @flow
-import React, { useState, useEffect, useCallback } from 'react'
 import Immutable from 'seamless-immutable'
+import React, { useState, useEffect, useCallback, Dispatch, SetStateAction, FormEvent } from 'react'
 
 // components
 import { PrimaryButton } from '@fluentui/react'
@@ -10,24 +9,45 @@ import FormComponentItem from './FormComponentItem'
 import { validate } from '../../utilities/validation'
 
 // types
-import type { FormConfig, FieldConfig } from '../../types/FormTypes'
+import {
+  FormConfig,
+  FieldConfig,
+  DefaultFieldActionProps,
+  CustomFormComponentType,
+  ImmutableDataType,
+  ActionOnBlur,
+  ActionOnChange,
+} from '../../types/FormTypes'
+import { FetchResourceType } from '../../utilities/selects'
+import { TranslateFunctionType } from '../../types/TranslationTypes'
 
-export type FormComponentProps = {
-  customFormComponents?: Object,
-  data?: Object,
-  defaultData?: Object,
-  editable: boolean,
-  fetchResources: (string) => any,
-  formConfig: FormConfig,
-  labelPrefix: string,
-  onBlur: (string, string) => void,
-  onChange: (string, string) => void,
-  onSubmit: (Object) => void,
-  resourceVersion: number,
-  showSubmitButton: boolean,
-  submitButtonText: string,
-  touched?: boolean,
+type StandaloneDataProps = {
+  standalone: true
+  data?: ImmutableDataType
 }
+
+type DataProps = {
+  standalone: false
+  data: ImmutableDataType
+}
+
+interface PropTypes extends DefaultFieldActionProps<any> {
+  customFormComponents?: CustomFormComponentType
+  data?: ImmutableDataType
+  defaultData?: ImmutableDataType
+  editable: boolean
+  fetchResources: FetchResourceType
+  formConfig: FormConfig
+  labelPrefix: string
+  onSubmit: (data: Object) => void
+  resourceVersion: number
+  showSubmitButton: boolean
+  submitButtonText: string
+  t: TranslateFunctionType
+  touched?: boolean
+}
+
+export type FormComponentProps = (StandaloneDataProps & PropTypes) | (DataProps & PropTypes)
 
 export const formComponentDefaultProps = {
   editable: true,
@@ -40,10 +60,20 @@ export const formComponentDefaultProps = {
   showSubmitButton: false,
   submitButtonText: 'submit',
 }
-export const useFormComponentHooks = (props: FormComponentProps) => {
-  const [standalone] = useState(!props.data)
-  const [data, setData] = useState(props.defaultData ? props.defaultData : Immutable({}))
-  const [touched, setTouched] = useState(false)
+export const useFormComponentHooks = (
+  props: FormComponentProps,
+): [
+  boolean,
+  ImmutableDataType,
+  Dispatch<SetStateAction<ImmutableDataType>>,
+  boolean,
+  Dispatch<SetStateAction<boolean>>,
+  ActionOnBlur<any>,
+  ActionOnChange<any>,
+] => {
+  const [standalone] = useState<boolean>(!props.data)
+  const [data, setData] = useState<ImmutableDataType>(props.defaultData ? props.defaultData : Immutable({}))
+  const [touched, setTouched] = useState<boolean>(false)
 
   useEffect(() => {
     if (props.defaultData) {
@@ -70,12 +100,12 @@ export const useFormComponentHooks = (props: FormComponentProps) => {
 const FormComponent = (props: FormComponentProps) => {
   const [standalone, data, , touched, setTouched, handleOnBlur, handleOnChange] = useFormComponentHooks(props)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement> | React.MouseEvent<PrimaryButton | HTMLSpanElement>) => {
     const { formConfig, onSubmit } = props
-    if (event) {
+    if (event && 'preventDefault' in event) {
       event.preventDefault()
     }
-    const dataToValidate = standalone ? data : props.data
+    const dataToValidate = (standalone ? data : props.data) as ImmutableDataType
     const [isValid] = validate(formConfig, dataToValidate)
     if (isValid) {
       onSubmit(dataToValidate)
@@ -110,7 +140,6 @@ const FormComponent = (props: FormComponentProps) => {
           onBlur={handleOnBlur}
           onChange={handleOnChange}
           resourceVersion={resourceVersion}
-          standalone={standalone}
           t={t}
           touched={touched}
         />
