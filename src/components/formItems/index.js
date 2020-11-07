@@ -4,6 +4,7 @@ import Code from './Code'
 import Datetime from './Datetime'
 import GeneralWidgetComponent from '../widgets/GeneralWidgetComponent'
 import Number from './Number'
+import Date from './Date'
 import Position from './Position'
 import Select from './Select'
 import SingleFileUpload from './SingleFileUpload'
@@ -15,6 +16,7 @@ export default {
   bool: Bool,
   code: Code,
   datetime: Datetime,
+  date: Date,
   image: SingleFileUpload,
   number: Number,
   position: Position,

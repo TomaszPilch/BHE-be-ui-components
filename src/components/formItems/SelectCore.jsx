@@ -45,8 +45,8 @@ const SelectCore = (props: SelectCoreProps) => {
   }
 
   let selectedValue = null
-  if (props.value) {
-    selectedValue = props.options.find((option) => option.value === props.value)
+  if ( typeof props.value !== "undefined") {
+    selectedValue = props.options.find((option) => `${option.value}` === `${props.value}`)
   }
 
   return (

@@ -8,12 +8,16 @@ type TranslationComponentProps = {
 }
 
 const TranslationComponent = (props: TranslationComponentProps) => {
-  if (!props.value) {
+  if (typeof props.value === 'undefined') {
     return null
   }
-
-  const columnArray = props.column.split('.')
-  return <span>{props.t(`select.${columnArray[columnArray.length - 1]}.${props.value}`)}</span>
+  const {
+    module,
+    value,
+    column: { key },
+  } = props
+  const columnArray = key.split('.')
+  return <span>{props.t(`select.${module}.${columnArray[columnArray.length - 1]}.${value}`)}</span>
 }
 
 export default TranslationComponent

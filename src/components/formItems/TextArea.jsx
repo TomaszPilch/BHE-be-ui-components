@@ -10,7 +10,7 @@ import type { TextFieldProps } from './TextField'
 type TextAreaProps = TextFieldProps
 
 const TextArea = (props: TextAreaProps) => {
-  return <TextField {...props} inputProps={{ multiline: true, rows: 5 }} />
+  return <TextField {...props} inputProps={{ multiline: true, rows: 5, ...props.inputProps }} />
 }
 
 export default TextArea
