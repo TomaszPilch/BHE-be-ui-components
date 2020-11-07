@@ -1,29 +1,21 @@
 import React, { memo } from 'react'
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import { Label } from '@fluentui/react'
-import DateTime from 'react-datetime'
+import DateTimeLibrary from 'react-datetime'
 
 // functions
 import { useFieldValidation } from '../../utilities/validation'
 import { getErrorText } from '../../utilities/utilities'
 
 // types
-import type { FieldConfig } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
 
-type DatetimeProps = {
-  editable: boolean,
-  formFieldConfig: FieldConfig,
-  label: string,
-  onBlur: (string) => void,
-  onChange: (string) => void,
-  touched: boolean,
-  value: string,
-}
+export interface DatetimeProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {}
 
 const Datetime = (props: DatetimeProps) => {
   const [isValid, errors, , touched, setTouched] = useFieldValidation(props.formFieldConfig, props.value, props.touched)
 
-  const handleOnChange = (date: Date) => {
+  const handleOnChange = (date: Moment | string) => {
     const dateFormatted = moment(date).format('YYYY-MM-DD HH:mm')
     props.onChange(props.formFieldConfig.column, dateFormatted)
     props.onBlur(props.formFieldConfig.column, dateFormatted)
@@ -48,7 +40,7 @@ const Datetime = (props: DatetimeProps) => {
   return (
     <>
       <Label>{props.label}</Label>
-      <DateTime
+      <DateTimeLibrary
         className="rdtWrapper"
         dateFormat="DD.MM.YYYY"
         inputProps={{

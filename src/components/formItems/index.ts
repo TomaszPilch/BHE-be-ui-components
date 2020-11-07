@@ -32,4 +32,5 @@ export default {
   text: TextField,
   textArea: TextArea,
   widget: GeneralWidgetComponent,
+  // date: Date,
 } as { [key: string]: ElementType }
