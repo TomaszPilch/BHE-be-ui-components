@@ -1,22 +1,51 @@
-// @flow
 import React from 'react'
 import { connect } from 'react-redux'
-import Immutable from 'seamless-immutable'
+import Immutable, { ImmutableArray, ImmutableObject } from 'seamless-immutable'
 
 // redux
 import ListActions from '../redux/ListRedux'
 
-type withPaginationAndSortProps = {
-  data: Object[],
-  navigationItem: Object,
-  onLoadListData: (string, number, number, string, string, Object) => void,
-  paginator: Object,
-  sort: Object,
+import { IListReduxCreators } from '../redux/types/ListReduxTypes'
+import { FilterType, PaginatorType, SortObjectType } from '../types/ViewTypes'
+import { ReduxStore } from '../redux'
+import { NavigationItem } from '../types/NavigationTypes'
+
+export interface WithPaginationAndSortStateProps {
+  data: ImmutableArray<Object>
+  paginator: ImmutableObject<PaginatorType>
+  sort: ImmutableObject<SortObjectType>
+  filterData: ImmutableObject<FilterType>
+}
+
+export interface WithPaginationAndSortDispatchProps {
+  onLoadListData: IListReduxCreators['onLoadListData']
+  onLoadListWidgetData: IListReduxCreators['onLoadListWidgetData']
+}
+
+export interface WithPaginationAndSortOwnProps {
+  navigationItem: NavigationItem
+  parentId: number
+  parentModule: string
+  widgetName: string
+  onChangeFilterData: IListReduxCreators['onChangeFilterData']
+}
+
+type WithPaginationAndSortPropsType = WithPaginationAndSortStateProps &
+  WithPaginationAndSortDispatchProps &
+  WithPaginationAndSortOwnProps
+
+export type WithPaginationAndSortPassDownProps = WithPaginationAndSortPropsType & {
+  changeFilterValue: (key: string, value: string, reloadData?: boolean) => void
+  getListOptionDataObject: () => void
+  loadData: (sort?: SortObjectType, filter?: FilterType, pageIndex?: number) => void
+  onChangePage: (page: number) => void
+  onChangeSort: (key: string, dir?: 'ASC' | 'DESC') => void
+  resetFilter: () => void
 }
 
 const emptyImmutable = Immutable({})
-const withPaginationAndSort = (Component) => {
-  class WithPaginationAndSort extends React.Component<withPaginationAndSortProps, null> {
+function withPaginationAndSort<P extends object>(Component: React.ComponentType<P>) {
+  class WithPaginationAndSort extends React.Component<P & WithPaginationAndSortPropsType> {
     getListOptionDataObject = () => {
       const {
         navigationItem: { name },
@@ -34,7 +63,7 @@ const withPaginationAndSort = (Component) => {
       }
     }
 
-    handleLoadData = (sort?: Object, filter?: Object, pageIndex?: number) => {
+    handleLoadData = (sort?: SortObjectType, filter?: FilterType, pageIndex?: number) => {
       const {
         filterData,
         navigationItem: { name },
@@ -99,7 +128,7 @@ const withPaginationAndSort = (Component) => {
       this.handleLoadData(undefined, {})
     }
 
-    handleChangePage = (page) => {
+    handleChangePage = (page: number) => {
       this.handleLoadData(undefined, undefined, page)
     }
 
@@ -116,7 +145,10 @@ const withPaginationAndSort = (Component) => {
     }
   }
 
-  const mapStateToProps = (state, ownProps) => ({
+  const mapStateToProps = (
+    state: ReduxStore,
+    ownProps: WithPaginationAndSortOwnProps,
+  ): WithPaginationAndSortStateProps => ({
     data: state.list.data.getIn([ownProps.navigationItem.name], []),
     paginator: state.list.paginator.getIn([ownProps.navigationItem.name], {
       limit: 20,
@@ -131,7 +163,12 @@ const withPaginationAndSort = (Component) => {
     filterData: state.list.filterData.getIn([ownProps.navigationItem.name], emptyImmutable),
   })
 
-  return connect(mapStateToProps, {
+  return connect<
+    WithPaginationAndSortStateProps,
+    WithPaginationAndSortDispatchProps,
+    WithPaginationAndSortOwnProps,
+    ReduxStore
+  >(mapStateToProps, {
     onLoadListData: ListActions.onLoadListData,
     onLoadListWidgetData: ListActions.onLoadListWidgetData,
   })(WithPaginationAndSort)

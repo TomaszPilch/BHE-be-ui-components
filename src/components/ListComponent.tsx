@@ -1,4 +1,5 @@
 import React from 'react'
+import { ImmutableArray, ImmutableObject } from 'seamless-immutable'
 import { connect } from 'react-redux'
 
 import {
@@ -29,41 +30,37 @@ import { copyString, sanitizeColumnName } from '../utilities/utilities'
 import CustomModuleComponents from './modules/CustomModuleComponents'
 import ValueToString from './passive/ValueToString'
 import FilterComponent from './FilterComponent'
-import withPaginationAndSort from './WithPaginationAndSort'
+import withPaginationAndSort, { WithPaginationAndSortPassDownProps } from './WithPaginationAndSort'
 import { TranslateFunctionType } from '../types/TranslationTypes'
+import { ReduxStore } from '../redux'
+import { IListReduxCreators, IOnChangeFilterData } from '../redux/types/ListReduxTypes'
+import { IEditReduxCreators } from '../redux/types/EditReduxTypes'
+import { WithModulesPassDownProps } from './WithModule'
 
 // types
-type ListComponentProps = {
-  changeFilterValue: (key: string, value: string, reloadData: boolean) => void,
-  changeRedirectUrl: (string) => void,
-  data: Object,
-  fetching: boolean,
-  filterData: Object[],
-  getListOptionDataObject: () => Object,
-  itemsToDelete: Object[],
-  loadData: () => void,
-  onChangePage: (number) => void,
-  modalOpened: boolean,
-  module: string,
-  navigationItem: Object,
-  onChangeSort: (string, ?string) => void,
-  onListDeleteRequest: (boolean, Object[]) => void,
-  onListDeleteRequestConfirmed: (string, Object[]) => void,
-  onUpdateColumnRequest: (Object) => void,
-  refreshSig: boolean,
-  resetFilter: () => void,
-  rights: Object,
-  settings: Object,
-  sort: Object,
-  t: TranslateFunctionType
+type ListComponentStateProps = {
+  fetching: boolean
+  itemsToDelete: ImmutableArray<Object>
+  modalOpened: boolean
+  refreshSig: boolean
 }
 
-type ListComponentStateProps = {
-  fetching: boolean,
-  itemsToDelete: Object[],
-  modalOpened: boolean,
-  refreshSig: boolean,
+type ListComponentDispatchProps = {
+  onChangeFilterData: IListReduxCreators['onChangeFilterData']
+  onChangeRefreshSig: IListReduxCreators['onChangeRefreshSig']
+  onListDeleteRequest: IListReduxCreators['onListDeleteRequest']
+  onListDeleteRequestConfirmed: IListReduxCreators['onListDeleteRequestConfirmed']
+  onUpdateColumnRequest: IEditReduxCreators['onUpdateColumnRequest']
 }
+
+type ListComponentOwnProps = WithPaginationAndSortPassDownProps &
+  WithModulesPassDownProps & {
+    changeRedirectUrl: (url: string, urlAs: string) => void
+    t: TranslateFunctionType
+    customComponents: { [key: string]: React.Component }
+  }
+
+type ListComponentProps = ListComponentStateProps & ListComponentDispatchProps & ListComponentOwnProps
 
 class ListComponent extends React.PureComponent<ListComponentProps> {
   state = { selectedArray: [], showFilter: false }
@@ -80,7 +77,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     this.props.loadData()
   }
 
-  componentDidUpdate(prevProps: Props): void {
+  componentDidUpdate(prevProps: ListComponentProps): void {
     if (prevProps.module !== this.props.module || prevProps.refreshSig !== this.props.refreshSig) {
       this.props.onChangeRefreshSig(false)
       this.props.loadData()
@@ -171,7 +168,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
       : []
   }
 
-  handleOnHeaderClick = (event, cell) => {
+  handleOnHeaderClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, cell) => {
     const { onChangeSort } = this.props
     onChangeSort(cell.key)
   }
@@ -220,7 +217,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     )
   }
 
-  handleRenderCell = (item, index, column) => {
+  handleRenderCell = (item, index: number, column: string) => {
     const {
       changeRedirectUrl,
       customComponents,
@@ -291,9 +288,13 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     })
   }
 
-  handlePageChange = (page) => {
+  handlePageChange = (page: number) => {
     const { onChangePage } = this.props
     onChangePage(page)
+  }
+
+  handleLoadData = () => {
+    this.props.loadData()
   }
 
   render() {
@@ -302,7 +303,6 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
       data,
       fetching,
       filterData,
-      loadData,
       modalOpened,
       resetFilter,
       rights,
@@ -334,7 +334,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
               </div>
               <div className="filter-container__actions">
                 <div className="filter-container__action-wrapper">
-                  <PrimaryButton onClick={loadData} text={t('filter._action.search')} />
+                  <PrimaryButton onClick={this.handleLoadData} text={t('filter._action.search')} />
                 </div>
                 <div className="filter-container__action-wrapper">
                   <DefaultButton onClick={resetFilter} text={t('filter._action.reset')} />
@@ -399,14 +399,14 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: ReduxStore): ListComponentStateProps => ({
   fetching: state.list.fetching,
   itemsToDelete: state.list.itemsToDelete,
   modalOpened: state.list.modalOpened,
   refreshSig: state.list.refreshSig,
 })
 
-const mapActionsToProps = {
+const mapActionsToProps: ListComponentDispatchProps = {
   onChangeFilterData: ListActions.onChangeFilterData,
   onChangeRefreshSig: ListActions.onChangeRefreshSig,
   onListDeleteRequest: ListActions.onListDeleteRequest,
@@ -414,4 +414,7 @@ const mapActionsToProps = {
   onUpdateColumnRequest: EditActions.onUpdateColumnRequest,
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(withPaginationAndSort(ListComponent))
+export default connect<ListComponentStateProps, ListComponentDispatchProps, ListComponentOwnProps, ReduxStore>(
+  mapStateToProps,
+  mapActionsToProps,
+)(withPaginationAndSort(ListComponent))

@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import classNames from 'classnames'
 
@@ -7,10 +6,11 @@ import { TextField as FabricTextField } from '@fluentui/react'
 import SelectCore from './formItems/SelectCore'
 
 const VALID_TYPES = ['textBox', 'selectBox']
+
 type FilterComponentProps = {
-  filterValues: Object,
-  onChangeFilterValue: Function,
-  options: Object,
+  filterValues: Object
+  onChangeFilterValue: Function
+  options: Object
 }
 
 export default class FilterComponent extends React.Component<FilterComponentProps> {

@@ -1,12 +1,23 @@
-// external libs
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 
-// core
+import {
+  IListReduxActions,
+  IListReduxCreators,
+  IListReduxTypes,
+  IOnChangeFilterData,
+  IOnChangeRefreshSig,
+  IOnListDeleteRequest,
+  IOnLoadListDataSuccess,
+  IOnLoadListSettingsSuccess,
+  ListReduxStore,
+} from './types/ListReduxTypes'
+import { ListDataType, ListSettingsType, PaginatorType, SortObjectType } from '../types/ViewTypes'
+import { TranslateFunctionType } from '../types/TranslationTypes'
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const { Types, Creators } = createActions<IListReduxTypes, IListReduxCreators>({
   onLoadListSettings: null,
   onLoadListSettingsSuccess: ['settings'],
   onLoadListData: ['module', 'page', 'limit', 'orderColumn', 'orderDirection', 'filter'],
@@ -37,31 +48,31 @@ export default Creators
 
 /* ------------- Initial State ------------- */
 
-export const INITIAL_STATE = Immutable({
-  data: {},
+export const INITIAL_STATE: ListReduxStore = Immutable({
+  data: {} as ListDataType,
   fetching: false,
-  filterData: {},
+  filterData: {} as Object,
   isSelected: true,
-  itemsToDelete: [],
-  listSettings: {},
+  itemsToDelete: [] as Object[],
+  listSettings: {} as ListSettingsType,
   modalOpened: false,
-  paginator: {},
+  paginator: {} as PaginatorType,
   refreshSig: false,
   settingsLoaded: false,
-  sort: {},
-  widgetData: {},
+  sort: {} as SortObjectType,
+  widgetData: {} as ListDataType,
 })
 
 /* ------------- Reducers ------------- */
 
-const onLoadSettingsR = (state) => state.set('settingsLoaded', false)
+const onLoadSettingsR = (state: ListReduxStore) => state.set('settingsLoaded', false)
 
-const onLoadListSettingsSuccessR = (state, { settings }) =>
+const onLoadListSettingsSuccessR = (state: ListReduxStore, { settings }: IOnLoadListSettingsSuccess) =>
   state.set('listSettings', settings).set('settingsLoaded', true)
 
-const onLoadDataR = (state) => state.merge({ fetching: true, isSelected: false })
+const onLoadDataR = (state: ListReduxStore) => state.merge({ fetching: true, isSelected: false })
 
-const onLoadListDataSuccessR = (state, { data }) => {
+const onLoadListDataSuccessR = (state: ListReduxStore, { data }: IOnLoadListDataSuccess) => {
   const paginatorObject = {
     limit: data.limit || 20,
     maxCount: data.count || 0,
@@ -79,25 +90,28 @@ const onLoadListDataSuccessR = (state, { data }) => {
     })
 }
 
-const onListStopFetchingR = (state) => state.merge({ fetching: false })
+const onListStopFetchingR = (state: ListReduxStore) => state.merge({ fetching: false })
 
-const onListDeleteRequestR = (state, { modalOpened, itemsToDelete }) => state.merge({ modalOpened, itemsToDelete })
+const onListDeleteRequestR = (state: ListReduxStore, { modalOpened, itemsToDelete }: IOnListDeleteRequest) =>
+  state.merge({ modalOpened, itemsToDelete })
 
-const onListDeleteRequestConfirmedR = (state) => state.merge({ modalOpened: false, itemsToDelete: [] })
+const onListDeleteRequestConfirmedR = (state: ListReduxStore) => state.merge({ modalOpened: false, itemsToDelete: [] })
 
-const onLoadListWidgetSettingsR = (state) => state.set('fetching', true)
+const onLoadListWidgetSettingsR = (state: ListReduxStore) => state.set('fetching', true)
 
-const onLoadListWidgetDataR = (state) => state.set('fetching', true)
+const onLoadListWidgetDataR = (state: ListReduxStore) => state.set('fetching', true)
 
-const onWidgetStopFetchingR = (state) => state.set('fetching', false)
+const onWidgetStopFetchingR = (state: ListReduxStore) => state.set('fetching', false)
 
-const onChangeRefreshSigR = (state, { refreshSig }) => state.set('refreshSig', refreshSig)
+const onChangeRefreshSigR = (state: ListReduxStore, { refreshSig }: IOnChangeRefreshSig) =>
+  state.set('refreshSig', refreshSig)
 
-const onChangeFilterDataR = (state, { path, data }) => state.setIn(['filterData', ...path], data)
+const onChangeFilterDataR = (state: ListReduxStore, { path, data }: IOnChangeFilterData) =>
+  state.setIn(['filterData', ...path], data)
 
 /* ------------- Hookup Reducers To Types ------------- */
 
-export const reducer = createReducer(INITIAL_STATE, {
+export const reducer = createReducer<ListReduxStore, IListReduxActions>(INITIAL_STATE, {
   [Types.ON_LOAD_LIST_SETTINGS]: onLoadSettingsR,
   [Types.ON_LOAD_LIST_SETTINGS_SUCCESS]: onLoadListSettingsSuccessR,
   [Types.ON_LOAD_LIST_DATA]: onLoadDataR,
@@ -113,12 +127,12 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ON_CHANGE_FILTER_DATA]: onChangeFilterDataR,
 })
 
-export const getColumnValue = (item, column) => {
+export const getColumnValue = (item: { [key: string]: any }, column: string) => {
   if (column.indexOf('.') !== -1) {
-    return column.split('.').reduce((acc, columnName) => {
+    return column.split('.').reduce<{ [key: string]: any } | string>((acc, columnName) => {
       if (Array.isArray(acc) && acc[0] && acc[0][columnName]) {
         acc = acc[0][columnName]
-      } else if (!Array.isArray(acc) && acc[columnName]) {
+      } else if (!Array.isArray(acc) && typeof acc !== 'string' && acc[columnName]) {
         acc = acc[columnName]
       } else {
         acc = ''
@@ -127,10 +141,10 @@ export const getColumnValue = (item, column) => {
     }, item)
   }
 
-  return item[column]
+  return item[column] as string
 }
 
-export const valueToString = (value, t) => {
+export const valueToString = (value: any, t: TranslateFunctionType) => {
   if (value === null) {
     return ''
   } else if (Array.isArray(value)) {

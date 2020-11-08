@@ -1,28 +1,47 @@
-// @flow
 import React from 'react'
 import { connect } from 'react-redux'
 
 import { getNavigationItem, getAllRights } from '../redux/NavigationRedux'
 
-type withModuleProps = {
-  match: { params: { module: string } },
-  listSettings: Object,
-  navigation: Object[],
+import { ReduxStore } from '../redux'
+import { ListSettingsType } from '../types/ViewTypes'
+import { AllRightsType, NavigationItem } from '../types/NavigationTypes'
+
+type WithModuleOwnProps = {
+  router: {
+    query?: {
+      module?: string
+    }
+  }
 }
 
-const mapStateToProps = (state) => {
+type WithModuleStateProps = {
+  listSettings: ListSettingsType
+  navigation: NavigationItem[]
+}
+
+export type WithModuleProps = WithModuleOwnProps & WithModuleStateProps
+
+export type WithModulesPassDownProps = WithModuleProps & {
+  module: string
+  navigationItem: NavigationItem
+  settings: ListSettingsType
+  rights: AllRightsType
+}
+
+const mapStateToProps = (state: ReduxStore) => {
   return {
     listSettings: state.list.listSettings,
     navigation: state.navigation.navigation,
   }
 }
 
-const withModule = (Component) =>
+const withModule = (Component: React.ComponentType) =>
   connect(
     mapStateToProps,
     {},
   )(
-    class extends React.Component<withModuleProps, null> {
+    class extends React.Component<WithModuleProps, null> {
       render() {
         const { router, listSettings, navigation } = this.props
         if (!router || !router.query || !router.query.module) {

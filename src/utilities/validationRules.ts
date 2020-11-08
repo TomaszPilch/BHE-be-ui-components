@@ -38,6 +38,10 @@ export type ValidationResult = {
   rule: string
 }
 
+export type ValidationErrorsType = {
+  [key: string]: ValidationResult[]
+}
+
 /**
  * Creates validation error result
  * @param {string} msg

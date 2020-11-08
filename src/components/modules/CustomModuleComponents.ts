@@ -7,6 +7,16 @@ import TranslationComponent from '../passive/TranslationComponent'
 import LinkToParentComponent from '../passive/LinkToParentComponent'
 import ImageComponent from '../passive/ImageComponent'
 
+export type CustomModuleComponentKeys =
+  | 'ActualWeatherComponent'
+  | 'YesNoComponent'
+  | 'ShowDateTimeComponent'
+  | 'EnumErrorShowLabel'
+  | 'EnumChangeValue'
+  | 'TranslationComponent'
+  | 'LinkToParentComponent'
+  | 'ImageComponent'
+
 export default {
   ActualWeatherComponent,
   YesNoComponent,
@@ -16,4 +26,4 @@ export default {
   TranslationComponent,
   LinkToParentComponent,
   ImageComponent,
-}
+} as { [key in CustomModuleComponentKeys]: any }
