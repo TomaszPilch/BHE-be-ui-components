@@ -1,14 +1,21 @@
-// @flow
-// external libs
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 
 // types
-import type { UserGroup } from '../types/UserTypes'
+import { UserGroup } from '../types/UserTypes'
+import {
+  IOnChangePresentationId,
+  IOnChangeUserGroupSuccess,
+  IOnLoadUser,
+  IUserReduxActions,
+  IUserReduxCreators,
+  UserReduxStore,
+  IUserReduxTypes,
+} from './types/UserReduxTypes'
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const { Types, Creators } = createActions<IUserReduxTypes, IUserReduxCreators>({
   onGetActualUserRequest: null,
   onLoadUser: ['user', 'presentations'],
   onChangePresentationId: ['presentationId'],
@@ -21,7 +28,7 @@ export default Creators
 
 /* ------------- Initial State ------------- */
 
-export const INITIAL_STATE = Immutable({
+export const INITIAL_STATE: UserReduxStore = Immutable({
   userLoaded: false,
   email: '',
   image: '',
@@ -46,9 +53,9 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Reducers ------------- */
 
-export const onGetActualUserRequestR = (state) => state.set('userLoaded', false)
+export const onGetActualUserRequestR = (state: UserReduxStore): UserReduxStore => state.set('userLoaded', false)
 
-export const loadUser = (state, { user, presentations }) =>
+export const loadUser = (state: UserReduxStore, { user, presentations }: IOnLoadUser): UserReduxStore =>
   state.merge({
     ...user,
     userLoaded: true,
@@ -56,15 +63,15 @@ export const loadUser = (state, { user, presentations }) =>
     selectedGroup: user.userGroups.filter((group: UserGroup) => group.key === user.selectedGroupId)[0],
   })
 
-const onChangePresentationIdR = (state, { presentationId }: { presentationId: number }) =>
+const onChangePresentationIdR = (state: UserReduxStore, { presentationId }: IOnChangePresentationId) =>
   state.set('presentationId', presentationId)
 
-const changeUserGroupSuccessR = (state, { selectedGroupId }: { selectedGroupId: number }) =>
+const changeUserGroupSuccessR = (state: UserReduxStore, { selectedGroupId }: IOnChangeUserGroupSuccess) =>
   state.set('selectedGroup', state.userGroups.filter((group: UserGroup) => group.key === selectedGroupId)[0])
 
 /* ------------- Hookup Reducers To Types ------------- */
 
-export const reducer = createReducer(INITIAL_STATE, {
+export const reducer = createReducer<UserReduxStore, IUserReduxActions>(INITIAL_STATE, {
   [Types.ON_CHANGE_PRESENTATION_ID]: onChangePresentationIdR,
   [Types.ON_CHANGE_USER_GROUP_REQUEST]: (state) => state,
   [Types.ON_CHANGE_USER_GROUP_SUCCESS]: changeUserGroupSuccessR,

@@ -1,5 +1,9 @@
-export type UserGroup = Object & {
+export type UserGroup = {
   key: number
+  label: string
+}
+
+export type PresentationItemFromServer = {
   label: string
 }
 
@@ -13,4 +17,5 @@ export type UserType = {
   role: number
   userGroups: Array<UserGroup>
   selectedGroup: UserGroup
+  selectedGroupId: number
 }
