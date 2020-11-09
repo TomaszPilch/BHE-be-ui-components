@@ -1,6 +1,5 @@
-// external libs
 import { ofType } from 'redux-observable'
-import { from, of } from 'rxjs'
+import { from, of, Observable } from 'rxjs'
 import { switchMap, catchError } from 'rxjs/operators'
 import { cookie } from 'devx-js-utilities'
 
@@ -8,10 +7,12 @@ import { cookie } from 'devx-js-utilities'
 import LoginActions, { LoginTypes } from '../redux/LoginRedux'
 import UserActions from '../redux/UserRedux'
 import NavigationActions from '../redux/NavigationRedux'
+import { ApiEndpointsType, ApiLoginEndpointsType } from '../services/Api'
+import { IOnLogin } from '../redux/types/LoginReduxTypes'
 
-const saveToken = (accessToken: string) => {}
-
-const LoginEpic = (apiLogin, apiMain, setToken) => (action$) =>
+const LoginEpic = (apiLogin: ApiLoginEndpointsType, apiMain: ApiEndpointsType, setToken: Function) => (
+  action$: Observable<IOnLogin>,
+) =>
   action$.pipe(
     ofType(LoginTypes.ON_LOGIN),
     switchMap((action) =>

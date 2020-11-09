@@ -1,12 +1,13 @@
-// external libs
 import { ofType } from 'redux-observable'
-import { from, of, EMPTY } from 'rxjs'
+import { from, of, EMPTY, Observable } from 'rxjs'
 import { switchMap, catchError } from 'rxjs/operators'
 
 // redux
 import LoginActions, { LoginTypes } from '../redux/LoginRedux'
+import { ApiEndpointsType } from '../services/Api'
+import { IGetDailyPicture } from '../redux/types/LoginReduxTypes'
 
-const GetDailyPictureEpic = (api) => (action$) =>
+const GetDailyPictureEpic = (api: ApiEndpointsType) => (action$: Observable<IGetDailyPicture>) =>
   action$.pipe(
     ofType(LoginTypes.GET_DAILY_PICTURE),
     switchMap(() =>

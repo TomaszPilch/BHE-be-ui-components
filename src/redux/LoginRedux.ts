@@ -22,7 +22,7 @@ const { Types, Creators } = createActions<ILoginReduxTypes, ILoginReduxCreators>
   getDailyPictureSuccess: ['dailyPicture'],
   onGetLocale: null,
   onGetLocaleSuccess: ['translations'],
-  onLogin: null,
+  onLogin: ['data'],
   onLoginSuccess: null,
   onLoginFailure: ['errorCode'],
 })

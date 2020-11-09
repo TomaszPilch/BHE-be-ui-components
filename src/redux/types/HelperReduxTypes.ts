@@ -7,7 +7,7 @@ export interface IHelperReduxTypes extends DefaultActionTypes {
   ON_HELPER_SINGLE_FILE_UPLOAD: 'onHelperSingleFileUpload'
   ON_HELPER_SINGLE_FILE_UPLOAD_SUCCESS: 'onHelperSingleFileUploadSuccess'
   ON_HELPER_STOP_FETCHING: 'onHelperStopFetching'
-  GET_RESOURCES_REQUEST: 'getResourcesRequest'
+  GET_RESOURCES_REQUEST: 'GET_RESOURCES_REQUEST'
   GET_RESOURCES_REQUEST_SUCCESS: 'getResourcesRequestSuccess'
 }
 

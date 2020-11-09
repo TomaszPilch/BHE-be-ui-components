@@ -1,10 +1,13 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import getConfig from 'next/config'
 import authInterceptor from './authInterceptor'
-import { FilterType } from '../types/ViewTypes'
+
+import { FilterType, ListDataTypeResponse, ListSettingsType, LoadFormDataResponse } from '../types/ViewTypes'
 import { PresentationItemFromServer, UserType } from '../types/UserTypes'
 import { NavigationItem } from '../types/NavigationTypes'
 import { FormConfigWithTab } from '../types/FormTypes'
+import { DailyPictureResponseType } from '../types/DailyPictureTypes'
+import { TranslationsType } from '../types/TranslationTypes'
 
 const { publicRuntimeConfig } = getConfig()
 
@@ -28,7 +31,11 @@ export const createSelfApi = () =>
     },
   })
 
-export const loginEndpoints = (api: AxiosInstance) => ({
+export interface ApiLoginEndpointsType {
+  login: (data: Object) => Promise<AxiosResponse<{ accessToken: string }>>
+}
+
+export const loginEndpoints = (api: AxiosInstance): ApiLoginEndpointsType => ({
   login: (data: Object) => api.post('/login', data),
 })
 
@@ -47,9 +54,8 @@ export interface ApiEndpointsType {
   actualUser: () => Promise<
     AxiosResponse<{ user: UserType; presentations: PresentationItemFromServer[]; navigation: NavigationItem[] }>
   >
-  isLoggedIn: () => Promise<AxiosResponse<Object>>
-  locale: () => Promise<AxiosResponse<Object>>
-  listSettings: () => Promise<AxiosResponse<Object>>
+  locale: () => Promise<AxiosResponse<TranslationsType>>
+  listSettings: () => Promise<AxiosResponse<ListSettingsType>>
 
   listWidgetSettings: (module: string, widgetName: string) => Promise<AxiosResponse<Object>>
   listData: (
@@ -59,7 +65,7 @@ export interface ApiEndpointsType {
     orderColumn: string,
     orderDirection: 'ASC' | 'DESC',
     filter: FilterType,
-  ) => Promise<AxiosResponse<Object>>
+  ) => Promise<AxiosResponse<ListDataTypeResponse>>
   listWidgetData: (
     module: string,
     widgetName: string,
@@ -70,15 +76,15 @@ export interface ApiEndpointsType {
     filter: FilterType,
     parentId: number,
     parentModule: string,
-  ) => Promise<AxiosResponse<Object>>
+  ) => Promise<AxiosResponse<ListDataTypeResponse>>
   getAddConfig: (module: string) => Promise<AxiosResponse<{ module: string; config: FormConfigWithTab }>>
   getViewConfig: (module: string) => Promise<AxiosResponse<{ module: string; config: FormConfigWithTab }>>
   getEditConfig: (module: string) => Promise<AxiosResponse<{ module: string; config: FormConfigWithTab }>>
-  getAddData: (module: string, id: number) => Promise<AxiosResponse<Object>>
-  getViewData: (module: string, id: number) => Promise<AxiosResponse<Object>>
-  getEditData: (module: string, id: number) => Promise<AxiosResponse<Object>>
+  getAddData: (module: string, id?: number) => Promise<AxiosResponse<LoadFormDataResponse>>
+  getViewData: (module: string, id?: number) => Promise<AxiosResponse<LoadFormDataResponse>>
+  getEditData: (module: string, id?: number) => Promise<AxiosResponse<LoadFormDataResponse>>
   getResources: (resourceName: string) => Promise<AxiosResponse<Object>>
-  getDailyPicture: () => Promise<AxiosResponse<Object>>
+  getDailyPicture: () => Promise<AxiosResponse<DailyPictureResponseType>>
 
   removeItems: (module: string, itemIds: number[]) => Promise<AxiosResponse<Object>>
   removeItemsWithMultipleParams: (module: string, items: Object[]) => Promise<AxiosResponse<Object>>
@@ -114,7 +120,6 @@ const endpoints = (api: AxiosInstance): ApiEndpointsType => {
 
     // get
     actualUser: () => api.get('user/actual'),
-    isLoggedIn: () => api.get('login/logged-in'),
     locale: () => api.get('locale/'),
     listSettings: () => api.get('list/settings'),
     listWidgetSettings: (module: string, widgetName: string) =>
@@ -144,9 +149,9 @@ const endpoints = (api: AxiosInstance): ApiEndpointsType => {
     getAddConfig: (module: string) => api.get(`add/config/${module}`),
     getViewConfig: (module: string) => api.get(`view/config/${module}`),
     getEditConfig: (module: string) => api.get(`edit/config/${module}`),
-    getAddData: (module: string, id: number) => api.get(`add/${module}/${id}`),
-    getViewData: (module: string, id: number) => api.get(`view/${module}/${id}`),
-    getEditData: (module: string, id: number) => api.get(`edit/${module}/${id}`),
+    getAddData: (module: string, id?: number) => api.get(`add/${module}/${id}`),
+    getViewData: (module: string, id?: number) => api.get(`view/${module}/${id}`),
+    getEditData: (module: string, id?: number) => api.get(`edit/${module}/${id}`),
     getResources: (resourceName: string) => api.get(`resources/${resourceName}`),
     getDailyPicture: () => api.get('general/daily-picture'),
 

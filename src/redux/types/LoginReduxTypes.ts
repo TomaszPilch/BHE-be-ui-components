@@ -6,11 +6,11 @@ import { DailyImageType, DailyPictureResponseType } from '../../types/DailyPictu
 import { TranslationsType } from '../../types/TranslationTypes'
 
 export interface ILoginReduxTypes extends DefaultActionTypes {
-  GET_DAILY_PICTURE: 'getDailyPicture'
+  GET_DAILY_PICTURE: 'GET_DAILY_PICTURE'
   GET_DAILY_PICTURE_SUCCESS: 'getDailyPictureSuccess'
-  ON_GET_LOCALE: 'onGetLocale'
+  ON_GET_LOCALE: 'ON_GET_LOCALE'
   ON_GET_LOCALE_SUCCESS: 'onGetLocaleSuccess'
-  ON_LOGIN: 'onLogin'
+  ON_LOGIN: 'ON_LOGIN'
   ON_LOGIN_SUCCESS: 'onLoginSuccess'
   ON_LOGIN_FAILURE: 'onLoginFailure'
 }
@@ -27,7 +27,9 @@ export interface IOnGetLocaleSuccess extends Action<'ON_GET_LOCALE_SUCCESS'> {
   translations: TranslationsType
 }
 
-export interface IOnLogin extends Action<'ON_LOGIN'> {}
+export interface IOnLogin extends Action<'ON_LOGIN'> {
+  data: Object
+}
 
 export interface IOnLoginSuccess extends Action<'ON_LOGIN_SUCCESS'> {}
 
@@ -40,7 +42,7 @@ export interface ILoginReduxCreators extends DefaultActionCreators {
   getDailyPictureSuccess: (dailyPicture: DailyPictureResponseType) => IGetDailyPictureSuccess
   onGetLocale: () => IOnGetLocale
   onGetLocaleSuccess: (translations: TranslationsType) => IOnGetLocaleSuccess
-  onLogin: () => IOnLogin
+  onLogin: (data: Object) => IOnLogin
   onLoginSuccess: () => IOnLoginSuccess
   onLoginFailure: (errorCode: string) => IOnLoginFailure
 }

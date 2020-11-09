@@ -12,7 +12,7 @@ export interface INavigationReduxTypes extends DefaultActionTypes {
 
 export interface IOnRequestRedirectTo extends Action<'ON_REQUEST_REDIRECT_TO'> {
   redirectTo: string
-  redirectToAs: string
+  redirectToAs?: string
 }
 
 export interface IOnRedirectSuccess extends Action<'ON_REDIRECT_SUCCESS'> {}
@@ -22,7 +22,7 @@ export interface IOnLoadNavigation extends Action<'ON_LOAD_NAVIGATION'> {
 }
 
 export interface INavigationReduxCreators extends DefaultActionCreators {
-  onRequestRedirectTo: (redirectTo: string, redirectToAs: string) => IOnRequestRedirectTo
+  onRequestRedirectTo: (redirectTo: string, redirectToAs?: string) => IOnRequestRedirectTo
   onRedirectSuccess: () => IOnRedirectSuccess
   onLoadNavigation: (navigation: any) => IOnLoadNavigation
 }

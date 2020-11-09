@@ -1,5 +1,4 @@
-// @flow
-import { from } from 'rxjs'
+import { from, Observable } from 'rxjs'
 import { ofType } from 'redux-observable'
 import { catchError, switchMap } from 'rxjs/operators'
 
@@ -8,12 +7,15 @@ import EditActions, { EditTypes } from '../redux/EditRedux'
 import NavigationActions from '../redux/NavigationRedux'
 import NotificationActions from '../redux/NotificationRedux'
 import ListActions from '../redux/ListRedux'
+import { ApiEndpointsType } from '../services/Api'
 
-const SaveDataEpic = (api) => [
-  (action$) =>
+import { IOnEditSaveRequest, IOnUpdateColumnRequest } from '../redux/types/EditReduxTypes'
+
+const SaveDataEpic = (api: ApiEndpointsType) => [
+  (action$: Observable<IOnEditSaveRequest>) =>
     action$.pipe(
       ofType(EditTypes.ON_EDIT_SAVE_REQUEST),
-      switchMap((action) => {
+      switchMap((action: IOnEditSaveRequest) => {
         const apiFunction = action.data.type === 'ADD' ? api.addData : api.editData
         return from(apiFunction(action.data.module, action.data.data)).pipe(
           switchMap((response) => {
@@ -42,7 +44,7 @@ const SaveDataEpic = (api) => [
         )
       }),
     ),
-  (action$) =>
+  (action$: Observable<IOnUpdateColumnRequest>) =>
     action$.pipe(
       ofType(EditTypes.ON_UPDATE_COLUMN_REQUEST),
       switchMap((action) =>

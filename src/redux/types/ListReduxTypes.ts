@@ -13,15 +13,15 @@ import {
 } from '../../types/ViewTypes'
 
 export interface IListReduxTypes extends DefaultActionTypes {
-  ON_LOAD_LIST_SETTINGS: 'onLoadListSettings'
+  ON_LOAD_LIST_SETTINGS: 'ON_LOAD_LIST_SETTINGS'
   ON_LOAD_LIST_SETTINGS_SUCCESS: 'onLoadListSettingsSuccess'
-  ON_LOAD_LIST_DATA: 'onLoadListData'
+  ON_LOAD_LIST_DATA: 'ON_LOAD_LIST_DATA'
   ON_LOAD_LIST_DATA_SUCCESS: 'onLoadListDataSuccess'
   ON_LIST_DELETE_REQUEST: 'onListDeleteRequest'
-  ON_LIST_DELETE_REQUEST_CONFIRMED: 'onListDeleteRequestConfirmed'
+  ON_LIST_DELETE_REQUEST_CONFIRMED: 'ON_LIST_DELETE_REQUEST_CONFIRMED'
   ON_LIST_STOP_FETCHING: 'onListStopFetching'
-  ON_LOAD_LIST_WIDGET_SETTINGS: 'onLoadListWidgetSettings'
-  ON_LOAD_LIST_WIDGET_DATA: 'onLoadListWidgetData'
+  ON_LOAD_LIST_WIDGET_SETTINGS: 'ON_LOAD_LIST_WIDGET_SETTINGS'
+  ON_LOAD_LIST_WIDGET_DATA: 'ON_LOAD_LIST_WIDGET_DATA'
   ON_LOAD_LIST_WIDGET_DATA_SUCCESS: 'onLoadListWidgetDataSuccess'
   ON_WIDGET_STOP_FETCHING: 'onWidgetStopFetching'
   ON_CHANGE_REFRESH_SIG: 'onChangeRefreshSig'
@@ -54,7 +54,7 @@ export interface IOnListDeleteRequest extends Action<'ON_LIST_DELETE_REQUEST'> {
 
 export interface IOnListDeleteRequestConfirmed extends Action<'ON_LIST_DELETE_REQUEST_CONFIRMED'> {
   moduleName: string
-  items: Object[]
+  items: DataItemType[]
 }
 
 export interface IOnListStopFetching extends Action<'ON_LIST_STOP_FETCHING'> {}

@@ -64,4 +64,13 @@ export type FormConfigRequestData = {
 
 export type LoadFormDataResponse = {
   texts: Object | Object[]
+  module: string
+  data: Object
+}
+
+export type EditDataSaveType = {
+  type: 'ADD' | 'EDIT' | 'VIEW'
+  module: string
+  data: Object
+  moduleUrl: string
 }

@@ -1,14 +1,15 @@
-// external libs
 import { ofType } from 'redux-observable'
-import { from, of } from 'rxjs'
+import { from, of, Observable } from 'rxjs'
 import { switchMap, catchError } from 'rxjs/operators'
 
 // redux
 import ListActions, { ListTypes } from '../redux/ListRedux'
 import NotificationActions from '../redux/NotificationRedux'
+import { ApiEndpointsType } from '../services/Api'
+import { IOnLoadListSettings, IOnLoadListWidgetSettings } from '../redux/types/ListReduxTypes'
 
-const ListSettingsEpic = (api) => [
-  (action$) =>
+const ListSettingsEpic = (api: ApiEndpointsType) => [
+  (action$: Observable<IOnLoadListSettings>) =>
     action$.pipe(
       ofType(ListTypes.ON_LOAD_LIST_SETTINGS),
       switchMap(() =>
@@ -18,7 +19,7 @@ const ListSettingsEpic = (api) => [
         ),
       ),
     ),
-  (action$) =>
+  (action$: Observable<IOnLoadListWidgetSettings>) =>
     action$.pipe(
       ofType(ListTypes.ON_LOAD_LIST_WIDGET_SETTINGS),
       switchMap((action) =>

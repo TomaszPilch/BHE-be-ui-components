@@ -1,13 +1,15 @@
 // external libs
 import { ofType } from 'redux-observable'
-import { from, of } from 'rxjs'
+import { from, of, Observable } from 'rxjs'
 import { switchMap, catchError } from 'rxjs/operators'
 
 // redux
 import EditActions, { EditTypes } from '../redux/EditRedux'
 import NotificationActions from '../redux/NotificationRedux'
+import { ApiEndpointsType } from '../services/Api'
+import { IOnEditLoadFormDataRequest } from '../redux/types/EditReduxTypes'
 
-const GetItemData = (api) => (action$) =>
+const GetItemData = (api: ApiEndpointsType) => (action$: Observable<IOnEditLoadFormDataRequest>) =>
   action$.pipe(
     ofType(EditTypes.ON_EDIT_LOAD_FORM_DATA_REQUEST),
     switchMap((action) => {

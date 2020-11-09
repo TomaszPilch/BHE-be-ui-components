@@ -1,15 +1,18 @@
 // external libs
 import { ofType } from 'redux-observable'
-import { from, of } from 'rxjs'
+import { from, of, Observable } from 'rxjs'
 import { switchMap, catchError } from 'rxjs/operators'
 
 // redux
 import ListActions, { ListTypes } from '../redux/ListRedux'
 import HelperActions, { HelperTypes } from '../redux/HelperRedux'
 import NotificationActions from '../redux/NotificationRedux'
+import { ApiEndpointsType } from '../services/Api'
+import { IOnLoadListData, IOnLoadListWidgetData } from '../redux/types/ListReduxTypes'
+import { IGetResourcesRequest } from '../redux/types/HelperReduxTypes'
 
-const ListSettingsEpic = (api) => [
-  (action$) =>
+const ListSettingsEpic = (api: ApiEndpointsType) => [
+  (action$: Observable<IOnLoadListData>) =>
     action$.pipe(
       ofType(ListTypes.ON_LOAD_LIST_DATA),
       switchMap((action) =>
@@ -33,7 +36,7 @@ const ListSettingsEpic = (api) => [
         ),
       ),
     ),
-  (action$) =>
+  (action$: Observable<IOnLoadListWidgetData>) =>
     action$.pipe(
       ofType(ListTypes.ON_LOAD_LIST_WIDGET_DATA),
       switchMap((action) =>
@@ -62,7 +65,7 @@ const ListSettingsEpic = (api) => [
         ),
       ),
     ),
-  (action$) =>
+  (action$: Observable<IGetResourcesRequest>) =>
     action$.pipe(
       ofType(HelperTypes.GET_RESOURCES_REQUEST),
       switchMap((action) =>
