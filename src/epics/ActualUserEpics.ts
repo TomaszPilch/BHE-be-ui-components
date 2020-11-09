@@ -1,6 +1,6 @@
 // external libs
 import { ofType } from 'redux-observable'
-import { from, of } from 'rxjs'
+import { from, of, Observable } from 'rxjs'
 import { switchMap, catchError } from 'rxjs/operators'
 
 // redux
@@ -8,10 +8,14 @@ import UserActions, { UserTypes } from '../redux/UserRedux'
 import NavigationActions from '../redux/NavigationRedux'
 import NotificationActions from '../redux/NotificationRedux'
 import ListActions from '../redux/ListRedux'
+
+import { ApiEndpointsType } from '../services/Api'
+
+import { IOnChangeUserGroupRequest, IOnGetActualUserRequest } from '../redux/types/UserReduxTypes'
 // import WidgetActions from '../redux/WidgetRedux'
 
-const ActualUserEpics = (api) => [
-  (action$) =>
+const ActualUserEpics = (api: ApiEndpointsType) => [
+  (action$: Observable<IOnGetActualUserRequest>) =>
     action$.pipe(
       ofType(UserTypes.ON_GET_ACTUAL_USER_REQUEST),
       switchMap(() =>
@@ -31,7 +35,7 @@ const ActualUserEpics = (api) => [
         ),
       ),
     ),
-  (action$) =>
+  (action$: Observable<IOnChangeUserGroupRequest>) =>
     action$.pipe(
       ofType(UserTypes.ON_CHANGE_USER_GROUP_REQUEST),
       switchMap((action) =>

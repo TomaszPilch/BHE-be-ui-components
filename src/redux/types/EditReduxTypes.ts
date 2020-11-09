@@ -7,7 +7,7 @@ import { ValidationErrorsType } from '../../utilities/validationRules'
 import { FormConfigRequestData, LoadFormDataResponse } from '../../types/ViewTypes'
 
 export interface IEditReduxTypes extends DefaultActionTypes {
-  ON_EDIT_LOAD_FORM_CONFIG_REQUEST: 'onEditLoadFormConfigRequest'
+  ON_EDIT_LOAD_FORM_CONFIG_REQUEST: 'ON_EDIT_LOAD_FORM_CONFIG_REQUEST'
   ON_EDIT_LOAD_FORM_CONFIG_REQUEST_SUCCESS: 'onEditLoadFormConfigRequestSuccess'
   ON_EDIT_SET_FETCHING: 'onEditSetFetching'
   ON_EDIT_CHANGE_DATA: 'onEditChangeData'
@@ -41,7 +41,7 @@ export interface IOnEditChangeData extends Action<'ON_EDIT_CHANGE_DATA'> {
 }
 
 export interface IOnEditLoadFormDataRequest extends Action<'ON_EDIT_LOAD_FORM_DATA_REQUEST'> {
-  data: Object
+  data: FormConfigRequestData
 }
 
 export interface IOnEditLoadFormDataRequestSuccess extends Action<'ON_EDIT_LOAD_FORM_DATA_REQUEST_SUCCESS'> {
@@ -79,11 +79,11 @@ export interface IOnUpdateColumnRequestSuccess extends Action<'ON_UPDATE_COLUMN_
 }
 
 export interface IEditReduxCreators extends DefaultActionCreators {
-  onEditLoadFormConfigRequest: (data: Object) => IOnEditLoadFormConfigRequest
+  onEditLoadFormConfigRequest: (data: FormConfigRequestData) => IOnEditLoadFormConfigRequest
   onEditLoadFormConfigRequestSuccess: (module: string, config: FormConfigWithTab) => IOnEditLoadFormConfigRequestSuccess
   onEditSetFetching: (fetching: boolean) => IOnEditSetFetching
   onEditChangeData: (path: string[], value: any) => IOnEditChangeData
-  onEditLoadFormDataRequest: (data: Object) => IOnEditLoadFormDataRequest
+  onEditLoadFormDataRequest: (data: FormConfigRequestData) => IOnEditLoadFormDataRequest
   onEditLoadFormDataRequestSuccess: (name: string, data: Object) => IOnEditLoadFormDataRequestSuccess
   onEditValidationRequest: (data: Object) => IOnEditValidationRequest
   onEditChangeValidationErrors: (validationErrors: ValidationErrorsType) => IOnEditChangeValidationErrors

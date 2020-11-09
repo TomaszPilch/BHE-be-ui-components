@@ -72,6 +72,7 @@
     "@babel/preset-react": "^7.10.4",
     "@fluentui/react": "^7.149.4",
     "@types/jest": "^26.0.15",
+    "axios": "^0.21.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.3.0",
     "babel-loader": "^8.1.0",
@@ -94,6 +95,7 @@
     "prettier": "^2.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "redux-observable": "^1.2.0",
     "rimraf": "^2.6.3"
   },
   "jest": {

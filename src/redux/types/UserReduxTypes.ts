@@ -5,10 +5,10 @@ import { ImmutableObject } from 'seamless-immutable'
 import { PresentationItemFromServer, UserGroup, UserType } from '../../types/UserTypes'
 
 export interface IUserReduxTypes extends DefaultActionTypes {
-  ON_GET_ACTUAL_USER_REQUEST: 'onGetActualUserRequest'
+  ON_GET_ACTUAL_USER_REQUEST: 'ON_GET_ACTUAL_USER_REQUEST'
   ON_LOAD_USER: 'onLoadUser'
   ON_CHANGE_PRESENTATION_ID: 'onChangePresentationId'
-  ON_CHANGE_USER_GROUP_REQUEST: 'onChangeUserGroupRequest'
+  ON_CHANGE_USER_GROUP_REQUEST: 'ON_CHANGE_USER_GROUP_REQUEST'
   ON_CHANGE_USER_GROUP_SUCCESS: 'onChangeUserGroupSuccess'
 }
 

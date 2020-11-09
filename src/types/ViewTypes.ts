@@ -58,6 +58,8 @@ export type ListDataTypeResponse = {
 
 export type FormConfigRequestData = {
   module: string
+  type: 'ADD' | 'EDIT' | 'VIEW'
+  id?: number
 }
 
 export type LoadFormDataResponse = {

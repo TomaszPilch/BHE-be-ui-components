@@ -1,13 +1,15 @@
-// external libs
 import { ofType } from 'redux-observable'
-import { from } from 'rxjs'
+import { from, Observable } from 'rxjs'
 import { switchMap, catchError } from 'rxjs/operators'
+import { AnyAction } from 'redux'
 
 // redux
 import EditActions, { EditTypes } from '../redux/EditRedux'
 import NotificationActions from '../redux/NotificationRedux'
+import { ApiEndpointsType } from '../services/Api'
+import { IOnEditLoadFormConfigRequest } from '../redux/types/EditReduxTypes'
 
-const GetConfigEpic = (api) => (action$) =>
+const GetConfigEpic = (api: ApiEndpointsType) => (action$: Observable<IOnEditLoadFormConfigRequest>) =>
   action$.pipe(
     ofType(EditTypes.ON_EDIT_LOAD_FORM_CONFIG_REQUEST),
     switchMap((action) => {
@@ -20,7 +22,9 @@ const GetConfigEpic = (api) => (action$) =>
       return from(url).pipe(
         switchMap((response) => {
           if (response.status === 200) {
-            const actions = [EditActions.onEditLoadFormConfigRequestSuccess(response.data.module, response.data.config)]
+            const actions: AnyAction[] = [
+              EditActions.onEditLoadFormConfigRequestSuccess(response.data.module, response.data.config),
+            ]
             if (action.data.type !== 'ADD' && action.data.id) {
               actions.push(EditActions.onEditLoadFormDataRequest(action.data))
             }

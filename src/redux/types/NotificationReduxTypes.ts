@@ -37,7 +37,7 @@ export interface IAddNotification
 
 export interface IClearNotifications extends Action<'CLEAR_NOTIFICATIONS'> {}
 
-type SetNotificationType<ReturnType> = (message: string, title: string, translate: boolean) => ReturnType
+type SetNotificationType<ReturnType> = (message: string, title: string, translate?: boolean) => ReturnType
 
 export interface INotificationReduxCreators extends DefaultActionCreators {
   addErrorNotification: SetNotificationType<IAddErrorNotification>
@@ -47,7 +47,7 @@ export interface INotificationReduxCreators extends DefaultActionCreators {
     notificationType: NotificationType['type'],
     message: string,
     title: string,
-    translate: boolean,
+    translate?: boolean,
   ) => IAddNotification
   clearNotifications: () => IClearNotifications
 }
