@@ -3,6 +3,7 @@ import { Action } from 'redux'
 import { ImmutableArray, ImmutableObject } from 'seamless-immutable'
 
 import {
+  DataItemType,
   FilterType,
   ListDataType,
   ListDataTypeResponse,
@@ -104,10 +105,13 @@ export interface IListReduxCreators extends DefaultActionCreators {
     filter: FilterType,
   ) => IOnLoadListData
   onLoadListDataSuccess: (data: ListDataTypeResponse) => IOnLoadListDataSuccess
-  onListDeleteRequest: (modalOpened: boolean, itemsToDelete: Object[] | ImmutableArray<Object>) => IOnListDeleteRequest
+  onListDeleteRequest: (
+    modalOpened: boolean,
+    itemsToDelete: DataItemType[] | ImmutableArray<DataItemType>,
+  ) => IOnListDeleteRequest
   onListDeleteRequestConfirmed: (
     moduleName: string,
-    items: Object[] | ImmutableArray<Object>,
+    items: DataItemType[] | ImmutableArray<DataItemType>,
   ) => IOnListDeleteRequestConfirmed
   onListStopFetching: () => IOnListStopFetching
   onLoadListWidgetSettings: (module: string, widgetName: string) => IOnLoadListWidgetSettings
@@ -152,7 +156,7 @@ export type ListReduxStore = ImmutableObject<{
   fetching: boolean
   filterData: FilterType
   isSelected: boolean
-  itemsToDelete: Object[]
+  itemsToDelete: DataItemType[]
   listSettings: ListSettingsType
   modalOpened: boolean
   paginator: PaginatorType

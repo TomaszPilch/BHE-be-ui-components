@@ -1,40 +1,39 @@
-// @flow
 import React, { Component } from 'react'
 
-type AppContext = Object // todo
-type NextPageContext = Object // todo
+type AppContext = { [key: string]: any }
+type NextPageContext = { [key: string]: any }
 
 export interface Config {
-  serializeState?: (any) => any;
-  deserializeState?: (any) => any;
-  storeKey?: string;
-  debug?: boolean;
-  overrideIsServer?: boolean;
+  serializeState: (state: any) => any
+  deserializeState: (state: any) => any
+  storeKey: string
+  debug?: boolean
+  overrideIsServer?: boolean
 }
 
 export interface NextJSAppContext extends AppContext {
-  ctx: NextPageContext;
+  ctx: NextPageContext
 }
 
 export interface MakeStoreOptions extends Config, NextPageContext {
-  isServer: boolean;
+  isServer: boolean
 }
 
-export type MakeStore = (initialState: any, options: MakeStoreOptions) => Object
+export type MakeStore = (initialState: any, options: MakeStoreOptions, apis: any, rootEpic: any) => Object
 
 export interface InitStoreOptions {
-  initialState?: any;
-  ctx?: NextPageContext;
+  initialState?: any
+  ctx: NextPageContext
 }
 
 export interface WrappedAppProps {
-  initialProps: any; // stuff returned from getInitialProps
-  initialState: any; // stuff in the Store state after getInitialProps
-  isServer: boolean;
+  initialProps: any // stuff returned from getInitialProps
+  initialState: any // stuff in the Store state after getInitialProps
+  isServer: boolean
 }
 
 export interface AppProps {
-  store: Object;
+  store: Object
 }
 
 const defaultConfig: Config = {
@@ -44,7 +43,7 @@ const defaultConfig: Config = {
   deserializeState: (state) => state,
 }
 
-export default (makeStore: MakeStore, createApis: Function, config?: Config) => {
+export default (makeStore: MakeStore, createApis: Function, config?: Partial<Config>) => {
   config = {
     ...defaultConfig,
     ...config,
@@ -53,14 +52,14 @@ export default (makeStore: MakeStore, createApis: Function, config?: Config) => 
   const isServer = typeof window === 'undefined'
 
   const initStore = ({ initialState, ctx }: InitStoreOptions): Object => {
-    const { storeKey } = config
+    const { storeKey, deserializeState } = config as Config
 
     const createStore = () =>
       makeStore(
-        config.deserializeState(initialState),
+        deserializeState(initialState || {}),
         {
           ...ctx,
-          ...config,
+          ...(config as Config),
           isServer,
         },
         ctx.apis,
@@ -98,8 +97,9 @@ export default (makeStore: MakeStore, createApis: Function, config?: Config) => 
           ctx: appCtx.ctx,
         })
 
-        if (config.debug)
-          console.info('1. WrappedApp.getInitialProps wrapper got the store with state', store.getState())
+        const { debug, serializeState } = config as Config
+
+        if (debug) console.info('1. WrappedApp.getInitialProps wrapper got the store with state', store.getState())
 
         appCtx.ctx.store = store
         appCtx.ctx.isServer = isServer
@@ -110,21 +110,21 @@ export default (makeStore: MakeStore, createApis: Function, config?: Config) => 
           initialProps = await App.getInitialProps.call(App, appCtx)
         }
 
-        if (config.debug) console.info('3. WrappedApp.getInitialProps has store state', store.getState())
+        if (debug) console.info('3. WrappedApp.getInitialProps has store state', store.getState())
 
         return {
           isServer,
-          initialState: isServer ? config.serializeState(store.getState()) : store.getState(),
+          initialState: isServer ? serializeState(store.getState()) : store.getState(),
           initialProps,
         }
       }
 
-      constructor(props, context) {
+      constructor(props: WrappedAppProps, context: NextPageContext) {
         super(props, context)
 
         const { initialState } = props
 
-        if (config.debug)
+        if (config && config.debug)
           console.info('4. WrappedApp.render created new store with initialState', initialState, isServer)
 
         let StackdriverConfig = false

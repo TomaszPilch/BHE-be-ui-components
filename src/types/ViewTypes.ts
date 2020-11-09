@@ -1,5 +1,32 @@
+export type ListSettingFilterOptionType = {
+  key: string
+  translate: boolean
+  type: 'textBox' | 'selectBox'
+  in: string[]
+  options: string[]
+}
+
+export type ListSettingsItem = {
+  filterOptions: ListSettingFilterOptionType[]
+  listColumns: string[]
+  customListComponents?: {
+    [key: string]:
+      | string
+      | {
+          name: string
+          [key: string]: any
+        }
+  }
+  columnValues: DataItemType
+}
+
 export type ListSettingsType = {
-  [key: string]: Object
+  [key: string]: ListSettingsItem
+}
+
+export type DataItemType = {
+  id: number | string
+  [key: string]: any
 }
 
 export type FilterType = {}

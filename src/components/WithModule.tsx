@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { getNavigationItem, getAllRights } from '../redux/NavigationRedux'
 
 import { ReduxStore } from '../redux'
-import { ListSettingsType } from '../types/ViewTypes'
+import { ListSettingsItem, ListSettingsType } from '../types/ViewTypes'
 import { AllRightsType, NavigationItem } from '../types/NavigationTypes'
 
 type WithModuleOwnProps = {
@@ -25,7 +25,7 @@ export type WithModuleProps = WithModuleOwnProps & WithModuleStateProps
 export type WithModulesPassDownProps = WithModuleProps & {
   module: string
   navigationItem: NavigationItem
-  settings: ListSettingsType
+  settings: ListSettingsItem
   rights: AllRightsType
 }
 

@@ -28,31 +28,39 @@ export type StackTokens = {
 
 // todo split to types based od components
 export type FieldConfig = {
-  activeOnAdd: boolean
-  associated: boolean
+  activeOnAdd?: boolean
+  associated?: boolean
   className?: string
   code?: string
   column: string
   component: string
-  custom: boolean
+  custom?: boolean
   defaultValue?: any
-  editable: boolean
+  editable?: boolean
   fetchResources?: string
   inputProps?: Object
   module?: string
   name: string
-  pattern: string
+  pattern?: string
   section?: string
   sendFullData?: boolean
   stackSettings?: StackSettings
   tokens?: StackTokens
   translated?: boolean
-  translatedValues: boolean
-  type: string
+  translatedValues?: boolean
+  type?: string
   validation?: FieldConfigValidation
+  keys?: {
+    from: string
+  }
+  parentModule?: string
 }
 
 export type FormConfig = FieldConfig[]
+
+export type FormConfigWithTab = {
+  [key: string]: FormConfig
+}
 
 export type FieldConfigWithStackRow = {
   items: FormConfig

@@ -1,16 +1,16 @@
 import React from 'react'
 
-type Props = {
-  column: string
+export type LinkToParentComponentProps = {
+  column: { [key: string]: any }
   idKey?: string
-  item: { [key: string]: any }
+  item: any
   parentDataObject?: string
   parentModule?: string
   requestRedirectTo: (mode: string, module: string, id: number) => void
-  value: string | number | boolean
+  value: string | number | boolean | Object
 }
 
-const LinkToParentComponent = (props: Props) => {
+const LinkToParentComponent = (props: LinkToParentComponentProps) => {
   if (!props.value) {
     return null
   }

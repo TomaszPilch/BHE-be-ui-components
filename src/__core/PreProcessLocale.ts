@@ -1,6 +1,6 @@
-const preProcessLocale = (translations) => {
+const preProcessLocale = (translations: any) => {
   const defaultForms = translations.forms
-  translations.modules = Object.keys(translations.modules).reduce((acc, key) => {
+  translations.modules = Object.keys(translations.modules).reduce<any>((acc, key) => {
     acc[key] = {
       ...translations.modules[key],
       form: {

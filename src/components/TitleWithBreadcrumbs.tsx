@@ -1,24 +1,24 @@
-// @flow
-import React from 'react'
+import React, { memo } from 'react'
 import { Breadcrumb } from '@fluentui/react'
 
-// utils
-
-// types
+import { ChangeRedirectUrlType, NavigationItem, RightName } from '../types/NavigationTypes'
+import { TranslateFunctionType } from '../types/TranslationTypes'
 
 type TitleWithBreadcrumbsProps = {
-  action?: string,
-  changeRedirectUrl: (string) => void,
-  module: string,
-  navigationItem?: Object,
-  t: Function,
-  title: string,
+  action?: RightName
+  changeRedirectUrl: ChangeRedirectUrlType
+  module: string
+  navigationItem?: NavigationItem
+  t: TranslateFunctionType
+  title: string
 }
 
 const actionToTitleKey = {
   ADD: 'addTitle',
   EDIT: 'editTitle',
   VIEW: 'viewTitle',
+  LIST: 'listTitle',
+  DELETE: 'listTitle',
 }
 
 const TitleWithBreadcrumbs = (props: TitleWithBreadcrumbsProps) => {
@@ -61,4 +61,4 @@ TitleWithBreadcrumbs.defaultProps = {
   changeRedirectUrl: () => {},
 }
 
-export default TitleWithBreadcrumbs
+export default memo(TitleWithBreadcrumbs)

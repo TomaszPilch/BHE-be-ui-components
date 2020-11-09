@@ -1,9 +1,11 @@
 import React from 'react'
 
+import { TranslateFunctionType } from '../../types/TranslationTypes'
+
 // types
-type YesNoPropsTypes = {
-  t: Function
-  value: string | number | boolean
+export type YesNoPropsTypes = {
+  t: TranslateFunctionType
+  value: string | number | boolean | Object
 }
 
 const YesNoComponent = (props: YesNoPropsTypes) => (

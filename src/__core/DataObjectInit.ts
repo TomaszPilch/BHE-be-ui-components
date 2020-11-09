@@ -1,5 +1,6 @@
-// @flow
-const initValue = (formItem) => {
+import { FieldConfig, FormConfigWithTab } from '../types/FormTypes'
+
+const initValue = (formItem: FieldConfig) => {
   if (typeof formItem.defaultValue !== 'undefined') {
     return formItem.defaultValue
   }
@@ -9,8 +10,8 @@ const initValue = (formItem) => {
   return ''
 }
 
-const initEmptyData = (config) =>
-  Object.keys(config).reduce((acc, tab) => {
+const initEmptyData = (config: FormConfigWithTab) =>
+  Object.keys(config).reduce<{ [key: string]: any }>((acc, tab) => {
     acc = config[tab].reduce((accS, formItem) => {
       if (formItem.translated) {
         if (!accS.texts) {

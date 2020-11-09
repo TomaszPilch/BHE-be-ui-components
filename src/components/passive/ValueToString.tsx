@@ -1,4 +1,5 @@
 import React from 'react'
+import { TranslateFunctionType } from '../../types/TranslationTypes'
 
 export const valueToString = (value: any, t: Function) => {
   if (value === null) {
@@ -16,8 +17,8 @@ export const valueToString = (value: any, t: Function) => {
   return value
 }
 
-type ValueToStringProps = {
-  value: any
+export type ValueToStringProps = {
+  value: string | number | boolean | Object
   t: TranslateFunctionType
 }
 

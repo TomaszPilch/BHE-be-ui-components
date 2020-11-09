@@ -1,23 +1,29 @@
 import React from 'react'
 import classNames from 'classnames'
+import { ImmutableObject } from 'seamless-immutable'
 
 // components
 import { TextField as FabricTextField } from '@fluentui/react'
 import SelectCore from './formItems/SelectCore'
+import { FilterType, ListSettingFilterOptionType } from '../types/ViewTypes'
+import { TranslateFunctionType } from '../types/TranslationTypes'
+import { SelectItem } from '../utilities/selects'
 
 const VALID_TYPES = ['textBox', 'selectBox']
 
 type FilterComponentProps = {
-  filterValues: Object
+  filterValues: ImmutableObject<FilterType>
   onChangeFilterValue: Function
-  options: Object
+  options: ListSettingFilterOptionType
+  t: TranslateFunctionType
 }
 
-export default class FilterComponent extends React.Component<FilterComponentProps> {
-  getOptions = () => [
+export default class FilterComponent extends React.PureComponent<FilterComponentProps> {
+  getOptions = (): SelectItem[] => [
     {
       id: '_empty_',
       value: null,
+      label: '',
     },
     ...this.props.options.options.map((item) => ({
       id: item,
@@ -28,12 +34,12 @@ export default class FilterComponent extends React.Component<FilterComponentProp
     })),
   ]
 
-  handleOnTextChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  handleOnTextChange = (_event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
     const { options } = this.props
-    this.props.onChangeFilterValue(options.key, event.target.value)
+    this.props.onChangeFilterValue(options.key, newValue)
   }
 
-  handleOnBlurChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  handleOnBlurChange = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { options } = this.props
     this.props.onChangeFilterValue(options.key, event.target.value, true)
   }
@@ -77,6 +83,8 @@ export default class FilterComponent extends React.Component<FilterComponentProp
             <SelectCore
               formFieldConfig={{
                 name: options.key,
+                column: '',
+                component: '',
               }}
               label={t(`filter.${options.key}`)}
               onBlur={this.handleOnSelectChange}

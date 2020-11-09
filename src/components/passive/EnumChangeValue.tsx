@@ -1,12 +1,12 @@
 import React from 'react'
 import { CommandButton } from '@fluentui/react'
 
-type EnumChangeValueProps = {
+export type EnumChangeValueProps = {
   actionOnClick: (keyObject: { [key: string]: string }, item: any) => void
-  column: { key: string }
+  column: { [key: string]: any }
   columnValues: string[]
   item: any
-  value: string
+  value: string | number | boolean | Object
 }
 
 const EnumChangeValue = (props: EnumChangeValueProps) => {
@@ -43,7 +43,7 @@ const EnumChangeValue = (props: EnumChangeValueProps) => {
   return (
     <span>
       <CommandButton
-        className={`enum-change-value--${getColor(value)}`}
+        className={`enum-change-value--${getColor(`${value}`)}`}
         menuProps={{
           items: [
             ...columnValues.map((columnValue) => ({
@@ -55,7 +55,7 @@ const EnumChangeValue = (props: EnumChangeValueProps) => {
             })),
           ],
         }}
-        text={value}
+        text={`${value}`}
       />
     </span>
   )

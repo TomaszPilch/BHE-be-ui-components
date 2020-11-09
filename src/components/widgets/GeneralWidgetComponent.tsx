@@ -1,16 +1,41 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { ImmutableObject } from 'seamless-immutable'
 
 import ListComponent from '../ListComponent'
 import NavigationActions, { getAllRights, getNavigationItem } from '../../redux/NavigationRedux'
 
 // types
-import type { FieldConfig } from '../../types/FormTypes'
+import { FieldConfig } from '../../types/FormTypes'
+import { AllRightsType, NavigationItem } from '../../types/NavigationTypes'
+import { ListSettingsItem } from '../../types/ViewTypes'
+import { ReduxStore } from '../../redux'
+import { INavigationReduxCreators } from '../../redux/types/NavigationReduxTypes'
+import { TranslateFunctionType } from '../../types/TranslationTypes'
 
-type GeneralWidgetComponentProps = {
-  editable: boolean
+type GeneralWidgetComponentOwnProps = {
   formFieldConfig: FieldConfig
+  data: { [key: string]: any }
+  t: TranslateFunctionType
 }
+
+type GeneralWidgetComponentStateProps = {
+  module: string
+  navigationItem: NavigationItem
+  parentId: string
+  parentModule?: string
+  rights: AllRightsType
+  settings: ImmutableObject<ListSettingsItem>
+  widgetName: string
+}
+
+type GeneralWidgetComponentDispatchProps = {
+  onRequestRedirectTo: INavigationReduxCreators['onRequestRedirectTo']
+}
+
+type GeneralWidgetComponentProps = GeneralWidgetComponentStateProps &
+  GeneralWidgetComponentOwnProps &
+  GeneralWidgetComponentDispatchProps
 
 class GeneralWidgetComponent extends React.PureComponent<GeneralWidgetComponentProps> {
   render() {
@@ -46,23 +71,40 @@ class GeneralWidgetComponent extends React.PureComponent<GeneralWidgetComponentP
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (
+  state: ReduxStore,
+  ownProps: GeneralWidgetComponentOwnProps,
+): GeneralWidgetComponentStateProps => {
   const navigation = state.navigation.navigation
-  const navigationItem = getNavigationItem(navigation, ownProps.formFieldConfig.section)
-  const from = ownProps.formFieldConfig.keys.from
+  const navigationItem = getNavigationItem(
+    (navigation as unknown) as NavigationItem[],
+    ownProps.formFieldConfig.section || '',
+  )
+  let from = ''
+  if (ownProps.formFieldConfig.keys && ownProps.formFieldConfig.keys.from) {
+    from = ownProps.formFieldConfig.keys.from
+  }
   return {
     module: navigationItem.url.replace('/', ''),
     navigationItem,
     parentId: ownProps.data[from],
     parentModule: ownProps.formFieldConfig.parentModule,
-    rights: getAllRights(navigation, navigationItem.name),
+    rights: getAllRights((navigation as unknown) as NavigationItem[], navigationItem.name),
     settings: state.list.listSettings[navigationItem.name],
     widgetName: ownProps.formFieldConfig.name,
   }
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps: GeneralWidgetComponentDispatchProps = {
   onRequestRedirectTo: NavigationActions.onRequestRedirectTo,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GeneralWidgetComponent)
+export default connect<
+  GeneralWidgetComponentStateProps,
+  GeneralWidgetComponentDispatchProps,
+  GeneralWidgetComponentOwnProps,
+  ReduxStore
+>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(GeneralWidgetComponent)

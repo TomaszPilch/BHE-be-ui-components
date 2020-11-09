@@ -10,8 +10,8 @@ import { FilterType, PaginatorType, SortObjectType } from '../types/ViewTypes'
 import { ReduxStore } from '../redux'
 import { NavigationItem } from '../types/NavigationTypes'
 
-export interface WithPaginationAndSortStateProps {
-  data: ImmutableArray<Object>
+export interface WithPaginationAndSortStateProps<DataItemType = any> {
+  data: ImmutableArray<DataItemType>
   paginator: ImmutableObject<PaginatorType>
   sort: ImmutableObject<SortObjectType>
   filterData: ImmutableObject<FilterType>
@@ -30,11 +30,11 @@ export interface WithPaginationAndSortOwnProps {
   onChangeFilterData: IListReduxCreators['onChangeFilterData']
 }
 
-type WithPaginationAndSortPropsType = WithPaginationAndSortStateProps &
+type WithPaginationAndSortPropsType<DataItemType = any> = WithPaginationAndSortStateProps<DataItemType> &
   WithPaginationAndSortDispatchProps &
   WithPaginationAndSortOwnProps
 
-export type WithPaginationAndSortPassDownProps = WithPaginationAndSortPropsType & {
+export type WithPaginationAndSortPassDownProps<DataItemType = any> = WithPaginationAndSortPropsType<DataItemType> & {
   changeFilterValue: (key: string, value: string, reloadData?: boolean) => void
   getListOptionDataObject: () => void
   loadData: (sort?: SortObjectType, filter?: FilterType, pageIndex?: number) => void

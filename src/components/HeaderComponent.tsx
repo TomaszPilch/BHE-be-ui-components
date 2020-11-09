@@ -1,22 +1,23 @@
-// @flow
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import classNames from 'classnames'
 import { Panel, PanelType, FontIcon, Nav, DefaultButton } from '@fluentui/react'
+import { INavLink } from 'office-ui-fabric-react/lib/components/Nav/Nav.types'
+import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/ContextualMenu.types'
 
 // types
-import type { Navigation } from '../types/NavigationTypes'
-import type { UserGroup } from '../types/UserTypes'
+import { NavigationItem } from '../types/NavigationTypes'
+import { UserGroup } from '../types/UserTypes'
 
 type Props = {
-  navigation: Navigation,
-  onChangePresentationId: (number) => void,
-  onChangeRedirectUrl: (string) => void,
-  onChangeUserGroup: (number) => void,
-  presentationId: string,
-  presentationIds: string[],
-  selectedGroup: UserGroup,
-  t: Function,
-  userGroups: Array<UserGroup>,
+  navigation: NavigationItem[]
+  onChangePresentationId: (presentation: string) => void
+  onChangeRedirectUrl: (url: string, urlAs: string) => void
+  onChangeUserGroup: (groupId: string) => void
+  presentationId: string
+  presentationIds: string[]
+  selectedGroup: UserGroup
+  t: Function
+  userGroups: Array<UserGroup>
 }
 
 const drawerLogoWrapper = classNames({
@@ -27,26 +28,37 @@ const drawerLogoWrapper = classNames({
 const Header = (props: Props) => {
   const [opened, setOpened] = useState(false)
 
-  const handleChangePresentationId = (event, presentation) => {
-    props.onChangePresentationId(presentation.key)
+  const handleChangePresentationId = (
+    _event?: React.MouseEvent<HTMLElement, MouseEvent> | React.KeyboardEvent<HTMLElement>,
+    presentation?: IContextualMenuItem,
+  ) => {
+    if (presentation) {
+      props.onChangePresentationId(presentation.key)
+    }
   }
 
-  const handleChangeUserGroup = (event, group) => {
-    props.onChangeUserGroup(group.key)
+  const handleChangeUserGroup = (
+    _event?: React.MouseEvent<HTMLElement, MouseEvent> | React.KeyboardEvent<HTMLElement>,
+    group?: IContextualMenuItem,
+  ) => {
+    if (group) {
+      props.onChangeUserGroup(group.key)
+    }
   }
 
-  const handleOnLinkClick = (event, link) => {
-    if (link.localUrl && link.localUrlAs) {
+  const handleOnLinkClick = (_ev?: React.MouseEvent<HTMLElement, MouseEvent>, link?: INavLink) => {
+    if (link && link.localUrl && link.localUrlAs) {
       setOpened(false)
       props.onChangeRedirectUrl(link.localUrl, link.localUrlAs)
     }
   }
 
-  const links = [
+  const links: INavLink[] = [
     {
       name: props.t('modules.dashboard.menuTitle'),
       localUrl: '/',
       icon: 'ViewDashboard',
+      url: '',
     },
     ...props.navigation.map((navigationItem) => {
       const url = Array.isArray(navigationItem.items) && navigationItem.items.length === 0 && navigationItem.url
@@ -55,17 +67,19 @@ const Header = (props: Props) => {
         localUrl: '/[module]',
         localUrlAs: url,
         isExpanded: false,
+        url: '',
         icon:
           Array.isArray(navigationItem.items) && navigationItem.items.length > 0 ? '' : navigationItem.fabricIcon || '',
         links:
-          Array.isArray(navigationItem.items) &&
-          navigationItem.items.length > 0 &&
-          navigationItem.items.map((navigationChild) => ({
-            name: props.t(`modules.${navigationChild.name}.menuTitle`),
-            localUrl: '/[module]',
-            localUrlAs: navigationChild.url,
-            icon: navigationChild.fabricIcon || '',
-          })),
+          Array.isArray(navigationItem.items) && navigationItem.items.length > 0
+            ? navigationItem.items.map((navigationChild) => ({
+                name: props.t(`modules.${navigationChild.name}.menuTitle`),
+                localUrl: '/[module]',
+                localUrlAs: navigationChild.url,
+                icon: navigationChild.fabricIcon || '',
+                url: '',
+              }))
+            : undefined,
       }
     }),
   ]
@@ -109,7 +123,7 @@ const Header = (props: Props) => {
                     items: props.userGroups
                       .filter((group) => group.key !== props.selectedGroup.key)
                       .map((group) => ({
-                        key: group.key,
+                        key: `${group.key}`,
                         text: group.label,
                         onClick: handleChangeUserGroup,
                       })),
@@ -156,4 +170,4 @@ Header.defaultProps = {
   userGroups: [],
 }
 
-export default Header
+export default memo(Header)

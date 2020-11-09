@@ -1,7 +1,7 @@
 import React from 'react'
 
-type EnumErrorShowLabelProps = {
-  value: string | number | boolean
+export type EnumErrorShowLabelProps = {
+  value: string | number | boolean | Object
 }
 
 const EnumErrorShowLabel = (props: EnumErrorShowLabelProps) => {

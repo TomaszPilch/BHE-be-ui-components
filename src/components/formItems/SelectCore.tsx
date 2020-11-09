@@ -10,7 +10,7 @@ import { SelectItem } from '../../utilities/selects'
 
 export interface SelectCoreProps<OptionType, FieldConfig = any>
   extends DefaultFieldProps<undefined | string, FieldConfig>,
-    DefaultFieldActionProps<string | number> {
+    DefaultFieldActionProps<string | number | null> {
   options: OptionType[]
 }
 
@@ -19,7 +19,7 @@ function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: Sel
 
   const handleOnChange = (selected: ValueType<OptionType>) => {
     setTouched(true)
-    let selectedValue: string | number = ''
+    let selectedValue: string | number | null = ''
     if (typeof selected === 'object' && selected !== null && 'value' in selected) {
       selectedValue = selected.value
     }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { ImmutableArray, ImmutableObject } from 'seamless-immutable'
 import { connect } from 'react-redux'
 
@@ -18,6 +18,9 @@ import {
 
 import { Pagination } from '@uifabric/experiments'
 
+import { IColumn } from 'office-ui-fabric-react/lib/components/DetailsList/DetailsList.types'
+import { ICommandBarItemProps } from 'office-ui-fabric-react/lib/components/CommandBar/CommandBar.types'
+
 // redux
 import EditActions from '../redux/EditRedux'
 import { USER_RIGHTS } from '../redux/NavigationRedux'
@@ -27,20 +30,21 @@ import ListActions, { getColumnValue, valueToString } from '../redux/ListRedux'
 import { copyString, sanitizeColumnName } from '../utilities/utilities'
 
 // components
-import CustomModuleComponents from './modules/CustomModuleComponents'
 import ValueToString from './passive/ValueToString'
 import FilterComponent from './FilterComponent'
 import withPaginationAndSort, { WithPaginationAndSortPassDownProps } from './WithPaginationAndSort'
 import { TranslateFunctionType } from '../types/TranslationTypes'
 import { ReduxStore } from '../redux'
-import { IListReduxCreators, IOnChangeFilterData } from '../redux/types/ListReduxTypes'
+import { IListReduxCreators } from '../redux/types/ListReduxTypes'
 import { IEditReduxCreators } from '../redux/types/EditReduxTypes'
 import { WithModulesPassDownProps } from './WithModule'
+import { DataItemType } from '../types/ViewTypes'
+import { PassiveComponentProps } from './passive'
 
 // types
 type ListComponentStateProps = {
   fetching: boolean
-  itemsToDelete: ImmutableArray<Object>
+  itemsToDelete: ImmutableArray<DataItemType>
   modalOpened: boolean
   refreshSig: boolean
 }
@@ -53,16 +57,18 @@ type ListComponentDispatchProps = {
   onUpdateColumnRequest: IEditReduxCreators['onUpdateColumnRequest']
 }
 
-type ListComponentOwnProps = WithPaginationAndSortPassDownProps &
+type ListComponentOwnProps<CustomComponentProps> = WithPaginationAndSortPassDownProps<DataItemType> &
   WithModulesPassDownProps & {
     changeRedirectUrl: (url: string, urlAs: string) => void
     t: TranslateFunctionType
-    customComponents: { [key: string]: React.Component }
+    customComponents: { [key: string]: React.ComponentType<PassiveComponentProps | CustomComponentProps> }
   }
 
-type ListComponentProps = ListComponentStateProps & ListComponentDispatchProps & ListComponentOwnProps
+type ListComponentProps<CustomComponentProps> = ListComponentStateProps &
+  ListComponentDispatchProps &
+  ListComponentOwnProps<CustomComponentProps>
 
-class ListComponent extends React.PureComponent<ListComponentProps> {
+class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListComponentProps<CustomComponentProps>> {
   state = { selectedArray: [], showFilter: false }
 
   selection = new Selection({
@@ -77,7 +83,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     this.props.loadData()
   }
 
-  componentDidUpdate(prevProps: ListComponentProps): void {
+  componentDidUpdate(prevProps: ListComponentProps<CustomComponentProps>): void {
     if (prevProps.module !== this.props.module || prevProps.refreshSig !== this.props.refreshSig) {
       this.props.onChangeRefreshSig(false)
       this.props.loadData()
@@ -116,7 +122,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     return actions
   }
 
-  handleGetFarActions = () => {
+  handleGetFarActions = (): ICommandBarItemProps[] => {
     const { t } = this.props
     return [
       {
@@ -125,7 +131,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
         iconProps: {
           iconName: 'Refresh',
         },
-        onClick: this.props.loadData,
+        onClick: this.handleLoadData,
       },
       {
         key: 'copyUrl',
@@ -142,7 +148,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     this.props.onListDeleteRequest(true, this.state.selectedArray)
   }
 
-  handleGetColumns = () => {
+  handleGetColumns = (): IColumn[] => {
     const {
       sort: { column, direction },
       settings: { listColumns },
@@ -152,6 +158,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
       ? [
           ...listColumns.map((colName) => ({
             key: colName,
+            minWidth: 120,
             maxWidth: colName === 'id' ? 30 : undefined,
             name: t(`dataTableColumns.${sanitizeColumnName(colName)}`),
             onRender: this.handleRenderCell,
@@ -163,14 +170,18 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
             name: '',
             minWidth: 120,
             onRender: this.handleRenderRowActions,
+            isSorted: false,
+            isSortedDescending: false,
           },
         ]
       : []
   }
 
-  handleOnHeaderClick = (_event: React.MouseEvent<HTMLElement, MouseEvent>, cell) => {
+  handleOnHeaderClick = (_event?: React.MouseEvent<HTMLElement, MouseEvent>, cell?: IColumn) => {
     const { onChangeSort } = this.props
-    onChangeSort(cell.key)
+    if (cell) {
+      onChangeSort(cell.key)
+    }
   }
 
   handleDeleteRequestCancel = () => {
@@ -182,7 +193,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     onListDeleteRequestConfirmed(navigationItem.name, itemsToDelete)
   }
 
-  handleRenderRowActions = (item) => {
+  handleRenderRowActions = (item: any) => {
     const { rights, module, changeRedirectUrl } = this.props
     return (
       <span key={`actions-${item.id}`}>
@@ -217,7 +228,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     )
   }
 
-  handleRenderCell = (item, index: number, column: string) => {
+  handleRenderCell = (item?: any, _index?: number, column?: IColumn) => {
     const {
       changeRedirectUrl,
       customComponents,
@@ -225,8 +236,13 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
       t,
       module,
     } = this.props
-    let CustomValueComponent = false
+    let CustomValueComponent = undefined
     let customProps = {}
+
+    if (typeof column === 'undefined') {
+      return null
+    }
+
     let columnValue = getColumnValue(item, column.key)
     let sanitizedKey = sanitizeColumnName(column.key)
     if (customListComponents && customListComponents[sanitizedKey]) {
@@ -235,10 +251,14 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
         customProps = { ...columnName, name: undefined }
         columnName = columnName.name
       }
-      CustomValueComponent = CustomModuleComponents[columnName]
       if (customComponents && customComponents[columnName]) {
         CustomValueComponent = customComponents[columnName]
       }
+
+      if (!CustomValueComponent) {
+        return null
+      }
+
       return (
         <CustomValueComponent
           {...customProps}
@@ -276,7 +296,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     ))
   }
 
-  handleCellActionClick = (data, item) => {
+  handleCellActionClick = (data: any, item: any) => {
     const { onUpdateColumnRequest, navigationItem, getListOptionDataObject } = this.props
     onUpdateColumnRequest({
       module: navigationItem.name,

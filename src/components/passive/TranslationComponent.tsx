@@ -1,9 +1,12 @@
 import React from 'react'
 
-type TranslationComponentProps = {
-  column: string
-  t: Function
-  value: string | number | boolean
+import { TranslateFunctionType } from '../../types/TranslationTypes'
+
+export type TranslationComponentProps = {
+  column: { [key: string]: any }
+  t: TranslateFunctionType
+  value: string | number | boolean | Object
+  module: string
 }
 
 const TranslationComponent = (props: TranslationComponentProps) => {

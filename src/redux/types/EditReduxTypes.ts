@@ -2,7 +2,7 @@ import { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce'
 import { Action } from 'redux'
 import { ImmutableObject } from 'seamless-immutable'
 
-import { FormConfig } from '../../types/FormTypes'
+import { FormConfig, FormConfigWithTab } from '../../types/FormTypes'
 import { ValidationErrorsType } from '../../utilities/validationRules'
 import { FormConfigRequestData, LoadFormDataResponse } from '../../types/ViewTypes'
 
@@ -28,7 +28,7 @@ export interface IOnEditLoadFormConfigRequest extends Action<'ON_EDIT_LOAD_FORM_
 
 export interface IOnEditLoadFormConfigRequestSuccess extends Action<'ON_EDIT_LOAD_FORM_CONFIG_REQUEST_SUCCESS'> {
   module: string
-  config: FormConfig
+  config: FormConfigWithTab
 }
 
 export interface IOnEditSetFetching extends Action<'ON_EDIT_SET_FETCHING'> {
@@ -80,7 +80,7 @@ export interface IOnUpdateColumnRequestSuccess extends Action<'ON_UPDATE_COLUMN_
 
 export interface IEditReduxCreators extends DefaultActionCreators {
   onEditLoadFormConfigRequest: (data: Object) => IOnEditLoadFormConfigRequest
-  onEditLoadFormConfigRequestSuccess: (module: string, config: FormConfig) => IOnEditLoadFormConfigRequestSuccess
+  onEditLoadFormConfigRequestSuccess: (module: string, config: FormConfigWithTab) => IOnEditLoadFormConfigRequestSuccess
   onEditSetFetching: (fetching: boolean) => IOnEditSetFetching
   onEditChangeData: (path: string[], value: any) => IOnEditChangeData
   onEditLoadFormDataRequest: (data: Object) => IOnEditLoadFormDataRequest

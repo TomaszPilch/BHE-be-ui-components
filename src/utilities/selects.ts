@@ -5,7 +5,7 @@ import { TranslateFunctionType } from '../types/TranslationTypes'
 
 export type SelectItem = {
   id: string | number
-  value: string | number
+  value: null | string | number
   label: string
 }
 

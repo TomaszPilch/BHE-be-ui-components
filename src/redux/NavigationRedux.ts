@@ -60,9 +60,9 @@ export const USER_RIGHTS = {
   DELETE: 16,
 } as { [key: string]: number }
 
-export const getNavigationItem = (navigation: NavigationItem[], moduleName: string, url = ''): NavigationItem =>
-  navigation.reduce<NavigationItem>(
-    (acc, item) => {
+export function getNavigationItem(navigation: NavigationItem[], moduleName: string, url = ''): NavigationItem {
+  return navigation.reduce<NavigationItem>(
+    (acc: NavigationItem, item: NavigationItem) => {
       if (item.isParent) {
         const fromChildrenNavigation = getNavigationItem(item.items, moduleName, url)
         acc = fromChildrenNavigation && fromChildrenNavigation.actions ? fromChildrenNavigation : acc
@@ -73,6 +73,7 @@ export const getNavigationItem = (navigation: NavigationItem[], moduleName: stri
     },
     { actions: 0, isParent: false, items: [], name: '', url: '' },
   )
+}
 
 export const hasRightsForAction = (
   navigation: NavigationItem[],
