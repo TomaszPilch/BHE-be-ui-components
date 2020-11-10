@@ -1,7 +1,7 @@
 import { useState, useEffect, SetStateAction, Dispatch } from 'react'
 import { pathOr } from 'ramda'
 
-import validationRules, { ValidationResult } from './validationRules'
+import validationRules, { ValidationError, ValidationResult } from './validationRules'
 
 // types
 import { FieldConfig, FieldConfigValidation, FormConfig } from '../types/FormTypes'
@@ -17,11 +17,11 @@ const validateField = (fieldConfig: FieldConfig, value: any): ValidationResult[]
     return validationKeys.reduce<ValidationResult[]>((errors, validationRule) => {
       const validationConfigValue = validationObject[validationRule]
       if (!isAndCanBeEmpty && validationRule !== 'canBeEmpty' && typeof validationConfigValue !== 'undefined') {
-        let result = false
+        let result: boolean | ValidationError = false
         if (typeof validationRules[validationRule] !== 'undefined') {
           result = validationRules[validationRule](value, validationConfigValue, value)
         }
-        if (!result) {
+        if (result !== true) {
           errors.push({ rule: validationRule, result })
         }
       }

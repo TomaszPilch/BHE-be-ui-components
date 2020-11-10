@@ -8,10 +8,10 @@ import { useFieldValidation } from '../../utilities/validation'
 import { getErrorText } from '../../utilities/utilities'
 
 // types
-import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps, FieldConfig } from '../../types/FormTypes'
 
 export interface ActionPermissionFormFieldProps
-  extends DefaultFieldProps<number | string>,
+  extends DefaultFieldProps<number | string, FieldConfig>,
     DefaultFieldActionProps<number> {}
 
 const stackTokens = { childrenGap: 10 }
