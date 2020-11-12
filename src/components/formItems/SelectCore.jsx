@@ -65,6 +65,7 @@ const SelectCore = (props: SelectCoreProps) => {
         onChange={handleOnChange}
         options={props.options}
         value={selectedValue}
+        placeholder={props.t('general.selected')}
       />
       {!isValid && touched && (
         <p className="error-message">

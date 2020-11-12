@@ -16,7 +16,7 @@ const GetConfigEpic = (api) => (action$) =>
           ? api.getAddConfig(action.data.module)
           : action.data.type === 'VIEW'
           ? api.getViewConfig(action.data.module)
-          : api.getEditConfig(action.data.module)
+          : api.getEditConfig(action.data.module, action.data.id)
       return from(url).pipe(
         switchMap((response) => {
           if (response.status === 200) {

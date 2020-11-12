@@ -177,8 +177,17 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
     onListDeleteRequestConfirmed(navigationItem.name, itemsToDelete)
   }
 
+  logKey = (module,item) => {
+    if(window.event.ctrlKey) {
+      window.open(`/${module}/edit/${item.id}`, "_blank")
+    } else {
+      this.props.changeRedirectUrl('/[module]/[action]/[id]', `/${module}/edit/${item.id}`)
+    }
+  }
+
   handleRenderRowActions = (item) => {
     const { rights, module, changeRedirectUrl } = this.props
+
     return (
       <span key={`actions-${item.id}`}>
         {rights[USER_RIGHTS.VIEW] && (
@@ -194,9 +203,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
           <FontIcon
             className="list-container__action"
             iconName="Edit"
-            onClick={() => {
-              changeRedirectUrl('/[module]/[action]/[id]', `/${module}/edit/${item.id}`)
-            }}
+            onClick={()=>this.logKey(module,item) }
           />
         )}
         {rights[USER_RIGHTS.DELETE] && (
@@ -349,8 +356,8 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
                 format="buttons"
                 itemsPerPage={limit}
                 onPageChange={this.handlePageChange}
-                pageCount={maxPage} // index
-                selectedPageIndex={page - 1}
+                pageCount={maxPage}
+                selectedPageIndex={page - 1} // index
                 totalItemCount={maxCount}
               />
             )}

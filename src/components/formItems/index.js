@@ -21,6 +21,7 @@ export default {
   number: Number,
   position: Position,
   select: Select,
+  associatedSelect: Select,
   text: TextField,
   textArea: TextArea,
   widget: GeneralWidgetComponent,

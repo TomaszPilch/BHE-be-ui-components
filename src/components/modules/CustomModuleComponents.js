@@ -6,6 +6,7 @@ import EnumChangeValue from '../passive/EnumChangeValue'
 import TranslationComponent from '../passive/TranslationComponent'
 import LinkToParentComponent from '../passive/LinkToParentComponent'
 import ImageComponent from '../passive/ImageComponent'
+import FormatPriceComponent from '../passive/FormatPriceComponent'
 
 export default {
   ActualWeatherComponent,
@@ -16,4 +17,5 @@ export default {
   TranslationComponent,
   LinkToParentComponent,
   ImageComponent,
+  FormatPriceComponent
 }

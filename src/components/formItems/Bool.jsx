@@ -32,7 +32,7 @@ const Bool = (props: BoolProps) => {
       </div>
     )
   }
-  return <Toggle checked={!!props.value} label={props.label} offText="Off" onChange={handleOnChange} onText="On" />
+  return <Toggle checked={!!props.value} label={props.label} offText={props.t('general.no')} onChange={handleOnChange} onText={props.t('general.yes')} />
 }
 
 Bool.defaultProps = {

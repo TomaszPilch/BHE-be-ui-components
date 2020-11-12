@@ -27,6 +27,7 @@ export const createSelfApi = () =>
 
 export const loginEndpoints = (api: Object) => ({
   login: (data) => api.post('/login', data),
+  postSingleImageUpload: (data) => api.post('/upload', data),
 })
 
 const endpoints = (api: Object) => {
@@ -42,7 +43,6 @@ const endpoints = (api: Object) => {
 
   return {
     // post
-    postSingleImageUpload: (data) => api.post('upload/image', data),
     postSingleFileUpload: (data) => api.post('upload/file', data),
     addData: (module, data) => api.post(`add/${module}`, data),
     addValidateData: (module, data) => api.post(`add/validate/${module}`, data),
@@ -68,7 +68,7 @@ const endpoints = (api: Object) => {
       }),
     getAddConfig: (module) => api.get(`add/config/${module}`),
     getViewConfig: (module) => api.get(`view/config/${module}`),
-    getEditConfig: (module) => api.get(`edit/config/${module}`),
+    getEditConfig: (module, id) => api.get(`edit/config/${module}/${id}`),
     getAddData: (module, id) => api.get(`add/${module}/${id}`),
     getViewData: (module, id) => api.get(`view/${module}/${id}`),
     getEditData: (module, id) => api.get(`edit/${module}/${id}`),
