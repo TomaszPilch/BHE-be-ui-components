@@ -9,14 +9,14 @@ import FormComponentItem from './FormComponentItem'
 import { validate } from '../../utilities/validation'
 
 // types
-import type { FieldConfig, FieldConfigWithStackRow, FormConfig } from '../../types/FormTypes'
+import type { FieldConfigBasicType, FieldConfigWithStackRow, FormConfig } from '../../types/FormTypes'
 import type { FormComponentProps } from './FormComponent'
 import { ImmutableDataType } from '../../types/FormTypes'
 
-const getColumnFromField = (field: FieldConfig) => (field.stackSettings ? field.stackSettings.column || 0 : 0)
+const getColumnFromField = (field: FieldConfigBasicType) => (field.stackSettings ? field.stackSettings.column || 0 : 0)
 const generateFormConfigWithStackTokens = (formConfig: FormConfig) =>
   formConfig
-    .reduce<FieldConfigWithStackRow[]>((acc, field: FieldConfig) => {
+    .reduce<FieldConfigWithStackRow[]>((acc, field) => {
       let row = acc.length
       if (field.stackSettings) {
         row = field.stackSettings.row || 0
@@ -85,7 +85,7 @@ const FormComponentStack = (props: FormComponentProps) => {
     <Stack styles={{ root: { overflow: 'visible' } }} tokens={{ childrenGap: 10 }}>
       <form className="w-100" onSubmit={handleSubmit}>
         {formConfigStack.map((fieldsRow) => {
-          const key = fieldsRow.items.reduce((acc, field: FieldConfig) => `${acc}-${field.column}`, '')
+          const key = fieldsRow.items.reduce((acc, field) => `${acc}-${field.column}`, '')
           return (
             <Stack
               key={`row-${key}`}

@@ -11,13 +11,11 @@ import type { SelectWithValuesProps } from './SelectWithValues'
 export type SelectProps = SelectWithResourcesProps | SelectWithValuesProps
 
 const Select = (props: SelectProps) => {
-  const { resourceName } = props.formFieldConfig
-
-  if (resourceName) {
+  if ('resourceName' in props.formFieldConfig) {
     return <SelectWithResources {...(props as SelectWithResourcesProps)} />
   }
 
-  return <SelectWithValues {...props} />
+  return <SelectWithValues {...(props as SelectWithValuesProps)} />
 }
 
 export default memo(Select)

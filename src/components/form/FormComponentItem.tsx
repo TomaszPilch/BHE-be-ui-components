@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import formItems from '../formItems'
 
 // types
-import { CustomFormComponentType, DefaultFieldActionProps, FieldConfig } from '../../types/FormTypes'
+import { CustomFormComponentType, DefaultFieldActionProps, FieldConfigBasicType } from '../../types/FormTypes'
 import { FetchResourceType } from '../../utilities/selects'
 import { TranslateFunctionType } from '../../types/TranslationTypes'
 
@@ -15,7 +15,7 @@ export interface FormComponentItemProps extends DefaultFieldActionProps<any> {
   touched?: boolean
   resourceVersion?: number
   labelPrefix: string
-  fieldConfig: FieldConfig
+  fieldConfig: FieldConfigBasicType
   data: { [key: string]: any }
 }
 

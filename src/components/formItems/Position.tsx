@@ -4,11 +4,16 @@ import React, { memo } from 'react'
 import TextInput, { TextFieldProps } from './TextField'
 
 // types
-import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
+
+export interface PositionFormFieldConfig extends FieldConfigBasicType {
+  type: 'position'
+}
 
 export interface PositionProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {
-  inputProps: Partial<TextFieldProps>
+  inputProps: Partial<TextFieldProps<'text'>>
   placeholder?: string
+  formFieldConfig: PositionFormFieldConfig
 }
 
 const Position = (props: PositionProps) => {

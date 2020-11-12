@@ -1,15 +1,17 @@
 import { ElementType } from 'react'
 import ActionPermissionFormField, { ActionPermissionFormFieldProps } from './ActionPermissionFormField'
-import Bool, { BoolProps } from './Bool'
-import Code, { CodeProps } from './Code'
-import Datetime, { DatetimeProps } from './Datetime'
+import Bool, { BoolFormFieldFormConfig, BoolProps } from './Bool'
+import Code, { CodeFormFieldConfig, CodeProps } from './Code'
+import Datetime, { DatetimeFormFieldConfig, DatetimeProps } from './Datetime'
 import GeneralWidgetComponent from '../widgets/GeneralWidgetComponent'
-import Number from './Number'
-import Position, { PositionProps } from './Position'
+import Number, { NumberFieldProps } from './Number'
+import Position, { PositionFormFieldConfig, PositionProps } from './Position'
 import Select, { SelectProps } from './Select'
 import SingleFileUpload from './SingleFileUpload'
-import TextArea from './TextArea'
-import TextField, { TextFieldProps } from './TextField'
+import TextArea, { TextAreaProps } from './TextArea'
+import TextField, { TextFieldFormFieldConfig, TextFieldProps } from './TextField'
+import { SelectWithResourcesFormFieldConfig } from './SelectWithResources'
+import { SelectWithValuesFormFieldConfig } from './SelectWithValues'
 
 export type FieldTypeProps =
   | ActionPermissionFormFieldProps
@@ -18,7 +20,21 @@ export type FieldTypeProps =
   | DatetimeProps
   | PositionProps
   | SelectProps
-  | TextFieldProps
+  | TextFieldProps<'text'>
+  | NumberFieldProps
+  | TextAreaProps
+
+export type FieldFormConfig =
+  | ActionPermissionFormFieldProps
+  | BoolFormFieldFormConfig
+  | CodeFormFieldConfig
+  | DatetimeFormFieldConfig
+  | PositionFormFieldConfig
+  | SelectWithResourcesFormFieldConfig
+  | SelectWithValuesFormFieldConfig
+  | TextFieldFormFieldConfig<'text'>
+  | TextFieldFormFieldConfig<'number'>
+  | TextFieldFormFieldConfig<'textArea'>
 
 export default {
   actionPermission: ActionPermissionFormField,

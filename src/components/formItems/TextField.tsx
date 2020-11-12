@@ -11,16 +11,23 @@ import { getErrorText } from '../../utilities/utilities'
 import { useFieldValidation } from '../../utilities/validation'
 
 // types
-import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
 
-export interface TextFieldProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {
+export interface TextFieldFormFieldConfig<Type extends string> extends FieldConfigBasicType {
+  type: Type
+}
+
+export interface TextFieldProps<Type extends string>
+  extends DefaultFieldProps<undefined | string>,
+    DefaultFieldActionProps<string> {
   iconProps: Object
   placeholder: string
   type?: string
   inputProps: ITextFieldProps
+  formFieldConfig: TextFieldFormFieldConfig<Type>
 }
 
-const TextField = (props: TextFieldProps) => {
+function TextField<Type extends string = 'text'>(props: TextFieldProps<Type>) {
   const [isValid, errors, , touched, setTouched] = useFieldValidation(props.formFieldConfig, props.value, props.touched)
 
   const handleOnChange = (_event: FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {

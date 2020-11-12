@@ -12,9 +12,16 @@ import 'brace/theme/tomorrow'
 import 'brace/mode/jade'
 
 // types
-import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
 
-export interface CodeProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {}
+export interface CodeFormFieldConfig extends FieldConfigBasicType {
+  type: 'code'
+  code?: 'json' | 'html' | 'xml' | 'jade' | string
+}
+
+export interface CodeProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {
+  formFieldConfig: CodeFormFieldConfig
+}
 
 const Code = (props: CodeProps) => {
   const [isValid, errors, , touched, setTouched] = useFieldValidation(props.formFieldConfig, props.value, props.touched)

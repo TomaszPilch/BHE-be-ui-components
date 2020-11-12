@@ -8,9 +8,15 @@ import { useFieldValidation } from '../../utilities/validation'
 import { getErrorText } from '../../utilities/utilities'
 
 // types
-import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
 
-export interface DatetimeProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {}
+export interface DatetimeFormFieldConfig extends FieldConfigBasicType {
+  type: 'datetime'
+}
+
+export interface DatetimeProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {
+  formFieldConfig: DatetimeFormFieldConfig
+}
 
 const Datetime = (props: DatetimeProps) => {
   const [isValid, errors, , touched, setTouched] = useFieldValidation(props.formFieldConfig, props.value, props.touched)

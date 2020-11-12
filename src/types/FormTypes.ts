@@ -26,6 +26,19 @@ export type StackTokens = {
   maxWidth?: number
 }
 
+export interface FieldConfigBasicType {
+  column: string
+  name: string
+  type: string
+  sendFullData?: boolean
+  translated?: boolean
+  defaultValue?: string
+  inputProps?: Object
+  validation?: FieldConfigValidation
+  stackSettings?: StackSettings
+  tokens?: StackTokens
+}
+
 // todo split to types based od components
 export type FieldConfig = {
   activeOnAdd?: boolean
@@ -56,14 +69,14 @@ export type FieldConfig = {
   parentModule?: string
 }
 
-export type FormConfig = FieldConfig[]
+export type FormConfig = FieldConfigBasicType[]
 
 export type FormConfigWithTab = {
   [key: string]: FormConfig
 }
 
 export type FieldConfigWithStackRow = {
-  items: FormConfig
+  items: FieldConfigBasicType[]
   tokens: StackTokens
 }
 
@@ -84,9 +97,8 @@ export interface DefaultFieldActionProps<ValueType> {
   onBlur: ActionOnBlur<ValueType>
 }
 
-export type DefaultFieldProps<ValueType, CustomFieldConfig = any> = {
+export type DefaultFieldProps<ValueType> = {
   editable: boolean
-  formFieldConfig: FieldConfig & CustomFieldConfig
   label: string
   t: TranslateFunctionType
   touched?: boolean

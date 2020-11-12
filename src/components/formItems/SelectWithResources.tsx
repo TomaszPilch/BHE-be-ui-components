@@ -1,20 +1,21 @@
 import React from 'react'
 
-import SelectCore from './SelectCore'
+import SelectCore, { SelectCoreFormFieldConfig } from './SelectCore'
 import { FetchResourceType, SelectItem, useFieldWithFetchResourcesOption } from '../../utilities/selects'
 
 // types
-import type { SelectCoreProps } from './SelectCore'
+import { SelectCoreProps } from './SelectCore'
 
-export interface SelectWithResourcesProps
-  extends SelectCoreProps<
-    SelectItem,
-    {
-      resourceName: string
-    }
-  > {
+export interface SelectWithResourcesFormFieldConfig extends SelectCoreFormFieldConfig {
+  type: 'select'
+  resourceName: string
+  pattern?: string
+}
+
+export interface SelectWithResourcesProps extends SelectCoreProps<SelectItem> {
   fetchResources: FetchResourceType
   resourceVersion: number
+  formFieldConfig: SelectWithResourcesFormFieldConfig
 }
 
 const SelectWithResources = (props: SelectWithResourcesProps) => {

@@ -4,9 +4,9 @@ import { pathOr } from 'ramda'
 import validationRules, { ValidationError, ValidationResult } from './validationRules'
 
 // types
-import { FieldConfig, FieldConfigValidation, FormConfig } from '../types/FormTypes'
+import { FieldConfigBasicType, FieldConfigValidation, FormConfig } from '../types/FormTypes'
 
-const validateField = (fieldConfig: FieldConfig, value: any): ValidationResult[] => {
+const validateField = (fieldConfig: FieldConfigBasicType, value: any): ValidationResult[] => {
   if (typeof fieldConfig.validation !== 'undefined') {
     const validationObject: FieldConfigValidation = fieldConfig.validation
     const validationKeys: string[] = Object.keys(fieldConfig.validation)
@@ -45,7 +45,7 @@ export const validate = (formConfig: FormConfig, data: Object): [boolean, { [key
 }
 
 export const useFieldValidation = (
-  fieldConfig: FieldConfig,
+  fieldConfig: FieldConfigBasicType,
   value: any,
   pushTouched?: boolean,
 ): [

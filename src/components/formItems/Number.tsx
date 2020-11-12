@@ -2,9 +2,11 @@ import React, { memo } from 'react'
 
 import TextField from './TextField'
 
-import type { TextFieldProps } from './TextField'
+import { TextFieldProps } from './TextField'
 
-const NumberField = (props: TextFieldProps) => {
+export interface NumberFieldProps extends TextFieldProps<'number'> {}
+
+const NumberField = (props: NumberFieldProps) => {
   return <TextField {...props} type="number" />
 }
 

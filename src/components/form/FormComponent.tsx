@@ -11,7 +11,6 @@ import { validate } from '../../utilities/validation'
 // types
 import {
   FormConfig,
-  FieldConfig,
   DefaultFieldActionProps,
   CustomFormComponentType,
   ImmutableDataType,
@@ -128,7 +127,7 @@ const FormComponent = (props: FormComponentProps) => {
 
   return (
     <form className="w-100" onSubmit={handleSubmit}>
-      {formConfig.map((fieldConfig: FieldConfig) => (
+      {formConfig.map((fieldConfig) => (
         <FormComponentItem
           key={fieldConfig.name}
           customFormComponents={customFormComponents}

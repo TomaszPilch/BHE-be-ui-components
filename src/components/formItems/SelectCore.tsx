@@ -4,17 +4,22 @@ import { Label } from '@fluentui/react'
 
 import { useFieldValidation } from '../../utilities/validation'
 import { getErrorText } from '../../utilities/utilities'
-import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
+import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
 import { ValueType } from 'react-select/src/types'
 import { SelectItem } from '../../utilities/selects'
 
-export interface SelectCoreProps<OptionType, FieldConfig = any>
-  extends DefaultFieldProps<undefined | string, FieldConfig>,
-    DefaultFieldActionProps<string | number | null> {
-  options: OptionType[]
+export interface SelectCoreFormFieldConfig extends FieldConfigBasicType {
+  className?: string
 }
 
-function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: SelectCoreProps<OptionType, FieldConfig>) {
+export interface SelectCoreProps<OptionType>
+  extends DefaultFieldProps<undefined | string>,
+    DefaultFieldActionProps<string | number | null> {
+  options: OptionType[]
+  formFieldConfig: SelectCoreFormFieldConfig
+}
+
+function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: SelectCoreProps<OptionType>) {
   const [isValid, errors, , touched, setTouched] = useFieldValidation(props.formFieldConfig, props.value, props.touched)
 
   const handleOnChange = (selected: ValueType<OptionType>) => {

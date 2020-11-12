@@ -6,7 +6,7 @@ import TextField from './TextField'
 // types
 import type { TextFieldProps } from './TextField'
 
-type TextAreaProps = TextFieldProps
+export interface TextAreaProps extends TextFieldProps<'textArea'> {}
 
 const TextArea = (props: TextAreaProps) => {
   return <TextField {...props} inputProps={{ multiline: true, rows: 5, ...props.inputProps }} />

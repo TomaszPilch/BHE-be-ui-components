@@ -1,19 +1,29 @@
 import React from 'react'
 
-import SelectCore from './SelectCore'
+import SelectCore, { SelectCoreFormFieldConfig } from './SelectCore'
 
 import { SelectItem, useFieldWithOptions } from '../../utilities/selects'
 
 // types
 import type { SelectCoreProps } from './SelectCore'
+import { ImmutableArray } from 'seamless-immutable'
 
-export interface SelectWithValuesProps extends SelectCoreProps<SelectItem> {}
+export interface SelectWithValuesFormFieldConfig extends SelectCoreFormFieldConfig {
+  pattern?: string
+  values: SelectItem[] | string[] | ImmutableArray<string> | ImmutableArray<SelectItem>
+}
+
+export interface SelectWithValuesProps extends SelectCoreProps<SelectItem> {
+  formFieldConfig: SelectWithValuesFormFieldConfig
+}
 
 const SelectWithValues = (props: SelectWithValuesProps) => {
   const { column, pattern, values } = props.formFieldConfig
+
   const [options] = useFieldWithOptions(
     column,
-    values ? values.asMutable() : [],
+    // @ts-ignore
+    typeof values.asMutable === 'function' ? values.asMutable() : values,
     props.t,
     pattern,
     props.formFieldConfig,
