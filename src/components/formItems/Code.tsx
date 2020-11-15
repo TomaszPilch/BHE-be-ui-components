@@ -51,7 +51,6 @@ const Code = (props: CodeProps) => {
         onBlur={handleOnBlur}
         onChange={handleOnChange}
         readOnly={!props.editable}
-        style={{ flex: 1 }}
         tabSize={2}
         theme="tomorrow"
         value={typeof props.value === 'string' ? props.value : JSON.stringify(props.value, null, '\t')}

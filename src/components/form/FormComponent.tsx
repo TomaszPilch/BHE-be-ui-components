@@ -10,7 +10,6 @@ import { validate } from '../../utilities/validation'
 
 // types
 import {
-  FormConfig,
   DefaultFieldActionProps,
   CustomFormComponentType,
   ImmutableDataType,
@@ -30,13 +29,13 @@ type DataProps = {
   data: ImmutableDataType
 }
 
-interface PropTypes extends DefaultFieldActionProps<any> {
+interface PropTypes<CustomFormConfig> extends DefaultFieldActionProps<any> {
   customFormComponents?: CustomFormComponentType
   data?: ImmutableDataType
   defaultData?: ImmutableDataType
   editable: boolean
   fetchResources: FetchResourceType
-  formConfig: FormConfig
+  formConfig: CustomFormConfig
   labelPrefix: string
   onSubmit: (data: Object) => void
   resourceVersion: number
@@ -46,7 +45,9 @@ interface PropTypes extends DefaultFieldActionProps<any> {
   touched?: boolean
 }
 
-export type FormComponentProps = (StandaloneDataProps & PropTypes) | (DataProps & PropTypes)
+export type FormComponentProps<CustomFormConfig> =
+  | (StandaloneDataProps & PropTypes<CustomFormConfig>)
+  | (DataProps & PropTypes<CustomFormConfig>)
 
 export const formComponentDefaultProps = {
   editable: true,
@@ -59,8 +60,9 @@ export const formComponentDefaultProps = {
   showSubmitButton: false,
   submitButtonText: 'submit',
 }
-export const useFormComponentHooks = (
-  props: FormComponentProps,
+
+function useFormComponentHooksFunction<CustomFormConfig>(
+  props: FormComponentProps<CustomFormConfig>,
 ): [
   boolean,
   ImmutableDataType,
@@ -69,7 +71,7 @@ export const useFormComponentHooks = (
   Dispatch<SetStateAction<boolean>>,
   ActionOnBlur<any>,
   ActionOnChange<any>,
-] => {
+] {
   const [standalone] = useState<boolean>(!props.data)
   const [data, setData] = useState<ImmutableDataType>(props.defaultData ? props.defaultData : Immutable({}))
   const [touched, setTouched] = useState<boolean>(false)
@@ -96,7 +98,9 @@ export const useFormComponentHooks = (
   return [standalone, data, setData, touched, setTouched, handleOnBlur, handleOnChange]
 }
 
-const FormComponent = (props: FormComponentProps) => {
+export const useFormComponentHooks = useFormComponentHooksFunction
+
+function FormComponent<CustomFormConfig>(props: FormComponentProps<CustomFormConfig>) {
   const [standalone, data, , touched, setTouched, handleOnBlur, handleOnChange] = useFormComponentHooks(props)
 
   const handleSubmit = (event: FormEvent<HTMLFormElement> | React.MouseEvent<PrimaryButton | HTMLSpanElement>) => {
@@ -127,7 +131,7 @@ const FormComponent = (props: FormComponentProps) => {
 
   return (
     <form className="w-100" onSubmit={handleSubmit}>
-      {formConfig.map((fieldConfig) => (
+      {formConfig.map((fieldConfig: any) => (
         <FormComponentItem
           key={fieldConfig.name}
           customFormComponents={customFormComponents}

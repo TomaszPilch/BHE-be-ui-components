@@ -7,11 +7,12 @@ import GeneralWidgetComponent from '../widgets/GeneralWidgetComponent'
 import Number, { NumberFieldProps } from './Number'
 import Position, { PositionFormFieldConfig, PositionProps } from './Position'
 import Select, { SelectProps } from './Select'
-import SingleFileUpload from './SingleFileUpload'
+import SingleFileUpload, { SingleFileUploadFieldConfig, SingleFileUploadProps } from './SingleFileUpload'
 import TextArea, { TextAreaProps } from './TextArea'
 import TextField, { TextFieldFormFieldConfig, TextFieldProps } from './TextField'
 import { SelectWithResourcesFormFieldConfig } from './SelectWithResources'
 import { SelectWithValuesFormFieldConfig } from './SelectWithValues'
+import Date, { DateFormFieldConfig, DateProps } from './Date'
 
 export type FieldTypeProps =
   | ActionPermissionFormFieldProps
@@ -23,6 +24,8 @@ export type FieldTypeProps =
   | TextFieldProps<'text'>
   | NumberFieldProps
   | TextAreaProps
+  | DateProps
+  | SingleFileUploadProps
 
 export type FieldFormConfig =
   | ActionPermissionFormFieldProps
@@ -35,12 +38,18 @@ export type FieldFormConfig =
   | TextFieldFormFieldConfig<'text'>
   | TextFieldFormFieldConfig<'number'>
   | TextFieldFormFieldConfig<'textArea'>
+  | DateFormFieldConfig
+  | SingleFileUploadFieldConfig
+
+export type CustomFormConfig = FieldFormConfig[]
 
 export default {
   actionPermission: ActionPermissionFormField,
   bool: Bool,
   code: Code,
+  date: Date,
   datetime: Datetime,
+  file: SingleFileUpload,
   image: SingleFileUpload,
   number: Number,
   position: Position,
@@ -48,5 +57,4 @@ export default {
   text: TextField,
   textArea: TextArea,
   widget: GeneralWidgetComponent,
-  // date: Date,
 } as { [key: string]: ElementType }

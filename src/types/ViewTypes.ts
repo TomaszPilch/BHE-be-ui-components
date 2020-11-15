@@ -39,8 +39,8 @@ export type PaginatorType = {
 }
 
 export type SortObjectType = {
-  column: string
-  direction: 'ASC' | 'DESC'
+  column?: string
+  direction?: 'ASC' | 'DESC'
 }
 
 export type ListDataType = {}
@@ -73,4 +73,10 @@ export type EditDataSaveType = {
   module: string
   data: Object
   moduleUrl: string
+}
+
+export type ToBase64DataObject = {
+  module: string
+  moduleUrl: string
+  [key: string]: any
 }

@@ -37,6 +37,8 @@ const { Types, Creators } = createActions<IEditReduxTypes, IEditReduxCreators>({
   onEditSaveRequestSuccess: ['data'],
   onUpdateColumnRequest: ['data'],
   onUpdateColumnRequestSuccess: ['data'],
+  toBase64: ['data', 'fileData'],
+  uploadFileRequest: ['data', 'fileBinary'],
 })
 
 export const EditTypes = Types
@@ -115,4 +117,6 @@ export const reducer = createReducer<EditReduxStore, IEditReduxActions>(INITIAL_
   [Types.ON_EDIT_SAVE_REQUEST_SUCCESS]: onEditSaveRequestSuccessR,
   [Types.ON_UPDATE_COLUMN_REQUEST]: onUpdateColumnRequestR,
   [Types.ON_UPDATE_COLUMN_REQUEST_SUCCESS]: onUpdateColumnRequestSuccessR,
+  [Types.TO_BASE64]: (state) => state,
+  [Types.UPLOAD_FILE_REQUEST]: (state) => state,
 })

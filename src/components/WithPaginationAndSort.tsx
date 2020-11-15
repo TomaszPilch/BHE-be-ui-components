@@ -82,7 +82,7 @@ function withPaginationAndSort<P extends object>(Component: React.ComponentType<
         column = sort.column
         direction = sort.direction
       }
-      if (pageIndex) {
+      if (typeof pageIndex === 'number') {
         page = pageIndex + 1
       }
       if (parentId && parentModule && widgetName) {
@@ -156,10 +156,7 @@ function withPaginationAndSort<P extends object>(Component: React.ComponentType<
       maxPage: 1,
       page: 1,
     }),
-    sort: state.list.sort.getIn([ownProps.navigationItem.name], {
-      column: 'id',
-      direction: 'DESC',
-    }),
+    sort: state.list.sort.getIn([ownProps.navigationItem.name], {}),
     filterData: state.list.filterData.getIn([ownProps.navigationItem.name], emptyImmutable),
   })
 

@@ -33,10 +33,12 @@ export const createSelfApi = () =>
 
 export interface ApiLoginEndpointsType {
   login: (data: Object) => Promise<AxiosResponse<{ accessToken: string }>>
+  postSingleImageUpload: (data: Object) => Promise<AxiosResponse<Object>>
 }
 
 export const loginEndpoints = (api: AxiosInstance): ApiLoginEndpointsType => ({
   login: (data: Object) => api.post('/login', data),
+  postSingleImageUpload: (data: Object) => api.post('/upload', data),
 })
 
 export interface ApiEndpointsType {
@@ -79,7 +81,7 @@ export interface ApiEndpointsType {
   ) => Promise<AxiosResponse<ListDataTypeResponse>>
   getAddConfig: (module: string) => Promise<AxiosResponse<{ module: string; config: FormConfigWithTab }>>
   getViewConfig: (module: string) => Promise<AxiosResponse<{ module: string; config: FormConfigWithTab }>>
-  getEditConfig: (module: string) => Promise<AxiosResponse<{ module: string; config: FormConfigWithTab }>>
+  getEditConfig: (module: string, id?: number) => Promise<AxiosResponse<{ module: string; config: FormConfigWithTab }>>
   getAddData: (module: string, id?: number) => Promise<AxiosResponse<LoadFormDataResponse>>
   getViewData: (module: string, id?: number) => Promise<AxiosResponse<LoadFormDataResponse>>
   getEditData: (module: string, id?: number) => Promise<AxiosResponse<LoadFormDataResponse>>
@@ -148,7 +150,7 @@ const endpoints = (api: AxiosInstance): ApiEndpointsType => {
       }),
     getAddConfig: (module: string) => api.get(`add/config/${module}`),
     getViewConfig: (module: string) => api.get(`view/config/${module}`),
-    getEditConfig: (module: string) => api.get(`edit/config/${module}`),
+    getEditConfig: (module: string, id?: number) => api.get(`edit/config/${module}/${id}`),
     getAddData: (module: string, id?: number) => api.get(`add/${module}/${id}`),
     getViewData: (module: string, id?: number) => api.get(`view/${module}/${id}`),
     getEditData: (module: string, id?: number) => api.get(`edit/${module}/${id}`),

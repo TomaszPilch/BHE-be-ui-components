@@ -1,22 +1,21 @@
 import React, { useState } from 'react'
 import { Story, Meta } from '@storybook/react/types-6-0'
-
-import Datetime, { DatetimeProps } from './Datetime'
+import Date, { DateProps } from './Date'
 
 export default {
-  title: 'FormItems/Datetime',
-  component: Datetime,
+  title: 'FormItems/Date',
+  component: Date,
   argTypes: {
     onChange: { action: 'onChange' },
     onBlur: { action: 'onBlur' },
   },
 } as Meta
 
-const Template: Story<DatetimeProps> = (args) => {
+const Template: Story<DateProps> = (args) => {
   const [value, setValue] = useState('')
 
   return (
-    <Datetime
+    <Date
       // @ts-ignore
       value={value}
       {...args}
@@ -29,10 +28,10 @@ const Template: Story<DatetimeProps> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'Datetime label',
+  label: 'Date label',
   formFieldConfig: {
     column: 'test',
     name: 'test',
-    type: 'datetime',
+    type: 'date',
   },
 }

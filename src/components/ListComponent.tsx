@@ -193,16 +193,29 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
     onListDeleteRequestConfirmed(navigationItem.name, itemsToDelete)
   }
 
+  handleOpenActionLink = (
+    e: React.MouseEvent<HTMLElement>,
+    module: string,
+    item: DataItemType,
+    action: 'view' | 'edit',
+  ) => {
+    if (e.ctrlKey) {
+      window.open(`/${module}/${action}/${item.id}`, '_blank')
+    } else {
+      this.props.changeRedirectUrl('/[module]/[action]/[id]', `/${module}/${action}/${item.id}`)
+    }
+  }
+
   handleRenderRowActions = (item: any) => {
-    const { rights, module, changeRedirectUrl } = this.props
+    const { rights, module } = this.props
     return (
       <span key={`actions-${item.id}`}>
         {rights[USER_RIGHTS.VIEW] && (
           <FontIcon
             className="list-container__action"
             iconName="View"
-            onClick={() => {
-              changeRedirectUrl('/[module]/[action]/[id]', `/${module}/view/${item.id}`)
+            onClick={(e) => {
+              this.handleOpenActionLink(e, module, item, 'view')
             }}
           />
         )}
@@ -210,8 +223,8 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
           <FontIcon
             className="list-container__action"
             iconName="Edit"
-            onClick={() => {
-              changeRedirectUrl('/[module]/[action]/[id]', `/${module}/edit/${item.id}`)
+            onClick={(e) => {
+              this.handleOpenActionLink(e, module, item, 'edit')
             }}
           />
         )}
@@ -377,8 +390,8 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
                 format="buttons"
                 itemsPerPage={limit}
                 onPageChange={this.handlePageChange}
-                pageCount={maxPage} // index
-                selectedPageIndex={page - 1}
+                pageCount={maxPage}
+                selectedPageIndex={page - 1} // index
                 totalItemCount={maxCount}
               />
             )}

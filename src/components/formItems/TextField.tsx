@@ -60,7 +60,7 @@ function TextField<Type extends string = 'text'>(props: TextFieldProps<Type>) {
       placeholder={props.placeholder}
       required={props.formFieldConfig.validation && props.formFieldConfig.validation.isRequired}
       type={props.type}
-      value={props.value}
+      value={props.value || ''}
       {...props.inputProps}
     />
   )

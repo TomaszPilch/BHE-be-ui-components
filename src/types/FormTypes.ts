@@ -39,36 +39,6 @@ export interface FieldConfigBasicType {
   tokens?: StackTokens
 }
 
-// todo split to types based od components
-export type FieldConfig = {
-  activeOnAdd?: boolean
-  associated?: boolean
-  className?: string
-  code?: string
-  column: string
-  component: string
-  custom?: boolean
-  defaultValue?: any
-  editable?: boolean
-  fetchResources?: string
-  inputProps?: Object
-  module?: string
-  name: string
-  pattern?: string
-  section?: string
-  sendFullData?: boolean
-  stackSettings?: StackSettings
-  tokens?: StackTokens
-  translated?: boolean
-  translatedValues?: boolean
-  type?: string
-  validation?: FieldConfigValidation
-  keys?: {
-    from: string
-  }
-  parentModule?: string
-}
-
 export type FormConfig = FieldConfigBasicType[]
 
 export type FormConfigWithTab = {

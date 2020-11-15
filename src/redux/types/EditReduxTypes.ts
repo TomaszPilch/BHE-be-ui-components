@@ -4,7 +4,12 @@ import { ImmutableObject } from 'seamless-immutable'
 
 import { FormConfig, FormConfigWithTab } from '../../types/FormTypes'
 import { ValidationErrorsType } from '../../utilities/validationRules'
-import { EditDataSaveType, FormConfigRequestData, LoadFormDataResponse } from '../../types/ViewTypes'
+import {
+  EditDataSaveType,
+  FormConfigRequestData,
+  LoadFormDataResponse,
+  ToBase64DataObject,
+} from '../../types/ViewTypes'
 
 export interface IEditReduxTypes extends DefaultActionTypes {
   ON_EDIT_LOAD_FORM_CONFIG_REQUEST: 'ON_EDIT_LOAD_FORM_CONFIG_REQUEST'
@@ -20,6 +25,8 @@ export interface IEditReduxTypes extends DefaultActionTypes {
   ON_EDIT_SAVE_REQUEST_SUCCESS: 'onEditSaveRequestSuccess'
   ON_UPDATE_COLUMN_REQUEST: 'ON_UPDATE_COLUMN_REQUEST'
   ON_UPDATE_COLUMN_REQUEST_SUCCESS: 'onUpdateColumnRequestSuccess'
+  TO_BASE64: 'TO_BASE64'
+  UPLOAD_FILE_REQUEST: 'UPLOAD_FILE_REQUEST'
 }
 
 export interface IOnEditLoadFormConfigRequest extends Action<'ON_EDIT_LOAD_FORM_CONFIG_REQUEST'> {
@@ -78,6 +85,16 @@ export interface IOnUpdateColumnRequestSuccess extends Action<'ON_UPDATE_COLUMN_
   data: Object
 }
 
+export interface IToBase64 extends Action<'TO_BASE64'> {
+  data: ToBase64DataObject
+  fileData: Blob
+}
+
+export interface IUploadFileRequest extends Action<'UPLOAD_FILE_REQUEST'> {
+  data: ToBase64DataObject
+  fileBinary: string | ArrayBuffer | null
+}
+
 export interface IEditReduxCreators extends DefaultActionCreators {
   onEditLoadFormConfigRequest: (data: FormConfigRequestData) => IOnEditLoadFormConfigRequest
   onEditLoadFormConfigRequestSuccess: (module: string, config: FormConfigWithTab) => IOnEditLoadFormConfigRequestSuccess
@@ -92,6 +109,8 @@ export interface IEditReduxCreators extends DefaultActionCreators {
   onEditSaveRequestSuccess: (data: Object) => IOnEditSaveRequestSuccess
   onUpdateColumnRequest: (data: EditDataSaveType) => IOnUpdateColumnRequest
   onUpdateColumnRequestSuccess: (data: Object) => IOnUpdateColumnRequestSuccess
+  toBase64: (data: ToBase64DataObject, fileData: Blob) => IToBase64
+  uploadFileRequest: (data: ToBase64DataObject, fileBinary: string | ArrayBuffer | null) => IUploadFileRequest
 }
 
 export type IEditReduxActions =
@@ -108,6 +127,8 @@ export type IEditReduxActions =
   | IOnEditSaveRequestSuccess
   | IOnUpdateColumnRequest
   | IOnUpdateColumnRequestSuccess
+  | IToBase64
+  | IUploadFileRequest
 
 export type EditReduxStore = ImmutableObject<{
   fetching: boolean

@@ -38,8 +38,8 @@ export interface IOnLoadListData extends Action<'ON_LOAD_LIST_DATA'> {
   module: string
   page: number
   limit: number
-  orderColumn: string
-  orderDirection: 'DESC' | 'ASC'
+  orderColumn?: string
+  orderDirection?: 'DESC' | 'ASC'
   filter: FilterType
 }
 
@@ -69,8 +69,8 @@ export interface IOnLoadListWidgetData extends Action<'ON_LOAD_LIST_WIDGET_DATA'
   widgetName: string
   page: number
   limit: number
-  orderColumn: string
-  orderDirection: 'DESC' | 'ASC'
+  orderColumn?: string
+  orderDirection?: 'DESC' | 'ASC'
   filter: FilterType
   parentId: number
   parentModule: string
@@ -100,8 +100,8 @@ export interface IListReduxCreators extends DefaultActionCreators {
     module: string,
     page: number,
     limit: number,
-    orderColumn: string,
-    orderDirection: 'DESC' | 'ASC',
+    orderColumn: string | undefined,
+    orderDirection: 'DESC' | 'ASC' | undefined,
     filter: FilterType,
   ) => IOnLoadListData
   onLoadListDataSuccess: (data: ListDataTypeResponse) => IOnLoadListDataSuccess
@@ -120,8 +120,8 @@ export interface IListReduxCreators extends DefaultActionCreators {
     widgetName: string,
     page: number,
     limit: number,
-    orderColumn: string,
-    orderDirection: 'DESC' | 'ASC',
+    orderColumn: string | undefined,
+    orderDirection: 'DESC' | 'ASC' | undefined,
     filter: FilterType,
     parentId: number,
     parentModule: string,

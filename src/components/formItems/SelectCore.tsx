@@ -15,8 +15,9 @@ export interface SelectCoreFormFieldConfig extends FieldConfigBasicType {
 export interface SelectCoreProps<OptionType>
   extends DefaultFieldProps<undefined | string>,
     DefaultFieldActionProps<string | number | null> {
-  options: OptionType[]
   formFieldConfig: SelectCoreFormFieldConfig
+  options: OptionType[]
+  placeholder?: string
 }
 
 function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: SelectCoreProps<OptionType>) {
@@ -65,6 +66,7 @@ function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: Sel
         isClearable
         onChange={handleOnChange}
         options={props.options}
+        placeholder={props.placeholder || props.t('general.selectValue')}
         value={selectedValue}
       />
       {!isValid && touched && (
