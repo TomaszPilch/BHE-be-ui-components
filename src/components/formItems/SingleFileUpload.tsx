@@ -49,6 +49,10 @@ const FileUpload = (props: SingleFileUploadProps) => {
     }
   })
 
+  if (!uppy) {
+    return null
+  }
+
   return (
     <div>
       <Label>{props.label}</Label>
@@ -58,6 +62,7 @@ const FileUpload = (props: SingleFileUploadProps) => {
         height={300}
         hideUploadButton
         locale={{
+          // @ts-ignore
           strings: t('uppy', { returnObjects: true }),
         }}
         proudlyDisplayPoweredByUppy={false}

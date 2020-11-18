@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { connect } from 'react-redux'
 
 import { getNavigationItem, getAllRights } from '../redux/NavigationRedux'
@@ -36,36 +36,38 @@ const mapStateToProps = (state: ReduxStore) => {
   }
 }
 
-const withModule = (Component: React.ComponentType) =>
-  connect(
-    mapStateToProps,
-    {},
-  )(
-    class extends React.Component<WithModuleProps, null> {
-      render() {
-        const { router, listSettings, navigation } = this.props
-        if (!router || !router.query || !router.query.module) {
-          return <div>Module not found</div>
-        }
-        const module = router.query.module
-        const navItem = getNavigationItem(navigation, '', module)
-        if (Object.keys(navItem).length === 0) {
-          return <div>Navigation item not found</div>
-        }
-        const settings = listSettings[navItem.name] || {}
-        if (Object.keys(navItem).length === 0) {
-          return <div>No settings for module</div>
-        }
+const withModule = (Component: React.ComponentType): any => {
+  class WithModuleClass extends React.Component<WithModuleProps, null> {
+    componentRef = createRef()
 
-        const otherProps = {
-          module,
-          navigationItem: navItem,
-          settings,
-          rights: getAllRights(navigation, navItem.name),
-        }
-        return <Component {...this.props} {...otherProps} ref={this.componentRef} />
+    render() {
+      const { router, listSettings, navigation } = this.props
+      if (!router || !router.query || !router.query.module) {
+        return <div>Module not found</div>
       }
-    },
-  )
+      const module = router.query.module
+      const navItem = getNavigationItem(navigation, '', module)
+      if (Object.keys(navItem).length === 0) {
+        return <div>Navigation item not found</div>
+      }
+      const settings = listSettings[navItem.name] || {}
+      if (Object.keys(navItem).length === 0) {
+        return <div>No settings for module</div>
+      }
+
+      const otherProps = {
+        module,
+        navigationItem: navItem,
+        settings,
+        rights: getAllRights(navigation, navItem.name),
+      }
+      // @ts-ignore
+      return <Component {...this.props} {...otherProps} ref={this.componentRef} />
+    }
+  }
+
+  // @ts-ignore
+  connect(mapStateToProps)(WithModuleClass)
+}
 
 export default withModule

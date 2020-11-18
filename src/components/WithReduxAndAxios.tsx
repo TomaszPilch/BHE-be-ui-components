@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Store } from 'redux'
 
 type AppContext = { [key: string]: any }
 type NextPageContext = { [key: string]: any }
@@ -19,7 +20,7 @@ export interface MakeStoreOptions extends Config, NextPageContext {
   isServer: boolean
 }
 
-export type MakeStore = (initialState: any, options: MakeStoreOptions, apis: any, rootEpic: any) => Object
+export type MakeStore = (initialState: any, options: MakeStoreOptions, apis: any, rootEpic: any) => Store<object>
 
 export interface InitStoreOptions {
   initialState?: any
@@ -51,7 +52,7 @@ export default (makeStore: MakeStore, createApis: Function, config?: Partial<Con
 
   const isServer = typeof window === 'undefined'
 
-  const initStore = ({ initialState, ctx }: InitStoreOptions): Object => {
+  const initStore = ({ initialState, ctx }: InitStoreOptions): Store<object> => {
     const { storeKey, deserializeState } = config as Config
 
     const createStore = () =>
@@ -72,9 +73,11 @@ export default (makeStore: MakeStore, createApis: Function, config?: Partial<Con
 
     // Memoize store if client
     if (!(storeKey in window)) {
+      // @ts-ignore
       window[storeKey] = createStore()
     }
 
+    // @ts-ignore
     return window[storeKey]
   }
 
@@ -142,12 +145,11 @@ export default (makeStore: MakeStore, createApis: Function, config?: Partial<Con
       }
 
       store: Object
-      apis: Object
+      apis: { [key: string]: any }
 
       render() {
         const { initialProps, ...props } = this.props
 
-        // Cmp render must return something like <Provider><Component/></Provider>
         return <App {...props} {...initialProps} setToken={this.apis.setToken} store={this.store} />
       }
     }

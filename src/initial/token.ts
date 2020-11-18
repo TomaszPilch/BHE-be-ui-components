@@ -1,13 +1,17 @@
-// @flow
 import jsHttpCookie from 'cookie'
 import fetch from 'isomorphic-unfetch'
+// @ts-ignore
 import { cookie } from 'devx-js-utilities'
+import { NextPageContext } from 'next/dist/next-server/lib/utils'
 
-export default async (ctx: Object, serverUrl: string, page?: string) => {
+export default async (ctx: NextPageContext, serverUrl: string, page?: string) => {
   const { req, res } = ctx
-  const initialProps = {}
+  const initialProps: {
+    token?: string
+    shouldReloadToken?: boolean
+  } = {}
 
-  if (req && req.headers) {
+  if (req && req.headers && res) {
     let authorized = false
     if (req.headers.cookie) {
       const cookiesJSON = jsHttpCookie.parse(req.headers.cookie)

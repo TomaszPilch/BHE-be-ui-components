@@ -12,7 +12,14 @@ import {
   IOnLoadListSettingsSuccess,
   ListReduxStore,
 } from './types/ListReduxTypes'
-import { ListDataType, ListSettingsType, PaginatorType, SortObjectType } from '../types/ViewTypes'
+import {
+  DataItemType,
+  FilterType,
+  ListDataType,
+  ListSettingsType,
+  PaginatorType,
+  SortObjectType,
+} from '../types/ViewTypes'
 import { TranslateFunctionType } from '../types/TranslationTypes'
 
 /* ------------- Types and Action Creators ------------- */
@@ -51,9 +58,9 @@ export default Creators
 export const INITIAL_STATE: ListReduxStore = Immutable({
   data: {} as ListDataType,
   fetching: false,
-  filterData: {} as Object,
+  filterData: {} as FilterType,
   isSelected: true,
-  itemsToDelete: [] as Object[],
+  itemsToDelete: [] as DataItemType[],
   listSettings: {} as ListSettingsType,
   modalOpened: false,
   paginator: {} as PaginatorType,

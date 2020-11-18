@@ -1,7 +1,6 @@
-// @flow
 import { useEffect } from 'react'
 
-export default (props) => {
+export default (props: { token: string; setToken: Function }) => {
   const { token, setToken } = props
 
   if (token) {

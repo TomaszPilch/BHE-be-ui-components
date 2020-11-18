@@ -1,5 +1,8 @@
 import { ElementType } from 'react'
-import ActionPermissionFormField, { ActionPermissionFormFieldProps } from './ActionPermissionFormField'
+import ActionPermissionFormField, {
+  ActionPermissionFormFieldFormConfig,
+  ActionPermissionFormFieldProps,
+} from './ActionPermissionFormField'
 import Bool, { BoolFormFieldFormConfig, BoolProps } from './Bool'
 import Code, { CodeFormFieldConfig, CodeProps } from './Code'
 import Datetime, { DatetimeFormFieldConfig, DatetimeProps } from './Datetime'
@@ -28,7 +31,7 @@ export type FieldTypeProps =
   | SingleFileUploadProps
 
 export type FieldFormConfig =
-  | ActionPermissionFormFieldProps
+  | ActionPermissionFormFieldFormConfig
   | BoolFormFieldFormConfig
   | CodeFormFieldConfig
   | DatetimeFormFieldConfig

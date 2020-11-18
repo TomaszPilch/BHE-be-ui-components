@@ -49,7 +49,7 @@ export interface IOnLoadListDataSuccess extends Action<'ON_LOAD_LIST_DATA_SUCCES
 
 export interface IOnListDeleteRequest extends Action<'ON_LIST_DELETE_REQUEST'> {
   modalOpened: boolean
-  itemsToDelete: Object[]
+  itemsToDelete: DataItemType[]
 }
 
 export interface IOnListDeleteRequestConfirmed extends Action<'ON_LIST_DELETE_REQUEST_CONFIRMED'> {

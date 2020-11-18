@@ -15,6 +15,7 @@ import {
   ImmutableDataType,
   ActionOnBlur,
   ActionOnChange,
+  FormConfig,
 } from '../../types/FormTypes'
 import { FetchResourceType } from '../../utilities/selects'
 import { TranslateFunctionType } from '../../types/TranslationTypes'
@@ -29,7 +30,7 @@ type DataProps = {
   data: ImmutableDataType
 }
 
-interface PropTypes<CustomFormConfig> extends DefaultFieldActionProps<any> {
+interface PropTypes<CustomFormConfig extends FormConfig> extends DefaultFieldActionProps<any> {
   customFormComponents?: CustomFormComponentType
   data?: ImmutableDataType
   defaultData?: ImmutableDataType
@@ -45,7 +46,7 @@ interface PropTypes<CustomFormConfig> extends DefaultFieldActionProps<any> {
   touched?: boolean
 }
 
-export type FormComponentProps<CustomFormConfig> =
+export type FormComponentProps<CustomFormConfig extends FormConfig> =
   | (StandaloneDataProps & PropTypes<CustomFormConfig>)
   | (DataProps & PropTypes<CustomFormConfig>)
 
@@ -61,7 +62,7 @@ export const formComponentDefaultProps = {
   submitButtonText: 'submit',
 }
 
-function useFormComponentHooksFunction<CustomFormConfig>(
+function useFormComponentHooksFunction<CustomFormConfig extends FormConfig>(
   props: FormComponentProps<CustomFormConfig>,
 ): [
   boolean,
@@ -100,7 +101,7 @@ function useFormComponentHooksFunction<CustomFormConfig>(
 
 export const useFormComponentHooks = useFormComponentHooksFunction
 
-function FormComponent<CustomFormConfig>(props: FormComponentProps<CustomFormConfig>) {
+function FormComponent<CustomFormConfig extends FormConfig>(props: FormComponentProps<CustomFormConfig>) {
   const [standalone, data, , touched, setTouched, handleOnBlur, handleOnChange] = useFormComponentHooks(props)
 
   const handleSubmit = (event: FormEvent<HTMLFormElement> | React.MouseEvent<PrimaryButton | HTMLSpanElement>) => {

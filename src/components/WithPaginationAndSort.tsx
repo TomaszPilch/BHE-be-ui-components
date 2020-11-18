@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { connect } from 'react-redux'
 import Immutable, { ImmutableArray, ImmutableObject } from 'seamless-immutable'
 
@@ -44,8 +44,10 @@ export type WithPaginationAndSortPassDownProps<DataItemType = any> = WithPaginat
 }
 
 const emptyImmutable = Immutable({})
-function withPaginationAndSort<P extends object>(Component: React.ComponentType<P>) {
+function withPaginationAndSort<P extends object>(Component: React.ComponentType<P>): any {
   class WithPaginationAndSort extends React.Component<P & WithPaginationAndSortPropsType> {
+    componentRef = createRef()
+
     getListOptionDataObject = () => {
       const {
         navigationItem: { name },
@@ -168,6 +170,7 @@ function withPaginationAndSort<P extends object>(Component: React.ComponentType<
   >(mapStateToProps, {
     onLoadListData: ListActions.onLoadListData,
     onLoadListWidgetData: ListActions.onLoadListWidgetData,
+    // @ts-ignore
   })(WithPaginationAndSort)
 }
 

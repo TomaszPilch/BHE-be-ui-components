@@ -1,12 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { ImmutableObject } from 'seamless-immutable'
 
 import ListComponent from '../ListComponent'
 import NavigationActions, { getAllRights, getNavigationItem } from '../../redux/NavigationRedux'
 
 // types
-import { FieldConfig } from '../../types/FormTypes'
 import { AllRightsType, NavigationItem } from '../../types/NavigationTypes'
 import { ListSettingsItem } from '../../types/ViewTypes'
 import { ReduxStore } from '../../redux'
@@ -14,7 +12,7 @@ import { INavigationReduxCreators } from '../../redux/types/NavigationReduxTypes
 import { TranslateFunctionType } from '../../types/TranslationTypes'
 
 type GeneralWidgetComponentOwnProps = {
-  formFieldConfig: FieldConfig
+  formFieldConfig: any //todo
   data: { [key: string]: any }
   t: TranslateFunctionType
 }
@@ -22,10 +20,10 @@ type GeneralWidgetComponentOwnProps = {
 type GeneralWidgetComponentStateProps = {
   module: string
   navigationItem: NavigationItem
-  parentId: string
-  parentModule?: string
+  parentId: number
+  parentModule: string
   rights: AllRightsType
-  settings: ImmutableObject<ListSettingsItem>
+  settings: ListSettingsItem
   widgetName: string
 }
 
@@ -56,6 +54,7 @@ class GeneralWidgetComponent extends React.PureComponent<GeneralWidgetComponentP
     }
 
     return (
+      // @ts-ignore
       <ListComponent
         changeRedirectUrl={onRequestRedirectTo}
         module={module}
@@ -90,6 +89,7 @@ const mapStateToProps = (
     parentId: ownProps.data[from],
     parentModule: ownProps.formFieldConfig.parentModule,
     rights: getAllRights((navigation as unknown) as NavigationItem[], navigationItem.name),
+    // @ts-ignore
     settings: state.list.listSettings[navigationItem.name],
     widgetName: ownProps.formFieldConfig.name,
   }

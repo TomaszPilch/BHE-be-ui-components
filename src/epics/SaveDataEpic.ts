@@ -22,6 +22,7 @@ import {
   IToBase64,
   IUploadFileRequest,
 } from '../redux/types/EditReduxTypes'
+import { ValidationErrorsType } from '../utilities/validationRules'
 
 const SaveDataEpic = (api: ApiEndpointsType, selfApi: ApiLoginEndpointsType) => [
   (action$: Observable<IOnEditSaveRequest>) =>
@@ -32,7 +33,7 @@ const SaveDataEpic = (api: ApiEndpointsType, selfApi: ApiLoginEndpointsType) => 
         return from(apiFunction(action.data.module, action.data.data)).pipe(
           switchMap((response) => {
             if (response.status === 200 && response.data.type === 'VALIDATION_RESULT') {
-              return from([EditActions.onEditChangeValidationErrors(response.data.errors)])
+              return from([EditActions.onEditChangeValidationErrors(response.data.errors as ValidationErrorsType)])
             }
             if (response.status === 200) {
               const actions = [

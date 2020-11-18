@@ -48,7 +48,7 @@ const generateFormConfigWithStackTokens = (formConfig: FormConfig) =>
     }, [])
     .filter((row) => !!row)
 
-const FormComponentStack = (props: FormComponentProps) => {
+function FormComponentStack<CustomFormConfig extends FormConfig>(props: FormComponentProps<CustomFormConfig>) {
   const [formConfigStack, setFormConfig] = useState(generateFormConfigWithStackTokens(props.formConfig))
   const [standalone, data, , touched, setTouched, handleOnBlur, handleOnChange] = useFormComponentHooks(props)
 

@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
-import { ImmutableArray, ImmutableObject } from 'seamless-immutable'
+import React from 'react'
+import { ImmutableArray } from 'seamless-immutable'
 import { connect } from 'react-redux'
 
 import {
@@ -16,6 +16,7 @@ import {
   FontIcon,
 } from '@fluentui/react'
 
+// @ts-ignore
 import { Pagination } from '@uifabric/experiments'
 
 import { IColumn } from 'office-ui-fabric-react/lib/components/DetailsList/DetailsList.types'
@@ -317,7 +318,8 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
         ...item,
         ...data,
       },
-      listDataOptions: getListOptionDataObject(),
+      // @ts-ignore
+      listDataOptions: getListOptionDataObject(), // todo type
     })
   }
 
@@ -380,6 +382,7 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
               columns={this.handleGetColumns()}
               enableShimmer={fetching}
               isHeaderVisible
+              // @ts-ignore
               items={data}
               onColumnHeaderClick={this.handleOnHeaderClick}
               selection={this.selection}
@@ -447,7 +450,7 @@ const mapActionsToProps: ListComponentDispatchProps = {
   onUpdateColumnRequest: EditActions.onUpdateColumnRequest,
 }
 
-export default connect<ListComponentStateProps, ListComponentDispatchProps, ListComponentOwnProps, ReduxStore>(
+export default connect<ListComponentStateProps, ListComponentDispatchProps, ListComponentOwnProps<{}>, ReduxStore>(
   mapStateToProps,
   mapActionsToProps,
 )(withPaginationAndSort(ListComponent))

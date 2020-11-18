@@ -1,6 +1,7 @@
 import { ofType } from 'redux-observable'
 import { from, of, Observable } from 'rxjs'
 import { switchMap, catchError } from 'rxjs/operators'
+// @ts-ignore
 import { cookie } from 'devx-js-utilities'
 
 // redux

@@ -31,18 +31,26 @@ const validateField = (fieldConfig: FieldConfigBasicType, value: any): Validatio
   return []
 }
 
-export const validate = (formConfig: FormConfig, data: Object): [boolean, { [key: string]: ValidationResult[] }] => {
+function validateFc<Config extends FormConfig>(
+  formConfig: Config,
+  data: Object,
+): [boolean, { [key: string]: ValidationResult[] }] {
   let isValid = true
-  const errors = formConfig.reduce<{ [key: string]: ValidationResult[] }>((err, field) => {
-    const result = validateField(field, pathOr('', [field.column], data))
-    if (result.length > 0) {
-      isValid = false
-      err[field.column] = result
-    }
-    return err
-  }, {})
+  const errors = formConfig.reduce<{ [key: string]: ValidationResult[] }>(
+    (err: { [key: string]: ValidationResult[] }, field: FieldConfigBasicType) => {
+      const result = validateField(field, pathOr('', [field.column], data))
+      if (result.length > 0) {
+        isValid = false
+        err[field.column] = result
+      }
+      return err
+    },
+    {},
+  )
   return [isValid, errors]
 }
+
+export const validate = validateFc
 
 export const useFieldValidation = (
   fieldConfig: FieldConfigBasicType,

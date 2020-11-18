@@ -56,7 +56,7 @@ export default class FilterComponent extends React.PureComponent<FilterComponent
       return null
     }
 
-    const classes = {
+    const classes: { [key: string]: boolean } = {
       'filter-component': true,
     }
 
@@ -82,9 +82,9 @@ export default class FilterComponent extends React.PureComponent<FilterComponent
           <div className={classNames(classes)}>
             <SelectCore
               formFieldConfig={{
+                type: '',
                 name: options.key,
                 column: '',
-                component: '',
               }}
               label={t(`filter.${options.key}`)}
               onBlur={this.handleOnSelectChange}

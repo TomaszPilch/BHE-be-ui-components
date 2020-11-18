@@ -8,6 +8,7 @@ import { NavigationItem } from '../types/NavigationTypes'
 import { FormConfigWithTab } from '../types/FormTypes'
 import { DailyPictureResponseType } from '../types/DailyPictureTypes'
 import { TranslationsType } from '../types/TranslationTypes'
+import { ValidationErrorsType } from '../utilities/validationRules'
 
 const { publicRuntimeConfig } = getConfig()
 
@@ -44,12 +45,18 @@ export const loginEndpoints = (api: AxiosInstance): ApiLoginEndpointsType => ({
 export interface ApiEndpointsType {
   postSingleImageUpload: (data: Object) => Promise<AxiosResponse<Object>>
   postSingleFileUpload: (data: Object) => Promise<AxiosResponse<Object>>
-  addData: (module: string, data: Object) => Promise<AxiosResponse<Object>>
+  addData: (
+    module: string,
+    data: Object,
+  ) => Promise<AxiosResponse<{ [key: string]: Object | string | ValidationErrorsType }>>
   addValidateData: (module: string, data: Object) => Promise<AxiosResponse<Object>>
   editValidateData: (module: string, data: Object) => Promise<AxiosResponse<Object>>
 
   editPayment: (data: Object) => Promise<AxiosResponse<Object>>
-  editData: (module: string, data: Object) => Promise<AxiosResponse<Object>>
+  editData: (
+    module: string,
+    data: Object,
+  ) => Promise<AxiosResponse<{ [key: string]: Object | string | ValidationErrorsType }>>
   updateData: (module: string, data: Object) => Promise<AxiosResponse<Object>>
   setActualGroup: (data: Object) => Promise<AxiosResponse<{ selectedGroupId: number }>>
 
