@@ -2,8 +2,7 @@
   "name": "@bheui/components",
   "version": "1.0.0-alpha",
   "description": "Components fo BHE be UI",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist",
   "scripts": {
     "prepare": "install-peers",
     "prebuild": "rimraf lib && mkdir lib",
