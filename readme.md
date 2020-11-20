@@ -32,15 +32,11 @@ combineReducers({
 })
 ```
 
-## Build
+## Changelog - migration to v1.0.0
 
-```
-
-```
+[Changelog](./changelog.md)
 
 ## TODOs
 
- - [ ] Changelog
- - [ ] File upload
  - [ ] Json component (not work in nextJS?)
  - [ ] Tests
