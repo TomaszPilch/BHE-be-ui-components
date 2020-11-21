@@ -1,6 +1,6 @@
 {
   "name": "@bheui/components",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0-alpha2",
   "description": "Components fo BHE be UI",
   "main": "dist",
   "scripts": {
@@ -88,6 +88,7 @@
     "@types/react-select": "^3.0.23",
     "@types/seamless-immutable": "^7.1.15",
     "@types/uuid": "^8.3.0",
+    "@uifabric/experiments": "^7.36.14",
     "axios": "^0.21.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.3.0",

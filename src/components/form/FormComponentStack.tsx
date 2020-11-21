@@ -104,7 +104,7 @@ function FormComponentStack<CustomFormConfig extends FormConfig>(props: FormComp
                 >
                   <FormComponentItem
                     customFormComponents={customFormComponents}
-                    data={data}
+                    data={!standalone && props.data ? props.data : data}
                     editable={editable}
                     fetchResources={fetchResources}
                     fieldConfig={fieldConfig}

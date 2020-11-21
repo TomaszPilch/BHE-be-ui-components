@@ -136,7 +136,7 @@ function FormComponent<CustomFormConfig extends FormConfig>(props: FormComponent
         <FormComponentItem
           key={fieldConfig.name}
           customFormComponents={customFormComponents}
-          data={data}
+          data={!standalone && props.data ? props.data : data}
           editable={editable}
           fetchResources={fetchResources}
           fieldConfig={fieldConfig}
