@@ -18,9 +18,9 @@ import { SelectWithValuesFormFieldConfig } from './SelectWithValues'
 import Date, { DateFormFieldConfig, DateProps } from './Date'
 import { CodeFormFieldConfig, CodeProps } from './Code'
 
-const SingleFileUpload = dynamic(() => import('./SingleFileUpload'))
-const GeneralWidgetComponent = dynamic(() => import('../widgets/GeneralWidgetComponent'))
-const Code = dynamic(() => import('./Code'))
+const SingleFileUpload = dynamic(() => import('./SingleFileUpload'), { ssr: false })
+const GeneralWidgetComponent = dynamic(() => import('../widgets/GeneralWidgetComponent'), { ssr: false })
+const Code = dynamic(() => import('./Code'), { ssr: false })
 
 export type FieldTypeProps =
   | ActionPermissionFormFieldProps
