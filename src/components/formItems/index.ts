@@ -1,21 +1,26 @@
 import { ElementType } from 'react'
+import dynamic from 'next/dynamic'
+
 import ActionPermissionFormField, {
   ActionPermissionFormFieldFormConfig,
   ActionPermissionFormFieldProps,
 } from './ActionPermissionFormField'
 import Bool, { BoolFormFieldFormConfig, BoolProps } from './Bool'
-import Code, { CodeFormFieldConfig, CodeProps } from './Code'
 import Datetime, { DatetimeFormFieldConfig, DatetimeProps } from './Datetime'
-import GeneralWidgetComponent from '../widgets/GeneralWidgetComponent'
 import Number, { NumberFieldProps } from './Number'
 import Position, { PositionFormFieldConfig, PositionProps } from './Position'
 import Select, { SelectProps } from './Select'
-import SingleFileUpload, { SingleFileUploadFieldConfig, SingleFileUploadProps } from './SingleFileUpload'
+import { SingleFileUploadFieldConfig, SingleFileUploadProps } from './SingleFileUpload'
 import TextArea, { TextAreaProps } from './TextArea'
 import TextField, { TextFieldFormFieldConfig, TextFieldProps } from './TextField'
 import { SelectWithResourcesFormFieldConfig } from './SelectWithResources'
 import { SelectWithValuesFormFieldConfig } from './SelectWithValues'
 import Date, { DateFormFieldConfig, DateProps } from './Date'
+import { CodeFormFieldConfig, CodeProps } from './Code'
+
+const SingleFileUpload = dynamic(() => import('./SingleFileUpload'))
+const GeneralWidgetComponent = dynamic(() => import('../widgets/GeneralWidgetComponent'))
+const Code = dynamic(() => import('./Code'))
 
 export type FieldTypeProps =
   | ActionPermissionFormFieldProps
