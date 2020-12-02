@@ -21,7 +21,8 @@
     "package.json",
     "readme.md",
     "lib/*",
-    "yarn.lock"
+    "yarn.lock",
+    "src/styles/*"
   ],
   "author": "devX",
   "bugs": {
@@ -88,7 +89,7 @@
     "@types/react-select": "^3.0.23",
     "@types/seamless-immutable": "^7.1.15",
     "@types/uuid": "^8.3.0",
-    "@uifabric/experiments": "^7.36.14",
+    "@uifabric/experiments": "^7.36.10",
     "axios": "^0.21.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.3.0",
@@ -110,7 +111,7 @@
     "eslint-plugin-react": "^7.20.6",
     "install-peers-cli": "^2.2.0",
     "jest": "^26.4.2",
-    "next": "^10.0.2",
+    "next": "^10.0.1",
     "office-ui-fabric-core": "^11.0.0",
     "prettier": "^2.1.1",
     "react": "^16.13.1",

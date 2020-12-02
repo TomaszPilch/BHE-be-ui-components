@@ -6,6 +6,15 @@ Components and functionality for [BHE be ui v2](https://github.com/TomaszPilch/B
 yarn add @bheui/components
 ```
 
+at your styles, import fabric.scss
+
+```
+@import '~office-ui-fabric-core/dist/css/fabric.css';
+@import '~@uppy/core/dist/style.css';
+@import '~@uppy/dashboard/dist/style.css';
+@import '~@bheui/components/src/styles/base.scss'
+```
+
 ## Uppy functionality
 
 Add services/Uppy to createStore.js

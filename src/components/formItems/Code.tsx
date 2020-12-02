@@ -19,7 +19,9 @@ export interface CodeFormFieldConfig extends FieldConfigBasicType {
   code?: 'json' | 'html' | 'xml' | 'jade' | string
 }
 
-export interface CodeProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {
+export interface CodeProps
+  extends DefaultFieldProps<undefined | string | Object>,
+    DefaultFieldActionProps<string | Object> {
   formFieldConfig: CodeFormFieldConfig
 }
 
