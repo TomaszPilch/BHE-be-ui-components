@@ -67,7 +67,7 @@ const withModule = (Component: React.ComponentType): any => {
   }
 
   // @ts-ignore
-  connect(mapStateToProps)(WithModuleClass)
+  return connect(mapStateToProps)(WithModuleClass)
 }
 
 export default withModule
