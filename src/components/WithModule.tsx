@@ -47,7 +47,7 @@ const withModule = (Component: React.ComponentType): any => {
       }
       const module = router.query.module
       const navItem = getNavigationItem(navigation, '', module)
-      if (Object.keys(navItem).length === 0) {
+      if (!navItem.url) {
         return <div>Navigation item not found</div>
       }
       const settings = listSettings[navItem.name] || {}
