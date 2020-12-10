@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Story, Meta } from '@storybook/react/types-6-0'
 
 import ActionPermissionFormField, { ActionPermissionFormFieldProps } from './ActionPermissionFormField'
@@ -38,5 +38,30 @@ Error.args = {
     validation: {
       isRequired: true,
     },
+  },
+}
+
+const TemplateLive: Story<ActionPermissionFormFieldProps> = (args) => {
+  const [value, setValue] = useState(0)
+
+  return (
+    <ActionPermissionFormField
+      {...args}
+      value={value}
+      onBlur={(_key, v) => {
+        setValue(v)
+      }}
+    />
+  )
+}
+
+export const Live = TemplateLive.bind({})
+Live.args = {
+  t: translateFunction,
+  label: 'Button',
+  formFieldConfig: {
+    column: 'test',
+    name: 'test',
+    type: 'actionPermission',
   },
 }

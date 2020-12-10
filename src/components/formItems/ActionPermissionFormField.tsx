@@ -47,7 +47,7 @@ const ActionPermissionFormField = (props: ActionPermissionFormFieldProps) => {
     <Stack tokens={stackTokens}>
       <Stack horizontal tokens={stackTokens}>
         <Toggle
-          checked={(valueParsed as number & 1) > 0}
+          checked={((valueParsed as number) & 1) > 0}
           disabled={!editable}
           label={t('general.action.list')}
           onChange={(_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
@@ -55,7 +55,7 @@ const ActionPermissionFormField = (props: ActionPermissionFormFieldProps) => {
           }}
         />
         <Toggle
-          checked={(valueParsed as number & 2) > 0}
+          checked={((valueParsed as number) & 2) > 0}
           disabled={!editable}
           label={t('general.action.view')}
           onChange={(_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
@@ -63,7 +63,7 @@ const ActionPermissionFormField = (props: ActionPermissionFormFieldProps) => {
           }}
         />
         <Toggle
-          checked={(valueParsed as number & 4) > 0}
+          checked={((valueParsed as number) & 4) > 0}
           disabled={!editable}
           label={t('general.action.add')}
           onChange={(_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
@@ -71,7 +71,7 @@ const ActionPermissionFormField = (props: ActionPermissionFormFieldProps) => {
           }}
         />
         <Toggle
-          checked={(valueParsed as number & 8) > 0}
+          checked={((valueParsed as number) & 8) > 0}
           disabled={!editable}
           label={t('general.action.edit')}
           onChange={(_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
@@ -79,7 +79,7 @@ const ActionPermissionFormField = (props: ActionPermissionFormFieldProps) => {
           }}
         />
         <Toggle
-          checked={(valueParsed as number & 16) > 0}
+          checked={((valueParsed as number) & 16) > 0}
           disabled={!editable}
           label={t('general.action.delete')}
           onChange={(_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
