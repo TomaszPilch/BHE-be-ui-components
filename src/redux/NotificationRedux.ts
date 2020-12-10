@@ -44,7 +44,7 @@ export const addNotificationR = (
 ) =>
   state.merge({
     // @ts-ignore
-    notificationToShow: [...state.notificationToShow, { notificationType, message, title, translate }],
+    notificationToShow: [...state.notificationToShow, { type: notificationType, message, title, translate }],
   })
 
 export const addError = (state: NotificationReduxStore, { message, title, translate }: IAddErrorNotification) =>

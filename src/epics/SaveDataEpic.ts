@@ -2,6 +2,7 @@ import { from, Observable } from 'rxjs'
 import { ofType } from 'redux-observable'
 import { catchError, switchMap } from 'rxjs/operators'
 import { v4 } from 'uuid'
+import { toString } from 'ramda'
 
 // services
 import Uppy from '../services/Uppy'
@@ -57,7 +58,7 @@ const SaveDataEpic = (api: ApiEndpointsType, selfApi: ApiLoginEndpointsType) => 
           }),
           catchError((error) =>
             from([
-              NotificationActions.addErrorNotification(error.toString(), 'SOMETHING_WRONG'),
+              NotificationActions.addErrorNotification(toString(error), 'SOMETHING_WRONG'),
               EditActions.onEditSetFetching(false),
             ]),
           ),
@@ -85,7 +86,7 @@ const SaveDataEpic = (api: ApiEndpointsType, selfApi: ApiLoginEndpointsType) => 
           }),
           catchError((error) =>
             from([
-              NotificationActions.addErrorNotification(error.toString(), 'SOMETHING_WRONG'),
+              NotificationActions.addErrorNotification(toString(error), 'SOMETHING_WRONG'),
               EditActions.onEditSetFetching(false),
             ]),
           ),
@@ -100,7 +101,7 @@ const SaveDataEpic = (api: ApiEndpointsType, selfApi: ApiLoginEndpointsType) => 
           switchMap((fileBase64) => [EditActions.uploadFileRequest(data, fileBase64)]),
           catchError((error) =>
             from([
-              NotificationActions.addErrorNotification(error.toString(), 'SOMETHING_WRONG'),
+              NotificationActions.addErrorNotification(toString(error), 'SOMETHING_WRONG'),
               EditActions.onEditSetFetching(false),
             ]),
           ),
@@ -138,7 +139,7 @@ const SaveDataEpic = (api: ApiEndpointsType, selfApi: ApiLoginEndpointsType) => 
               Uppy.uppy.reset()
             }
             return from([
-              NotificationActions.addErrorNotification(error.toString(), 'SOMETHING_WRONG'),
+              NotificationActions.addErrorNotification(toString(error), 'SOMETHING_WRONG'),
               EditActions.onEditSetFetching(false),
             ])
           }),
