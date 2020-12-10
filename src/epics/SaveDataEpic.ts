@@ -53,6 +53,7 @@ const SaveDataEpic = (api: ApiEndpointsType, selfApi: ApiLoginEndpointsType) => 
                   actions.push(EditActions.toBase64(action.data, files[0].data))
                 }
               }
+              return actions
             }
             throw response
           }),
