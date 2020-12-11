@@ -41,6 +41,13 @@ combineReducers({
 })
 ```
 
+## Link
+
+```
+npx ts-node .\scripts\prelink.ts
+npx ts-node .\scripts\postlink.ts
+```
+
 ## Changelog - migration to v1.0.0
 
 [Changelog](./changelog.md)

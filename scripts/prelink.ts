@@ -10,6 +10,11 @@ const runCommand = (cmd: string) => {
 }
 
 runCommand('yarn link react')
+runCommand('yarn link react-dom')
 runCommand('yarn link react-redux')
 runCommand('yarn link next')
+runCommand('yarn link @fluentui/react')
+runCommand('yarn link @uifabric/experiments')
+runCommand('yarn link office-ui-fabric-core')
+runCommand('yarn link office-ui-fabric-react')
 runCommand('yarn link')

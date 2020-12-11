@@ -7,6 +7,7 @@ export type ListSettingFilterOptionType = {
 }
 
 export type ListSettingsItem = {
+  actionsForModule?: string[]
   filterOptions: ListSettingFilterOptionType[]
   listColumns: string[]
   customListComponents?: {

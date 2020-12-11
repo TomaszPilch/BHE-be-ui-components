@@ -96,7 +96,7 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
     const { showFilter } = this.state
 
     const actions = []
-    if (rights[USER_RIGHTS.ADD]) {
+    if (rights[USER_RIGHTS.ADD] && this.handleHasModuleThisAction('add')) {
       actions.push({
         key: 'add',
         name: t('general.add'),
@@ -207,11 +207,19 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
     }
   }
 
+  handleHasModuleThisAction = (action: string) => {
+    const { settings } = this.props
+    return (
+      typeof settings.actionsForModule === 'undefined' ||
+      (Array.isArray(settings.actionsForModule) && settings.actionsForModule.includes(action))
+    )
+  }
+
   handleRenderRowActions = (item: any) => {
     const { rights, module } = this.props
     return (
       <span key={`actions-${item.id}`}>
-        {rights[USER_RIGHTS.VIEW] && (
+        {rights[USER_RIGHTS.VIEW] && this.handleHasModuleThisAction('view') && (
           <FontIcon
             className="list-container__action"
             iconName="View"
@@ -220,7 +228,7 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
             }}
           />
         )}
-        {rights[USER_RIGHTS.EDIT] && (
+        {rights[USER_RIGHTS.EDIT] && this.handleHasModuleThisAction('edit') && (
           <FontIcon
             className="list-container__action"
             iconName="Edit"
@@ -229,7 +237,7 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
             }}
           />
         )}
-        {rights[USER_RIGHTS.DELETE] && (
+        {rights[USER_RIGHTS.DELETE] && this.handleHasModuleThisAction('delete') && (
           <FontIcon
             className="list-container__action list-container__action--delete"
             iconName="Delete"
@@ -399,7 +407,7 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
               />
             )}
           </MarqueeSelection>
-          {selectedArray.length > 0 && rights[USER_RIGHTS.DELETE] && (
+          {selectedArray.length > 0 && rights[USER_RIGHTS.DELETE] && this.handleHasModuleThisAction('delete') && (
             <CommandBar
               className="list-container__actions-bottom"
               items={[

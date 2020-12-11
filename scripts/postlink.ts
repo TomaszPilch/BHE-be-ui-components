@@ -10,6 +10,11 @@ const runCommand = (cmd: string) => {
 }
 
 runCommand('yarn unlink react')
+runCommand('yarn unlink react-dom')
 runCommand('yarn unlink react-redux')
 runCommand('yarn unlink next')
+runCommand('yarn unlink @fluentui/react')
+runCommand('yarn unlink @uifabric/experiments')
+runCommand('yarn unlink office-ui-fabric-core')
+runCommand('yarn unlink office-ui-fabric-react')
 runCommand('yarn unlink')
