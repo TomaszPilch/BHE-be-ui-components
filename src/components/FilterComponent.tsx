@@ -44,7 +44,7 @@ export default class FilterComponent extends React.PureComponent<FilterComponent
     this.props.onChangeFilterValue(options.key, event.target.value, true)
   }
 
-  handleOnSelectChange = (value: string) => {
+  handleOnSelectChange = (_column: string, value: string | number | null) => {
     const { options } = this.props
     this.props.onChangeFilterValue(options.key, value, true)
   }

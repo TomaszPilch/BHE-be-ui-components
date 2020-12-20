@@ -1,6 +1,6 @@
 {
   "name": "@bheui/components",
-  "version": "1.0.0-alpha13",
+  "version": "1.0.0-alpha14",
   "description": "Components fo BHE be UI",
   "main": "dist",
   "scripts": {
@@ -31,7 +31,7 @@
   "homepage": "https://github.com/TomaszPilch/BHE-be-ui-components#readme",
   "peerDependencies": {
     "@fluentui/react": "^7.149.4",
-    "@uifabric/experiments": "^7.36.10",
+    "@uifabric/experiments": "^7.37.2",
     "axios": "^0.21.0",
     "next": "^10.0.1",
     "office-ui-fabric-core": "^11.0.0",
@@ -89,7 +89,7 @@
     "@types/react-select": "^3.0.23",
     "@types/seamless-immutable": "^7.1.15",
     "@types/uuid": "^8.3.0",
-    "@uifabric/experiments": "^7.36.10",
+    "@uifabric/experiments": "^7.37.2",
     "axios": "^0.21.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.3.0",

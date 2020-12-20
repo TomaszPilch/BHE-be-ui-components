@@ -36,6 +36,15 @@
       margin-right: 5px;
     }
   }
+
+  &__pagination {
+    margin-top: 12px;
+    vertical-align: center;
+
+    >div>div {
+      margin-bottom: 8px;
+    }
+  }
 }
 
 .list-container-wrapper {

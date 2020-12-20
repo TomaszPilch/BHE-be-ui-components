@@ -85,6 +85,9 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
   }
 
   componentDidUpdate(prevProps: ListComponentProps<CustomComponentProps>): void {
+    if (prevProps.module !== this.props.module) {
+      this.setState({ showFilter: false })
+    }
     if (prevProps.module !== this.props.module || prevProps.refreshSig !== this.props.refreshSig) {
       this.props.onChangeRefreshSig(false)
       this.props.loadData()
@@ -219,7 +222,7 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
     const { rights, module } = this.props
     return (
       <span key={`actions-${item.id}`}>
-        {rights[USER_RIGHTS.VIEW] && this.handleHasModuleThisAction('view') && (
+        {rights[USER_RIGHTS.VIEW] > 0 && this.handleHasModuleThisAction('view') && (
           <FontIcon
             className="list-container__action"
             iconName="View"
@@ -228,7 +231,7 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
             }}
           />
         )}
-        {rights[USER_RIGHTS.EDIT] && this.handleHasModuleThisAction('edit') && (
+        {rights[USER_RIGHTS.EDIT] > 0 && this.handleHasModuleThisAction('edit') && (
           <FontIcon
             className="list-container__action"
             iconName="Edit"
@@ -237,7 +240,7 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
             }}
           />
         )}
-        {rights[USER_RIGHTS.DELETE] && this.handleHasModuleThisAction('delete') && (
+        {rights[USER_RIGHTS.DELETE] > 0 && this.handleHasModuleThisAction('delete') && (
           <FontIcon
             className="list-container__action list-container__action--delete"
             iconName="Delete"
@@ -396,16 +399,6 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
               selection={this.selection}
               selectionMode={SelectionMode.multiple}
             />
-            {maxCount > limit && (
-              <Pagination
-                format="buttons"
-                itemsPerPage={limit}
-                onPageChange={this.handlePageChange}
-                pageCount={maxPage}
-                selectedPageIndex={page - 1} // index
-                totalItemCount={maxCount}
-              />
-            )}
           </MarqueeSelection>
           {selectedArray.length > 0 && rights[USER_RIGHTS.DELETE] && this.handleHasModuleThisAction('delete') && (
             <CommandBar
@@ -423,6 +416,18 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
             />
           )}
         </div>
+        {maxCount > limit && (
+          <div className="list-container__pagination">
+            <Pagination
+              format="buttons"
+              itemsPerPage={limit}
+              onPageChange={this.handlePageChange}
+              pageCount={maxPage}
+              selectedPageIndex={page - 1} // index
+              totalItemCount={maxCount}
+            />
+          </div>
+        )}
         <Dialog
           dialogContentProps={{
             type: DialogType.normal,
