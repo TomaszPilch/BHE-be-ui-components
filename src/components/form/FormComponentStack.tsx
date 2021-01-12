@@ -95,28 +95,33 @@ function FormComponentStack<CustomFormConfig extends FormConfig>(props: FormComp
               styles={{ root: { overflow: 'visible' } }}
               tokens={fieldsRow.tokens}
             >
-              {fieldsRow.items.map((fieldConfig) => (
-                <Stack
-                  key={`component-${fieldConfig.column}`}
-                  grow
-                  styles={{ root: { overflow: 'visible', display: 'flex' } }}
-                  tokens={fieldConfig.tokens}
-                >
-                  <FormComponentItem
-                    customFormComponents={customFormComponents}
-                    data={!standalone && props.data ? props.data : data}
-                    editable={editable}
-                    fetchResources={fetchResources}
-                    fieldConfig={fieldConfig}
-                    labelPrefix={labelPrefix}
-                    onBlur={handleOnBlur}
-                    onChange={handleOnChange}
-                    resourceVersion={resourceVersion}
-                    t={t}
-                    touched={touched}
-                  />
-                </Stack>
-              ))}
+              {fieldsRow.items.map((fieldConfig) => {
+                if (fieldConfig.visible === false) {
+                  return null
+                }
+                return (
+                  <Stack
+                    key={`component-${fieldConfig.column}`}
+                    grow
+                    styles={{ root: { overflow: 'visible', display: 'flex' } }}
+                    tokens={fieldConfig.tokens}
+                  >
+                    <FormComponentItem
+                      customFormComponents={customFormComponents}
+                      data={!standalone && props.data ? props.data : data}
+                      editable={editable}
+                      fetchResources={fetchResources}
+                      fieldConfig={fieldConfig}
+                      labelPrefix={labelPrefix}
+                      onBlur={handleOnBlur}
+                      onChange={handleOnChange}
+                      resourceVersion={resourceVersion}
+                      t={t}
+                      touched={touched}
+                    />
+                  </Stack>
+                )
+              })}
             </Stack>
           )
         })}

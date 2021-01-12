@@ -8,11 +8,12 @@ import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/Conte
 import { NavigationItem } from '../types/NavigationTypes'
 import { UserGroup } from '../types/UserTypes'
 
-type Props = {
+export type HeaderComponentProps = {
   navigation: NavigationItem[]
   onChangePresentationId: (presentation: string) => void
   onChangeRedirectUrl: (url: string, urlAs: string) => void
   onChangeUserGroup: (groupId: string) => void
+  onLogout: () => void
   presentationId: string
   presentationIds: string[]
   selectedGroup: UserGroup
@@ -25,7 +26,7 @@ const drawerLogoWrapper = classNames({
   logoWrapperFull: true,
 })
 
-const Header = (props: Props) => {
+const Header = (props: HeaderComponentProps) => {
   const [opened, setOpened] = useState(false)
 
   const handleChangePresentationId = (
@@ -132,6 +133,9 @@ const Header = (props: Props) => {
                 />
               </div>
             )}
+            <div className="top-bar__action">
+              <FontIcon className="top-bar__icon" iconName="Leave" onClick={props.onLogout} />
+            </div>
           </div>
         </div>
       </div>
@@ -166,6 +170,7 @@ Header.defaultProps = {
   onChangePresentationId: () => {},
   onChangeRedirectUrl: () => {},
   onChangeUserGroup: () => {},
+  onLogout: () => {},
   presentationIds: [],
   userGroups: [],
 }

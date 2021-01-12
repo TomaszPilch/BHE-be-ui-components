@@ -37,6 +37,7 @@ export interface FieldConfigBasicType {
   validation?: FieldConfigValidation
   stackSettings?: StackSettings
   tokens?: StackTokens
+  visible?: boolean
 }
 
 export type FormConfig = FieldConfigBasicType[]

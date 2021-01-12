@@ -132,22 +132,27 @@ function FormComponent<CustomFormConfig extends FormConfig>(props: FormComponent
 
   return (
     <form className="w-100" onSubmit={handleSubmit}>
-      {formConfig.map((fieldConfig: any) => (
-        <FormComponentItem
-          key={fieldConfig.name}
-          customFormComponents={customFormComponents}
-          data={!standalone && props.data ? props.data : data}
-          editable={editable}
-          fetchResources={fetchResources}
-          fieldConfig={fieldConfig}
-          labelPrefix={labelPrefix}
-          onBlur={handleOnBlur}
-          onChange={handleOnChange}
-          resourceVersion={resourceVersion}
-          t={t}
-          touched={touched}
-        />
-      ))}
+      {formConfig.map((fieldConfig: any) => {
+        if (fieldConfig.visible === false) {
+          return null
+        }
+        return (
+          <FormComponentItem
+            key={fieldConfig.name}
+            customFormComponents={customFormComponents}
+            data={!standalone && props.data ? props.data : data}
+            editable={editable}
+            fetchResources={fetchResources}
+            fieldConfig={fieldConfig}
+            labelPrefix={labelPrefix}
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            resourceVersion={resourceVersion}
+            t={t}
+            touched={touched}
+          />
+        )
+      })}
       {showSubmitButton && (
         <div className="submitButtonWrapper">
           <PrimaryButton onClick={handleSubmit} text={submitButtonText} type="submit" />
