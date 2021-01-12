@@ -25,7 +25,7 @@ export default async (ctx: NextPageContext, serverUrl: string, page?: string) =>
     }
     if (!authorized && page !== 'login') {
       res.writeHead(302, {
-        Location: 'login',
+        Location: '/login',
       })
       res.end()
       return initialProps
