@@ -6605,10 +6605,10 @@ detect-port@^1.3.0:
     address "^1.0.1"
     debug "^2.6.0"
 
-devx-js-utilities@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/devx-js-utilities/-/devx-js-utilities-0.1.4.tgz#d219ffbf076979439c46a3592a79bc06f1f13299"
-  integrity sha512-5tLzEOGtwQL+YqJZYAprB5cRi0+xyjhxXXqPd6HjI4k3V+vcgTlrtQyGb8e1SzNiv+CTdBG3cjQOBUN0h/Gtxw==
+devx-js-utilities@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/devx-js-utilities/-/devx-js-utilities-0.1.5.tgz#f48860646907e318959f08ad257ef0def4c1131e"
+  integrity sha512-pIHQMC8BP8RcaLAEuzwwU8RNaGjdswpMBKA6PA4upEUH6iyUZEDFwnIAzthw/utPfgZm0TI3O0rT1fVo7o1Gew==
 
 diff-match-patch@^1.0.4:
   version "1.0.5"
