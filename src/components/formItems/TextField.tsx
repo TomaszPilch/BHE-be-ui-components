@@ -18,7 +18,7 @@ export interface TextFieldFormFieldConfig<Type extends string> extends FieldConf
 }
 
 export interface TextFieldProps<Type extends string>
-  extends DefaultFieldProps<undefined | string>,
+  extends DefaultFieldProps<Type | string>,
     DefaultFieldActionProps<string> {
   iconProps: Object
   placeholder: string
