@@ -1,7 +1,7 @@
 // @ts-ignore
 import { validate } from 'devx-js-utilities'
 
-type ValueType = undefined | null | string
+type ValueType = undefined | null | string | number
 type RangeType = {
   start: number | null
   end: number | null
@@ -52,7 +52,8 @@ export const createValidationError = (msg: string, data?: ValidationErrorData): 
   data,
 })
 
-const canBeEmpty = (value: ValueType) => typeof value === 'undefined' || value === null || value.length === 0
+const canBeEmpty = (value: ValueType) =>
+  typeof value === 'undefined' || value === null || (typeof value === 'string' && value.length === 0)
 
 /**
  * @param {string} value
@@ -119,7 +120,9 @@ const inRange = (value: ValueType, range: RangeType): true | ValidationError =>
  * @param {string} value
  */
 const isInteger = (value: ValueType): true | ValidationError =>
-  typeof value === 'string' && /^\d+$/.test(value) ? true : createValidationError('validationErrors.integer')
+  (typeof value === 'string' || typeof value === 'number') && /^\d+$/.test(`${value}`)
+    ? true
+    : createValidationError('validationErrors.integer')
 
 /**
  * @param {string} value

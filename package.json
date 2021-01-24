@@ -1,6 +1,6 @@
 {
   "name": "@bheui/components",
-  "version": "1.0.0-beta5",
+  "version": "1.0.0-beta6",
   "description": "Components fo BHE be UI",
   "main": "dist",
   "scripts": {
