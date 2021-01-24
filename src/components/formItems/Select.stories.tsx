@@ -31,6 +31,7 @@ const Template: Story<SelectProps> = (args) => {
 export const Default = Template.bind({})
 Default.args = {
   label: 'Select label',
+  t: translateFunction,
   formFieldConfig: {
     values: ['one', 'two'],
     column: 'test',

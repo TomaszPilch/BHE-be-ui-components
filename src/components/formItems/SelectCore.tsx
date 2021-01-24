@@ -33,6 +33,8 @@ function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: Sel
     props.onBlur(props.formFieldConfig.column, selectedValue)
   }
 
+  const handleNoOptions = (_obj: { inputValue: string }) => props.t('general.selectNoOptions')
+
   const errorText = isValid ? '' : getErrorText(errors, props.t)
   if (!props.editable) {
     const selectedOption = props.options.find((option) => props.value === option.value)
@@ -64,6 +66,7 @@ function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: Sel
         classNamePrefix="select"
         id={props.formFieldConfig.name}
         isClearable
+        noOptionsMessage={handleNoOptions}
         onChange={handleOnChange}
         options={props.options}
         placeholder={props.placeholder || props.t('general.selectValue')}
