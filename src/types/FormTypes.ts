@@ -1,5 +1,4 @@
 import { ElementType } from 'react'
-import { ImmutableObject } from 'seamless-immutable'
 
 import { TranslateFunctionType } from './TranslationTypes'
 
@@ -80,4 +79,4 @@ export type CustomFormComponentType = {
   [key: string]: ElementType
 }
 
-export type ImmutableDataType = ImmutableObject<{ [key: string]: any }>
+export type FormDataType = { [key: string]: any }

@@ -1,5 +1,5 @@
 import { createReducer, createActions } from 'reduxsauce'
-import Immutable from 'seamless-immutable'
+import { assocPath, mergeLeft, assoc, pipe } from 'ramda'
 
 import {
   IListReduxActions,
@@ -55,7 +55,7 @@ export default Creators
 
 /* ------------- Initial State ------------- */
 
-export const INITIAL_STATE: ListReduxStore = Immutable({
+export const INITIAL_STATE: ListReduxStore = {
   data: {} as ListDataType,
   fetching: false,
   filterData: {} as FilterType,
@@ -68,16 +68,16 @@ export const INITIAL_STATE: ListReduxStore = Immutable({
   settingsLoaded: false,
   sort: {} as SortObjectType,
   widgetData: {} as ListDataType,
-})
+}
 
 /* ------------- Reducers ------------- */
 
-const onLoadSettingsR = (state: ListReduxStore) => state.set('settingsLoaded', false)
+const onLoadSettingsR = (state: ListReduxStore) => assoc('settingsLoaded', false, state)
 
 const onLoadListSettingsSuccessR = (state: ListReduxStore, { settings }: IOnLoadListSettingsSuccess) =>
-  state.set('listSettings', settings).set('settingsLoaded', true)
+  pipe(assoc('listSettings', settings), assoc('settingsLoaded', true))(state)
 
-const onLoadDataR = (state: ListReduxStore) => state.merge({ fetching: true, isSelected: false })
+const onLoadDataR = (state: ListReduxStore) => mergeLeft({ fetching: true, isSelected: false }, state)
 
 const onLoadListDataSuccessR = (state: ListReduxStore, { data }: IOnLoadListDataSuccess) => {
   const paginatorObject = {
@@ -87,34 +87,36 @@ const onLoadListDataSuccessR = (state: ListReduxStore, { data }: IOnLoadListData
     page: data.page || 1,
   }
   const arrayOfItems = data.data || []
-  return state
-    .set('fetching', false)
-    .setIn(['data', data.module], arrayOfItems)
-    .setIn(['paginator', data.module], paginatorObject)
-    .setIn(['sort', data.module], {
+  return pipe<ListReduxStore, ListReduxStore, ListReduxStore, ListReduxStore, ListReduxStore>(
+    assoc('fetching', false),
+    assocPath(['data', data.module], arrayOfItems),
+    assocPath(['paginator', data.module], paginatorObject),
+    assocPath(['sort', data.module], {
       column: data.orderColumn || 'id',
       direction: data.orderDirection || 'DESC',
-    })
+    }),
+  )(state)
 }
 
-const onListStopFetchingR = (state: ListReduxStore) => state.merge({ fetching: false })
+const onListStopFetchingR = (state: ListReduxStore) => mergeLeft({ fetching: false }, state)
 
 const onListDeleteRequestR = (state: ListReduxStore, { modalOpened, itemsToDelete }: IOnListDeleteRequest) =>
-  state.merge({ modalOpened, itemsToDelete })
+  mergeLeft({ modalOpened, itemsToDelete }, state)
 
-const onListDeleteRequestConfirmedR = (state: ListReduxStore) => state.merge({ modalOpened: false, itemsToDelete: [] })
+const onListDeleteRequestConfirmedR = (state: ListReduxStore) =>
+  mergeLeft({ modalOpened: false, itemsToDelete: [] }, state)
 
-const onLoadListWidgetSettingsR = (state: ListReduxStore) => state.set('fetching', true)
+const onLoadListWidgetSettingsR = (state: ListReduxStore) => assoc('fetching', true, state)
 
-const onLoadListWidgetDataR = (state: ListReduxStore) => state.set('fetching', true)
+const onLoadListWidgetDataR = (state: ListReduxStore) => assoc('fetching', true, state)
 
-const onWidgetStopFetchingR = (state: ListReduxStore) => state.set('fetching', false)
+const onWidgetStopFetchingR = (state: ListReduxStore) => assoc('fetching', false, state)
 
 const onChangeRefreshSigR = (state: ListReduxStore, { refreshSig }: IOnChangeRefreshSig) =>
-  state.set('refreshSig', refreshSig)
+  assoc('refreshSig', refreshSig, state)
 
 const onChangeFilterDataR = (state: ListReduxStore, { path, data }: IOnChangeFilterData) =>
-  state.setIn(['filterData', ...path], data)
+  assocPath(['filterData', ...path], data, state)
 
 /* ------------- Hookup Reducers To Types ------------- */
 

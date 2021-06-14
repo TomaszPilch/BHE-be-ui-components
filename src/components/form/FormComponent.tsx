@@ -1,5 +1,5 @@
-import Immutable from 'seamless-immutable'
 import React, { useState, useEffect, useCallback, Dispatch, SetStateAction, FormEvent } from 'react'
+import { assoc } from 'ramda'
 
 // components
 import { PrimaryButton } from '@fluentui/react'
@@ -12,7 +12,7 @@ import { validate } from '../../utilities/validation'
 import {
   DefaultFieldActionProps,
   CustomFormComponentType,
-  ImmutableDataType,
+  FormDataType,
   ActionOnBlur,
   ActionOnChange,
   FormConfig,
@@ -22,18 +22,18 @@ import { TranslateFunctionType } from '../../types/TranslationTypes'
 
 type StandaloneDataProps = {
   standalone: true
-  data?: ImmutableDataType
+  data?: FormDataType
 }
 
 type DataProps = {
   standalone: false
-  data: ImmutableDataType
+  data: FormDataType
 }
 
 interface PropTypes<CustomFormConfig extends FormConfig> extends DefaultFieldActionProps<any> {
   customFormComponents?: CustomFormComponentType
-  data?: ImmutableDataType
-  defaultData?: ImmutableDataType
+  data?: FormDataType
+  defaultData?: FormDataType
   editable: boolean
   fetchResources: FetchResourceType
   formConfig: CustomFormConfig
@@ -66,15 +66,15 @@ function useFormComponentHooksFunction<CustomFormConfig extends FormConfig>(
   props: FormComponentProps<CustomFormConfig>,
 ): [
   boolean,
-  ImmutableDataType,
-  Dispatch<SetStateAction<ImmutableDataType>>,
+  FormDataType,
+  Dispatch<SetStateAction<FormDataType>>,
   boolean,
   Dispatch<SetStateAction<boolean>>,
   ActionOnBlur<any>,
   ActionOnChange<any>,
 ] {
   const [standalone] = useState<boolean>(!props.data)
-  const [data, setData] = useState<ImmutableDataType>(props.defaultData ? props.defaultData : Immutable({}))
+  const [data, setData] = useState<FormDataType>(props.defaultData ? props.defaultData : {})
   const [touched, setTouched] = useState<boolean>(false)
 
   useEffect(() => {
@@ -85,14 +85,14 @@ function useFormComponentHooksFunction<CustomFormConfig extends FormConfig>(
 
   const handleOnBlur = useCallback((name: string, value: string) => {
     if (standalone) {
-      setData((prevData) => prevData.set(name, value))
+      setData((prevData) => assoc(name, value, prevData))
     }
     props.onBlur(name, value)
   }, [])
 
   const handleOnChange = useCallback((name: string, value: string) => {
     if (standalone) {
-      setData((prevData) => prevData.set(name, value))
+      setData((prevData) => assoc(name, value, prevData))
     }
     props.onChange(name, value)
   }, [])
@@ -109,7 +109,7 @@ function FormComponent<CustomFormConfig extends FormConfig>(props: FormComponent
     if (event && 'preventDefault' in event) {
       event.preventDefault()
     }
-    const dataToValidate = (standalone ? data : props.data) as ImmutableDataType
+    const dataToValidate = (standalone ? data : props.data) as FormDataType
     const [isValid] = validate(formConfig, dataToValidate)
     if (isValid) {
       onSubmit(dataToValidate)

@@ -1,5 +1,5 @@
 import { createReducer, createActions } from 'reduxsauce'
-import Immutable from 'seamless-immutable'
+import { mergeLeft } from 'ramda'
 import {
   IAddErrorNotification,
   IAddInfoNotification,
@@ -9,6 +9,7 @@ import {
   INotificationReduxCreators,
   INotificationReduxTypes,
   NotificationReduxStore,
+  NotificationType,
 } from './types/NotificationReduxTypes'
 
 /* ------------- Types and Action Creators ------------- */
@@ -24,7 +25,7 @@ const { Types, Creators } = createActions<INotificationReduxTypes, INotification
 export const ErrorTypes = Types
 export default Creators
 
-export const NOTIFICATION_TYPES = {
+export const NOTIFICATION_TYPES: { [key: string]: NotificationType['type'] } = {
   success: 'success',
   error: 'error',
   info: 'info',
@@ -32,20 +33,22 @@ export const NOTIFICATION_TYPES = {
 
 /* ------------- Initial State ------------- */
 
-export const INITIAL_STATE: NotificationReduxStore = Immutable({
+export const INITIAL_STATE: NotificationReduxStore = {
   notificationToShow: [],
-})
+}
 
 /* ------------- Reducers ------------- */
 
 export const addNotificationR = (
   state: NotificationReduxStore,
   { notificationType, message, title = '', translate = false }: IAddNotification,
-) =>
-  state.merge({
-    // @ts-ignore
-    notificationToShow: [...state.notificationToShow, { type: notificationType, message, title, translate }],
-  })
+): NotificationReduxStore =>
+  mergeLeft<Partial<NotificationReduxStore>, NotificationReduxStore>(
+    {
+      notificationToShow: [...state.notificationToShow, { type: notificationType, message, title, translate }],
+    },
+    state,
+  )
 
 export const addError = (state: NotificationReduxStore, { message, title, translate }: IAddErrorNotification) =>
   addNotificationR(state, {
@@ -74,7 +77,7 @@ export const addInfo = (state: NotificationReduxStore, { message, title, transla
     translate,
   })
 
-export const clearNotificationsR = (state: NotificationReduxStore) => state.merge({ notificationToShow: [] })
+export const clearNotificationsR = (state: NotificationReduxStore) => mergeLeft({ notificationToShow: [] }, state)
 
 /* ------------- Hookup Reducers To Types ------------- */
 

@@ -1,6 +1,5 @@
 import { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce'
 import { Action } from 'redux'
-import { ImmutableObject } from 'seamless-immutable'
 
 import { PresentationItemFromServer, UserGroup, UserType } from '../../types/UserTypes'
 
@@ -46,7 +45,7 @@ export type IUserReduxActions =
   | IOnChangeUserGroupRequest
   | IOnChangeUserGroupSuccess
 
-export type UserReduxStore = ImmutableObject<{
+export type UserReduxStore = {
   userLoaded: boolean
   email: string
   image: string
@@ -60,4 +59,4 @@ export type UserReduxStore = ImmutableObject<{
   presentationIds: string[]
   presentationId: string
   selectedGroup: UserGroup
-}>
+}

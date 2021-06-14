@@ -1,5 +1,5 @@
 import { createReducer, createActions } from 'reduxsauce'
-import Immutable from 'seamless-immutable'
+import { assoc, mergeLeft } from 'ramda'
 
 import preProcessLocale from '../__core/PreProcessLocale'
 
@@ -32,38 +32,41 @@ export default Creators
 
 /* ------------- Initial State ------------- */
 
-export const INITIAL_STATE: LoginReduxStore = Immutable({
+export const INITIAL_STATE: LoginReduxStore = {
   errorCode: '',
   fetching: false,
   fetchingLocale: false,
   logged: false,
   translations: {} as TranslationsType,
   dailyImages: [] as DailyImageType[],
-})
+}
 
 /* ------------- Reducers ------------- */
 
 export const getDailyPictureSuccessR = (state: LoginReduxStore, { dailyPicture }: IGetDailyPictureSuccess) => {
   if (Array.isArray(dailyPicture.images) && dailyPicture.images.length) {
-    return state.set('dailyImages', dailyPicture.images)
+    return assoc('dailyImages', dailyPicture.images, state)
   }
   return state
 }
 
-export const onGetLocaleR = (state: LoginReduxStore) => state.merge({ fetchingLocale: true })
+export const onGetLocaleR = (state: LoginReduxStore) => assoc('fetchingLocale', true, state)
 
 export const onGetLocaleSuccessR = (state: LoginReduxStore, { translations }: IOnGetLocaleSuccess) =>
-  state.merge({ translations: preProcessLocale(translations), fetchingLocale: false })
+  mergeLeft({ translations: preProcessLocale(translations), fetchingLocale: false }, state)
 
-export const onLoginR = (state: LoginReduxStore) => state.merge({ errorCode: '', fetching: true })
+export const onLoginR = (state: LoginReduxStore) => mergeLeft({ errorCode: '', fetching: true }, state)
 
-export const onLoginSuccessR = (state: LoginReduxStore) => state.merge({ fetching: false, logged: true })
+export const onLoginSuccessR = (state: LoginReduxStore) => mergeLeft({ fetching: false, logged: true }, state)
 
 export const onLoginFailureR = (state: LoginReduxStore, { errorCode }: IOnLoginFailure) =>
-  state.merge({
-    errorCode,
-    fetching: false,
-  })
+  mergeLeft(
+    {
+      errorCode,
+      fetching: false,
+    },
+    state,
+  )
 
 /* ------------- Hookup Reducers To Types ------------- */
 

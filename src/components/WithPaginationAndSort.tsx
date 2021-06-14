@@ -1,6 +1,6 @@
 import React, { createRef } from 'react'
 import { connect } from 'react-redux'
-import Immutable, { ImmutableArray, ImmutableObject } from 'seamless-immutable'
+import { assocPath, pathOr } from 'ramda'
 
 // redux
 import ListActions from '../redux/ListRedux'
@@ -11,10 +11,10 @@ import { ReduxStore } from '../redux'
 import { NavigationItem } from '../types/NavigationTypes'
 
 export interface WithPaginationAndSortStateProps<DataItemType = any> {
-  data: ImmutableArray<DataItemType>
-  paginator: ImmutableObject<PaginatorType>
-  sort: ImmutableObject<SortObjectType>
-  filterData: ImmutableObject<FilterType>
+  data: DataItemType[]
+  paginator: PaginatorType
+  sort: SortObjectType
+  filterData: FilterType
 }
 
 export interface WithPaginationAndSortDispatchProps {
@@ -43,7 +43,7 @@ export type WithPaginationAndSortPassDownProps<DataItemType = any> = WithPaginat
   resetFilter: () => void
 }
 
-const emptyImmutable = Immutable({})
+const emptyObject = {}
 function withPaginationAndSort<P extends object>(Component: React.ComponentType<P>): any {
   class WithPaginationAndSort extends React.Component<P & WithPaginationAndSortPropsType> {
     componentRef = createRef()
@@ -120,7 +120,7 @@ function withPaginationAndSort<P extends object>(Component: React.ComponentType<
       const path = [navigationItem.name, key]
       onChangeFilterData(path, value)
       if (reloadData) {
-        this.handleLoadData(undefined, filterData.setIn([key], value))
+        this.handleLoadData(undefined, assocPath([key], value, filterData))
       }
     }
 
@@ -151,15 +151,19 @@ function withPaginationAndSort<P extends object>(Component: React.ComponentType<
     state: ReduxStore,
     ownProps: WithPaginationAndSortOwnProps,
   ): WithPaginationAndSortStateProps => ({
-    data: state.list.data.getIn([ownProps.navigationItem.name], []),
-    paginator: state.list.paginator.getIn([ownProps.navigationItem.name], {
-      limit: 20,
-      maxCount: 0,
-      maxPage: 1,
-      page: 1,
-    }),
-    sort: state.list.sort.getIn([ownProps.navigationItem.name], {}),
-    filterData: state.list.filterData.getIn([ownProps.navigationItem.name], emptyImmutable),
+    data: pathOr([], [ownProps.navigationItem.name], state.list.data),
+    paginator: pathOr(
+      {
+        limit: 20,
+        maxCount: 0,
+        maxPage: 1,
+        page: 1,
+      },
+      [ownProps.navigationItem.name],
+      state.list.paginator,
+    ),
+    sort: pathOr(emptyObject, [ownProps.navigationItem.name], state.list.sort),
+    filterData: pathOr(emptyObject, [ownProps.navigationItem.name], state.list.filterData),
   })
 
   return connect<

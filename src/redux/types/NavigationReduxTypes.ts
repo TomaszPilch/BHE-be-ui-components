@@ -1,6 +1,5 @@
 import { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce'
 import { Action } from 'redux'
-import { ImmutableObject } from 'seamless-immutable'
 
 import { NavigationItem } from '../../types/NavigationTypes'
 
@@ -29,8 +28,8 @@ export interface INavigationReduxCreators extends DefaultActionCreators {
 
 export type INavigationReduxActions = IOnRequestRedirectTo | IOnRedirectSuccess | IOnLoadNavigation
 
-export type NavigationReduxStore = ImmutableObject<{
+export type NavigationReduxStore = {
   redirectTo: string
   redirectToAs: string
   navigation: NavigationItem[]
-}>
+}

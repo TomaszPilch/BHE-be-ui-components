@@ -1,5 +1,5 @@
 import { createReducer, createActions } from 'reduxsauce'
-import Immutable from 'seamless-immutable'
+import { mergeLeft } from 'ramda'
 
 import {
   INavigationReduxActions,
@@ -25,22 +25,22 @@ export default Creators
 
 /* ------------- Initial State ------------- */
 
-export const INITIAL_STATE: NavigationReduxStore = Immutable({
+export const INITIAL_STATE: NavigationReduxStore = {
   redirectTo: '',
   redirectToAs: '',
   navigation: [],
-})
+}
 
 /* ------------- Reducers ------------- */
 
 export const requestRedirectTo = (state: NavigationReduxStore, { redirectTo, redirectToAs }: IOnRequestRedirectTo) =>
-  state.merge({ redirectTo, redirectToAs })
+  mergeLeft<{ redirectTo: string; redirectToAs?: string }, NavigationReduxStore>({ redirectTo, redirectToAs }, state)
 
 export const redirectSuccess = (state: NavigationReduxStore) =>
-  state.merge({ redirectTo: INITIAL_STATE.redirectTo, redirectToAs: INITIAL_STATE.redirectToAs })
+  mergeLeft({ redirectTo: INITIAL_STATE.redirectTo, redirectToAs: INITIAL_STATE.redirectToAs }, state)
 
 export const loadNavigation = (state: NavigationReduxStore, { navigation }: IOnLoadNavigation) =>
-  state.merge({ navigation })
+  mergeLeft({ navigation }, state)
 
 /* ------------- Hookup Reducers To Types ------------- */
 

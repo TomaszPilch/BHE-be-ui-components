@@ -1,5 +1,4 @@
 import React from 'react'
-import { ImmutableArray } from 'seamless-immutable'
 import { connect } from 'react-redux'
 
 import {
@@ -45,7 +44,7 @@ import { PassiveComponentProps } from './passive'
 // types
 type ListComponentStateProps = {
   fetching: boolean
-  itemsToDelete: ImmutableArray<DataItemType>
+  itemsToDelete: DataItemType[]
   modalOpened: boolean
   refreshSig: boolean
 }

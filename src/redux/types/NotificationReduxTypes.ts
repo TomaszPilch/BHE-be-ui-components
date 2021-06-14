@@ -1,6 +1,5 @@
 import { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce'
 import { Action } from 'redux'
-import { ImmutableObject } from 'seamless-immutable'
 
 export type NotificationType = {
   type: 'success' | 'error' | 'info'
@@ -32,7 +31,7 @@ export interface IAddInfoNotification
 export interface IAddNotification
   extends Action<'ADD_NOTIFICATION'>,
     Pick<NotificationType, 'message' | 'title' | 'translate'> {
-  notificationType: string
+  notificationType: NotificationType['type']
 }
 
 export interface IClearNotifications extends Action<'CLEAR_NOTIFICATIONS'> {}
@@ -59,6 +58,6 @@ export type INotificationReduxActions =
   | IAddNotification
   | IClearNotifications
 
-export type NotificationReduxStore = ImmutableObject<{
+export type NotificationReduxStore = {
   notificationToShow: Array<NotificationType>
-}>
+}

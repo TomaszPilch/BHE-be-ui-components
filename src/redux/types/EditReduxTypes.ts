@@ -1,6 +1,5 @@
 import { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce'
 import { Action } from 'redux'
-import { ImmutableObject } from 'seamless-immutable'
 
 import { FormConfig, FormConfigWithTab } from '../../types/FormTypes'
 import { ValidationErrorsType } from '../../utilities/validationRules'
@@ -130,11 +129,11 @@ export type IEditReduxActions =
   | IToBase64
   | IUploadFileRequest
 
-export type EditReduxStore = ImmutableObject<{
+export type EditReduxStore = {
   fetching: boolean
   fetchingConfig: boolean
   configs: { [key: string]: FormConfig }
   data: Object
   dataChanged: boolean
   validationErrors: ValidationErrorsType
-}>
+}

@@ -1,6 +1,5 @@
 import { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce'
 import { Action } from 'redux'
-import { ImmutableObject } from 'seamless-immutable'
 
 export interface IHelperReduxTypes extends DefaultActionTypes {
   ON_HELPER_INIT_DATA: 'onHelperInitData'
@@ -57,9 +56,9 @@ export type IHelperReduxActions =
   | IGetResourcesRequest
   | IGetResourcesRequestSuccess
 
-export type HelperReduxStore = ImmutableObject<{
+export type HelperReduxStore = {
   data: { [key: string]: Object }
   fetching: { [key: string]: boolean }
   resources: Object
   resourcesVersion: number
-}>
+}

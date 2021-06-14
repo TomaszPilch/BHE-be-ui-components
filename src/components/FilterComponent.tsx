@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { ImmutableObject } from 'seamless-immutable'
+import { pathOr } from 'ramda'
 
 // components
 import { TextField as FabricTextField } from '@fluentui/react'
@@ -12,7 +12,7 @@ import { SelectItem } from '../utilities/selects'
 const VALID_TYPES = ['textBox', 'selectBox']
 
 type FilterComponentProps = {
-  filterValues: ImmutableObject<FilterType>
+  filterValues: FilterType
   onChangeFilterValue: Function
   options: ListSettingFilterOptionType
   t: TranslateFunctionType
@@ -72,7 +72,7 @@ export default class FilterComponent extends React.PureComponent<FilterComponent
               onBlur={this.handleOnBlurChange}
               onChange={this.handleOnTextChange}
               placeholder={t(`filter.${options.key}`)}
-              value={filterValues.getIn([options.key], '')}
+              value={pathOr('', [options.key], filterValues)}
             />
           </div>
         )
@@ -90,7 +90,7 @@ export default class FilterComponent extends React.PureComponent<FilterComponent
               onBlur={this.handleOnSelectChange}
               options={this.getOptions()}
               t={t}
-              value={filterValues.getIn([options.key], '')}
+              value={pathOr('', [options.key], filterValues)}
             />
           </div>
         )

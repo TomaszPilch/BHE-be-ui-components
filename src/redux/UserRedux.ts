@@ -1,5 +1,5 @@
 import { createReducer, createActions } from 'reduxsauce'
-import Immutable from 'seamless-immutable'
+import { assoc, mergeLeft } from 'ramda'
 
 // types
 import { UserGroup } from '../types/UserTypes'
@@ -28,7 +28,7 @@ export default Creators
 
 /* ------------- Initial State ------------- */
 
-export const INITIAL_STATE: UserReduxStore = Immutable({
+export const INITIAL_STATE: UserReduxStore = {
   userLoaded: false,
   email: '',
   image: '',
@@ -49,25 +49,28 @@ export const INITIAL_STATE: UserReduxStore = Immutable({
     key: 0,
     label: 'None',
   },
-})
+}
 
 /* ------------- Reducers ------------- */
 
-export const onGetActualUserRequestR = (state: UserReduxStore): UserReduxStore => state.set('userLoaded', false)
+export const onGetActualUserRequestR = (state: UserReduxStore): UserReduxStore => assoc('userLoaded', false, state)
 
 export const loadUser = (state: UserReduxStore, { user, presentations }: IOnLoadUser): UserReduxStore =>
-  state.merge({
-    ...user,
-    userLoaded: true,
-    presentations: presentations.map((presentation) => presentation.label),
-    selectedGroup: user.userGroups.filter((group: UserGroup) => group.key === user.selectedGroupId)[0],
-  })
+  mergeLeft(
+    {
+      ...user,
+      userLoaded: true,
+      presentations: presentations.map((presentation) => presentation.label),
+      selectedGroup: user.userGroups.filter((group: UserGroup) => group.key === user.selectedGroupId)[0],
+    },
+    state,
+  )
 
 const onChangePresentationIdR = (state: UserReduxStore, { presentationId }: IOnChangePresentationId) =>
-  state.set('presentationId', presentationId)
+  assoc('presentationId', presentationId, state)
 
 const changeUserGroupSuccessR = (state: UserReduxStore, { selectedGroupId }: IOnChangeUserGroupSuccess) =>
-  state.set('selectedGroup', state.userGroups.filter((group: UserGroup) => group.key === selectedGroupId)[0])
+  assoc('selectedGroup', state.userGroups.filter((group: UserGroup) => group.key === selectedGroupId)[0], state)
 
 /* ------------- Hookup Reducers To Types ------------- */
 
