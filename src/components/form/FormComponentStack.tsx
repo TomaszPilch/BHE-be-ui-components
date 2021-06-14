@@ -11,7 +11,7 @@ import { validate } from '../../utilities/validation'
 // types
 import type { FieldConfigBasicType, FieldConfigWithStackRow, FormConfig } from '../../types/FormTypes'
 import type { FormComponentProps } from './FormComponent'
-import { ImmutableDataType } from '../../types/FormTypes'
+import { FormDataType } from '../../types/FormTypes'
 
 const getColumnFromField = (field: FieldConfigBasicType) => (field.stackSettings ? field.stackSettings.column || 0 : 0)
 const generateFormConfigWithStackTokens = (formConfig: FormConfig) =>
@@ -61,7 +61,7 @@ function FormComponentStack<CustomFormConfig extends FormConfig>(props: FormComp
     if (event) {
       event.preventDefault()
     }
-    const dataToValidate = (standalone ? data : props.data) as ImmutableDataType
+    const dataToValidate = (standalone ? data : props.data) as FormDataType
     const [isValid] = validate(formConfig, dataToValidate)
     if (isValid) {
       onSubmit(dataToValidate)

@@ -1,5 +1,5 @@
 import { createReducer, createActions } from 'reduxsauce'
-import Immutable from 'seamless-immutable'
+import { assoc, assocPath, pipe, pathOr } from 'ramda'
 
 import {
   HelperReduxStore,
@@ -29,38 +29,46 @@ export default Creators
 
 /* ------------- Initial State ------------- */
 
-export const INITIAL_STATE: HelperReduxStore = Immutable({
+export const INITIAL_STATE: HelperReduxStore = {
   data: {} as { [key: string]: Object },
   fetching: {} as { [key: string]: boolean },
   resources: {} as Object,
   resourcesVersion: 0,
-})
+}
 
 /* ------------- Reducers ------------- */
 
 export const onInitData = (state: HelperReduxStore, { name, initData }: IOnHelperInitData) =>
-  state.setIn(['data', name], initData).setIn(['fetching', name], false)
+  pipe<HelperReduxStore, HelperReduxStore, HelperReduxStore>(
+    assocPath(['data', name], initData),
+    assocPath(['fetching', name], false),
+  )(state)
 
 export const onSingleFileUpload = (state: HelperReduxStore, { name }: IOnHelperSingleFileUpload) =>
-  state.setIn(['fetching', name], true)
+  assocPath(['fetching', name], true, state)
 
 export const onSingleFileUploadSuccess = (
   state: HelperReduxStore,
   { name, filename }: IOnHelperSingleFileUploadSuccess,
-) => state.setIn(['data', name, 'filename'], filename).setIn(['fetching', name], false)
+) =>
+  pipe<HelperReduxStore, HelperReduxStore, HelperReduxStore>(
+    assocPath(['data', name, 'filename'], filename),
+    assocPath(['fetching', name], false),
+  )(state)
 
 export const stopFetching = (state: HelperReduxStore, { name }: IOnHelperStopFetching) =>
-  state.setIn(['fetching', name], false)
+  assocPath(['fetching', name], false, state)
 
 const getResourcesRequestSuccessR = (state: HelperReduxStore, { resourceName, data }: IGetResourcesRequestSuccess) =>
-  state
-    .setIn(['resources', resourceName], data)
-    .set(
+  pipe<HelperReduxStore, HelperReduxStore, HelperReduxStore>(
+    assocPath(['resources', resourceName], data),
+    assoc(
       'resourcesVersion',
       Array.isArray(data) && data.length
-        ? state.getIn(['resourcesVersion'], 0) + 1
-        : state.getIn(['resourcesVersion'], 0),
-    )
+        ? pathOr(0, ['resourcesVersion'], state) + 1
+        : pathOr(0, ['resourcesVersion'], state),
+    ),
+  )(state)
 
 /* ------------- Hookup Reducers To Types ------------- */
 

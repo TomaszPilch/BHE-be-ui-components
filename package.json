@@ -1,6 +1,6 @@
 {
   "name": "@bheui/components",
-  "version": "1.0.0-beta6",
+  "version": "2.0.0-alpha1",
   "description": "Components fo BHE be UI",
   "main": "dist",
   "scripts": {
@@ -56,7 +56,6 @@
     "react-dropzone": "^11.1.0",
     "react-select": "^3.1.0",
     "reduxsauce": "^1.2.0",
-    "seamless-immutable": "^7.1.4",
     "typescript": "^4.0.5",
     "uuid": "^8.3.1"
   },

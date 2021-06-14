@@ -1,6 +1,5 @@
 import { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce'
 import { Action } from 'redux'
-import { ImmutableArray, ImmutableObject } from 'seamless-immutable'
 
 import {
   DataItemType,
@@ -105,14 +104,8 @@ export interface IListReduxCreators extends DefaultActionCreators {
     filter: FilterType,
   ) => IOnLoadListData
   onLoadListDataSuccess: (data: ListDataTypeResponse) => IOnLoadListDataSuccess
-  onListDeleteRequest: (
-    modalOpened: boolean,
-    itemsToDelete: DataItemType[] | ImmutableArray<DataItemType>,
-  ) => IOnListDeleteRequest
-  onListDeleteRequestConfirmed: (
-    moduleName: string,
-    items: DataItemType[] | ImmutableArray<DataItemType>,
-  ) => IOnListDeleteRequestConfirmed
+  onListDeleteRequest: (modalOpened: boolean, itemsToDelete: DataItemType[]) => IOnListDeleteRequest
+  onListDeleteRequestConfirmed: (moduleName: string, items: DataItemType[]) => IOnListDeleteRequestConfirmed
   onListStopFetching: () => IOnListStopFetching
   onLoadListWidgetSettings: (module: string, widgetName: string) => IOnLoadListWidgetSettings
   onLoadListWidgetData: (
@@ -151,7 +144,7 @@ export type IListReduxActions =
   | IOnChangeRefreshSig
   | IOnChangeFilterData
 
-export type ListReduxStore = ImmutableObject<{
+export type ListReduxStore = {
   data: ListDataType
   fetching: boolean
   filterData: FilterType
@@ -164,4 +157,4 @@ export type ListReduxStore = ImmutableObject<{
   settingsLoaded: boolean
   sort: SortObjectType
   widgetData: ListDataType
-}>
+}

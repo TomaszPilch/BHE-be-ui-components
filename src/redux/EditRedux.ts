@@ -1,6 +1,6 @@
 // external libs
 import { createReducer, createActions } from 'reduxsauce'
-import Immutable from 'seamless-immutable'
+import { assoc, assocPath, pipe, path } from 'ramda'
 
 // core
 import DataObjectInit from '../__core/DataObjectInit'
@@ -46,60 +46,73 @@ export default Creators
 
 /* ------------- Initial State ------------- */
 
-export const INITIAL_STATE: EditReduxStore = Immutable({
+export const INITIAL_STATE: EditReduxStore = {
   fetching: false,
   fetchingConfig: false,
   configs: {} as { [key: string]: FormConfig },
   data: {} as Object,
   dataChanged: false,
   validationErrors: {} as ValidationErrorsType,
-})
+}
 
 /* ------------- Reducers ------------- */
 
 export const onEditLoadFormConfigRequestR = (state: EditReduxStore, { data }: IOnEditLoadFormConfigRequest) =>
-  state.set('fetchingConfig', true).setIn(['data', data.module], {})
+  pipe<EditReduxStore, EditReduxStore, EditReduxStore>(
+    assoc('fetchingConfig', true),
+    assocPath(['data', data.module], {}),
+  )(state)
 
 export const onEditLoadFormConfigRequestSuccessR = (
   state: EditReduxStore,
   { module, config }: IOnEditLoadFormConfigRequestSuccess,
 ) =>
-  state.set('fetchingConfig', false).setIn(['data', module], DataObjectInit(config)).setIn(['configs', module], config)
+  pipe<EditReduxStore, EditReduxStore, EditReduxStore, EditReduxStore>(
+    assoc('fetchingConfig', false),
+    assocPath(['data', module], DataObjectInit(config)),
+    assocPath(['configs', module], config),
+  )(state)
 
 export const onEditSetFetchingR = (state: EditReduxStore, { fetching }: IOnEditSetFetching) =>
-  state.set('fetching', fetching)
+  assoc('fetching', fetching, state)
 
 export const onEditChangeDataR = (state: EditReduxStore, { path, value }: IOnEditChangeData) =>
-  state.setIn(['data', ...path], value).set('dataChanged', true)
+  pipe<EditReduxStore, EditReduxStore, EditReduxStore>(
+    assocPath(['data', ...path], value),
+    assoc('dataChanged', true),
+  )(state)
 
-export const onEditLoadFormDataRequestR = (state: EditReduxStore) => state.set('fetching', true)
+export const onEditLoadFormDataRequestR = (state: EditReduxStore) => assoc('fetching', true, state)
 
 export const onEditLoadFormDataRequestSuccess = (
   state: EditReduxStore,
   { name, data }: IOnEditLoadFormDataRequestSuccess,
 ) => {
   const dataWitTexts = data.texts && Array.isArray(data.texts) ? { ...data, texts: data.texts[0] } : data
-  const dataObject = state.dataChanged ? state.data.getIn([name]) : dataWitTexts
-  return state.set('fetching', true).setIn(['data', name], dataObject)
+  const dataObject = state.dataChanged ? path([name], state.data) : dataWitTexts
+  return pipe<EditReduxStore, EditReduxStore, EditReduxStore>(
+    assoc('fetching', true),
+    assocPath(['data', name], dataObject),
+  )(state)
 }
 
-export const onEditValidationRequestR = (state: EditReduxStore) => state.set('fetching', true)
+export const onEditValidationRequestR = (state: EditReduxStore) => assoc('fetching', true, state)
 
 export const onEditChangeValidationErrorsR = (
   state: EditReduxStore,
   { validationErrors }: IOnEditChangeValidationErrors,
-) => state.set('validationErrors', validationErrors)
+) => assoc('validationErrors', validationErrors, state)
 
 export const onEditChangeValidationErrorR = (state: EditReduxStore, { path, data }: IOnEditChangeValidationError) =>
-  state.setIn(['validationErrors', ...path], data)
+  assocPath(['validationErrors', ...path], data, state)
 
-export const onEditSaveRequestR = (state: EditReduxStore) => state.set('fetching', true)
+export const onEditSaveRequestR = (state: EditReduxStore) => assoc('fetching', true, state)
 
-export const onEditSaveRequestSuccessR = (state: EditReduxStore) => state.set('fetching', false)
+export const onEditSaveRequestSuccessR = (state: EditReduxStore) => assoc('fetching', false, state)
 
-export const onUpdateColumnRequestR = (state: EditReduxStore) => state.set('fetching', true)
+export const onUpdateColumnRequestR = (state: EditReduxStore) => assoc('fetching', true, state)
 
-export const onUpdateColumnRequestSuccessR = (state: EditReduxStore) => state.set('fetching', false)
+export const onUpdateColumnRequestSuccessR = (state: EditReduxStore) => assoc('fetching', false, state)
 
 /* ------------- Hookup Reducers To Types ------------- */
 

@@ -1,6 +1,5 @@
 import { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce'
 import { Action } from 'redux'
-import { ImmutableObject } from 'seamless-immutable'
 
 import { DailyImageType, DailyPictureResponseType } from '../../types/DailyPictureTypes'
 import { TranslationsType } from '../../types/TranslationTypes'
@@ -56,11 +55,11 @@ export type ILoginReduxActions =
   | IOnLoginSuccess
   | IOnLoginFailure
 
-export type LoginReduxStore = ImmutableObject<{
+export type LoginReduxStore = {
   errorCode: string
   fetching: boolean
   fetchingLocale: boolean
   logged: boolean
   translations: TranslationsType
   dailyImages: DailyImageType[]
-}>
+}

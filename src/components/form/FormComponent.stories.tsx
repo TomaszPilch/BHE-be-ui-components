@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { Story, Meta } from '@storybook/react/types-6-0'
-import Immutable from 'seamless-immutable'
+import { assocPath } from 'ramda'
 
 import FormComponent, { FormComponentProps } from './FormComponent'
 import { CustomFormConfig } from '../formItems'
@@ -41,10 +41,10 @@ Standalone.args = {
 }
 
 const TemplateWithCustomData: Story<FormComponentProps<CustomFormConfig>> = (args) => {
-  const [data, setData] = useState(Immutable({}))
+  const [data, setData] = useState({})
 
   const onChange = useCallback((key, value) => {
-    setData((prevData) => prevData.setIn([key], value))
+    setData((prevData) => assocPath([key], value, prevData))
   }, [])
 
   return <FormComponent {...args} data={data} onChange={onChange} onSubmit={console.log} />
