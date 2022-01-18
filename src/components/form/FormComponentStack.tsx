@@ -1,19 +1,21 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 
-// components
 import { Stack, PrimaryButton } from '@fluentui/react'
-import { formComponentDefaultProps, useFormComponentHooks } from './FormComponent'
-import FormComponentItem from './FormComponentItem'
+import {
+  formComponentDefaultProps,
+  FormComponentProps,
+  useFormComponentHooks,
+} from '@bheui/form-logic/lib/components/FormFactory'
+import { FormDataType } from '@bheui/form-logic/lib/types/FormTypes'
+import FormComponentItem from '@bheui/form-logic/lib/components/FormComponentItem'
+import { validate } from '@bheui/form-logic/lib/utilities/validation'
 
-// utils
-import { validate } from '../../utilities/validation'
+import type { FieldConfigWithStackRow, FormConfig } from '../../types/FormTypes'
 
-// types
-import type { FieldConfigBasicType, FieldConfigWithStackRow, FormConfig } from '../../types/FormTypes'
-import type { FormComponentProps } from './FormComponent'
-import { FormDataType } from '../../types/FormTypes'
+import { FieldConfigBasicTypeStack } from '../../types/FormTypes'
 
-const getColumnFromField = (field: FieldConfigBasicType) => (field.stackSettings ? field.stackSettings.column || 0 : 0)
+const getColumnFromField = (field: FieldConfigBasicTypeStack<string>) =>
+  field.stackSettings ? field.stackSettings.column || 0 : 0
 const generateFormConfigWithStackTokens = (formConfig: FormConfig) =>
   formConfig
     .reduce<FieldConfigWithStackRow[]>((acc, field) => {
@@ -70,16 +72,7 @@ function FormComponentStack<CustomFormConfig extends FormConfig>(props: FormComp
     }
   }
 
-  const {
-    customFormComponents,
-    editable,
-    fetchResources,
-    labelPrefix,
-    resourceVersion,
-    showSubmitButton,
-    submitButtonText,
-    t,
-  } = props
+  const { formComponents, editable, fetchResources, labelPrefix, t, submitButtonComponentCreator } = props
 
   return (
     <Stack styles={{ root: { overflow: 'visible' } }} tokens={{ childrenGap: 10 }}>
@@ -107,7 +100,7 @@ function FormComponentStack<CustomFormConfig extends FormConfig>(props: FormComp
                     tokens={fieldConfig.tokens}
                   >
                     <FormComponentItem
-                      customFormComponents={customFormComponents}
+                      formComponents={formComponents}
                       data={!standalone && props.data ? props.data : data}
                       editable={editable}
                       fetchResources={fetchResources}
@@ -115,7 +108,6 @@ function FormComponentStack<CustomFormConfig extends FormConfig>(props: FormComp
                       labelPrefix={labelPrefix}
                       onBlur={handleOnBlur}
                       onChange={handleOnChange}
-                      resourceVersion={resourceVersion}
                       t={t}
                       touched={touched}
                     />
@@ -125,11 +117,7 @@ function FormComponentStack<CustomFormConfig extends FormConfig>(props: FormComp
             </Stack>
           )
         })}
-        {showSubmitButton && (
-          <div className="submitButtonWrapper">
-            <PrimaryButton onClick={handleSubmit} text={submitButtonText} type="submit" />
-          </div>
-        )}
+        {typeof submitButtonComponentCreator === 'function' && submitButtonComponentCreator(handleSubmit)}
       </form>
     </Stack>
   )

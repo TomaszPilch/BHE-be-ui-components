@@ -1,25 +1,16 @@
 import React, { FormEvent, memo } from 'react'
 
-// components
 import { TextField as FabricTextField, Label } from '@fluentui/react'
 import { ITextFieldProps } from 'office-ui-fabric-react/lib/components/TextField/TextField.types'
 
-// utils
-import { getErrorText } from '../../utilities/utilities'
+import { DefaultFieldProps } from '@bheui/form-logic/lib/types/FormTypes'
+import { useFieldValidation } from '@bheui/form-logic/lib/utilities/validation'
+import { getErrorText } from '@bheui/form-logic/lib/utilities/utilities'
+import { FieldConfigBasicTypeStack } from '../../types/FormTypes'
 
-// hooks
-import { useFieldValidation } from '../../utilities/validation'
+export interface TextFieldFormFieldConfig<Type extends string> extends FieldConfigBasicTypeStack<Type> {}
 
-// types
-import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
-
-export interface TextFieldFormFieldConfig<Type extends string> extends FieldConfigBasicType {
-  type: Type
-}
-
-export interface TextFieldProps<Type extends string>
-  extends DefaultFieldProps<Type | string>,
-    DefaultFieldActionProps<string> {
+export interface TextFieldProps<Type extends string> extends DefaultFieldProps<Type | string> {
   iconProps: Object
   placeholder: string
   type?: string
@@ -32,12 +23,16 @@ function TextField<Type extends string = 'text'>(props: TextFieldProps<Type>) {
 
   const handleOnChange = (_event: FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
     setTouched(true)
-    props.onChange(props.formFieldConfig.column, newValue || '')
+    if (typeof props.onChange === 'function') {
+      props.onChange(props.formFieldConfig.column, newValue || '')
+    }
   }
 
   const handleOnBlur = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched(true)
-    props.onBlur(props.formFieldConfig.column, event.target.value)
+    if (typeof props.onBlur === 'function') {
+      props.onBlur(props.formFieldConfig.column, event.target.value)
+    }
   }
 
   if (!props.editable) {

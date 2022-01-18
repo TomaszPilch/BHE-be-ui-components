@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { TranslateFunctionType } from '@bheui/form-logic/lib/types/TranslationTypes'
+
 import ListComponent from '../ListComponent'
 import NavigationActions, { getAllRights, getNavigationItem } from '../../redux/NavigationRedux'
 
@@ -9,7 +11,6 @@ import { AllRightsType, NavigationItem } from '../../types/NavigationTypes'
 import { ListSettingsItem } from '../../types/ViewTypes'
 import { ReduxStore } from '../../redux'
 import { INavigationReduxCreators } from '../../redux/types/NavigationReduxTypes'
-import { TranslateFunctionType } from '../../types/TranslationTypes'
 
 type GeneralWidgetComponentOwnProps = {
   formFieldConfig: any //todo

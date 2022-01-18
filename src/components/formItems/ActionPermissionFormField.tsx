@@ -1,22 +1,13 @@
 import React, { memo } from 'react'
 import { Stack, Toggle } from '@fluentui/react'
+import { DefaultFieldProps } from '@bheui/form-logic/lib/types/FormTypes'
+import { useFieldValidation } from '@bheui/form-logic/lib/utilities/validation'
+import { getErrorText } from '@bheui/form-logic/lib/utilities/utilities'
+import { FieldConfigBasicTypeStack } from '../../types/FormTypes'
 
-// components
+export type ActionPermissionFormFieldFormConfig = FieldConfigBasicTypeStack<'actionPermission'>
 
-// functions
-import { useFieldValidation } from '../../utilities/validation'
-import { getErrorText } from '../../utilities/utilities'
-
-// types
-import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
-
-export interface ActionPermissionFormFieldFormConfig extends FieldConfigBasicType {
-  type: 'actionPermission'
-}
-
-export interface ActionPermissionFormFieldProps
-  extends DefaultFieldProps<number | string>,
-    DefaultFieldActionProps<number> {
+export interface ActionPermissionFormFieldProps extends DefaultFieldProps<number | string> {
   formFieldConfig: ActionPermissionFormFieldFormConfig
 }
 
@@ -37,8 +28,12 @@ const ActionPermissionFormField = (props: ActionPermissionFormFieldProps) => {
     } else {
       newValue -= action
     }
-    props.onChange(formFieldConfig.column, newValue)
-    props.onBlur(formFieldConfig.column, newValue)
+    if (typeof props.onChange === 'function') {
+      props.onChange(formFieldConfig.column, newValue)
+    }
+    if (typeof props.onBlur === 'function') {
+      props.onBlur(formFieldConfig.column, newValue)
+    }
     setTouched(true)
   }
 

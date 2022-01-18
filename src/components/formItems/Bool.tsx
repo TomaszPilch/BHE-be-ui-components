@@ -2,22 +2,23 @@ import React, { memo } from 'react'
 import { Label, Toggle } from '@fluentui/react'
 
 import YesNoComponent from '../passive/YesNoComponent'
+import { DefaultFieldProps } from '@bheui/form-logic/lib/types/FormTypes'
+import { FieldConfigBasicTypeStack } from '../../types/FormTypes'
 
-// types
-import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
+export type BoolFormFieldFormConfig = FieldConfigBasicTypeStack<'bool'>
 
-export interface BoolFormFieldFormConfig extends FieldConfigBasicType {
-  type: 'bool'
-}
-
-export interface BoolProps extends DefaultFieldProps<string | boolean>, DefaultFieldActionProps<boolean> {
+export interface BoolProps extends DefaultFieldProps<string | boolean> {
   formFieldConfig: BoolFormFieldFormConfig
 }
 
 const Bool = (props: BoolProps) => {
   const handleOnChange = (_event: React.MouseEvent<HTMLElement>, checked?: boolean) => {
-    props.onChange(props.formFieldConfig.column, !!checked)
-    props.onBlur(props.formFieldConfig.column, !!checked)
+    if (typeof props.onChange === 'function') {
+      props.onChange(props.formFieldConfig.column, !!checked)
+    }
+    if (typeof props.onBlur === 'function') {
+      props.onBlur(props.formFieldConfig.column, !!checked)
+    }
   }
 
   if (!props.editable) {

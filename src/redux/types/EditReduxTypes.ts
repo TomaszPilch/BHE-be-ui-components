@@ -1,8 +1,8 @@
 import { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce'
 import { Action } from 'redux'
+import { ValidationErrorsType } from '@bheui/form-logic/lib/utilities/validationRules'
 
 import { FormConfig, FormConfigWithTab } from '../../types/FormTypes'
-import { ValidationErrorsType } from '../../utilities/validationRules'
 import {
   EditDataSaveType,
   FormConfigRequestData,

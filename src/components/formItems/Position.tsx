@@ -2,27 +2,29 @@ import React, { memo } from 'react'
 
 // components
 import TextInput, { TextFieldProps } from './TextField'
+import { DefaultFieldProps } from '@bheui/form-logic/lib/types/FormTypes'
+import { FieldConfigBasicTypeStack } from '../../types/FormTypes'
 
 // types
-import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
 
-export interface PositionFormFieldConfig extends FieldConfigBasicType {
-  type: 'position'
-}
+export type PositionFormFieldConfig = FieldConfigBasicTypeStack<'position'>
 
-export interface PositionProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {
+export interface PositionProps extends DefaultFieldProps<undefined | string> {
   inputProps: Partial<TextFieldProps<'text'>>
-  placeholder?: string
   formFieldConfig: PositionFormFieldConfig
 }
 
 const Position = (props: PositionProps) => {
   const handleOnChange = (column: string, value: string) => {
-    props.onChange(column, value)
+    if (typeof props.onChange === 'function') {
+      props.onChange(column, value)
+    }
   }
 
   const handleOnBlur = (column: string, value: string) => {
-    props.onBlur(column, value)
+    if (typeof props.onBlur === 'function') {
+      props.onBlur(column, value)
+    }
   }
 
   const { editable, formFieldConfig, inputProps, placeholder, label, value, t } = props

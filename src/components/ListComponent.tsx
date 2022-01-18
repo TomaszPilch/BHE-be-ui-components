@@ -15,6 +15,9 @@ import {
   FontIcon,
 } from '@fluentui/react'
 
+import { TranslateFunctionType } from '@bheui/form-logic/lib/types/TranslationTypes'
+import { copyString, sanitizeColumnName } from '@bheui/form-logic/lib/utilities/utilities'
+
 // @ts-ignore
 import { Pagination } from '@uifabric/experiments'
 
@@ -27,13 +30,11 @@ import { USER_RIGHTS } from '../redux/NavigationRedux'
 import ListActions, { getColumnValue, valueToString } from '../redux/ListRedux'
 
 // utils
-import { copyString, sanitizeColumnName } from '../utilities/utilities'
 
 // components
 import ValueToString from './passive/ValueToString'
 import FilterComponent from './FilterComponent'
 import withPaginationAndSort, { WithPaginationAndSortPassDownProps } from './WithPaginationAndSort'
-import { TranslateFunctionType } from '../types/TranslationTypes'
 import { ReduxStore } from '../redux'
 import { IListReduxCreators } from '../redux/types/ListReduxTypes'
 import { IEditReduxCreators } from '../redux/types/EditReduxTypes'

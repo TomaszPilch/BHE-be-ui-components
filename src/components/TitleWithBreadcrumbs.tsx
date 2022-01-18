@@ -1,8 +1,9 @@
 import React, { memo } from 'react'
 import { Breadcrumb } from '@fluentui/react'
 
+import { TranslateFunctionType } from '@bheui/form-logic/lib/types/TranslationTypes'
+
 import { ChangeRedirectUrlType, NavigationItem, RightName } from '../types/NavigationTypes'
-import { TranslateFunctionType } from '../types/TranslationTypes'
 
 type TitleWithBreadcrumbsProps = {
   action?: RightName

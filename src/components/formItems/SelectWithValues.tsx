@@ -2,8 +2,7 @@ import React from 'react'
 
 import SelectCore, { SelectCoreFormFieldConfig } from './SelectCore'
 
-import { SelectItem, useFieldWithOptions } from '../../utilities/selects'
-
+import { SelectItem, useFieldWithOptions } from '@bheui/form-logic/lib/utilities/selects'
 // types
 import type { SelectCoreProps } from './SelectCore'
 

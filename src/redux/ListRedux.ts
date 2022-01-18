@@ -1,5 +1,6 @@
 import { createReducer, createActions } from 'reduxsauce'
 import { assocPath, mergeLeft, assoc, pipe } from 'ramda'
+import { TranslateFunctionType } from '@bheui/form-logic/lib/types/TranslationTypes'
 
 import {
   IListReduxActions,
@@ -20,7 +21,6 @@ import {
   PaginatorType,
   SortObjectType,
 } from '../types/ViewTypes'
-import { TranslateFunctionType } from '../types/TranslationTypes'
 
 /* ------------- Types and Action Creators ------------- */
 

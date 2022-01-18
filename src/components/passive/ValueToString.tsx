@@ -1,5 +1,5 @@
 import React from 'react'
-import { TranslateFunctionType } from '../../types/TranslationTypes'
+import { TranslateFunctionType } from '@bheui/form-logic/lib/types/TranslationTypes'
 
 export const valueToString = (value: any, t: Function) => {
   if (value === null) {

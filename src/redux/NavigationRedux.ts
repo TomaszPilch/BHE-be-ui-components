@@ -1,5 +1,6 @@
 import { createReducer, createActions } from 'reduxsauce'
 import { mergeLeft } from 'ramda'
+import { TranslateFunctionType } from '@bheui/form-logic/lib/types/TranslationTypes'
 
 import {
   INavigationReduxActions,
@@ -10,7 +11,6 @@ import {
   NavigationReduxStore,
 } from './types/NavigationReduxTypes'
 import { ActionNames, AllRightsType, NavigationItem } from '../types/NavigationTypes'
-import { TranslateFunctionType } from '../types/TranslationTypes'
 
 /* ------------- Types and Action Creators ------------- */
 

@@ -2,22 +2,20 @@ import React from 'react'
 import ReactSelect from 'react-select'
 import { Label } from '@fluentui/react'
 
-import { useFieldValidation } from '../../utilities/validation'
-import { getErrorText } from '../../utilities/utilities'
-import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
 import { ValueType } from 'react-select/src/types'
-import { SelectItem } from '../../utilities/selects'
+import { DefaultFieldProps } from '@bheui/form-logic/lib/types/FormTypes'
+import { SelectItem } from '@bheui/form-logic/lib/utilities/selects'
+import { useFieldValidation } from '@bheui/form-logic/lib/utilities/validation'
+import { getErrorText } from '@bheui/form-logic/lib/utilities/utilities'
+import { FieldConfigBasicTypeStack } from '../../types/FormTypes'
 
-export interface SelectCoreFormFieldConfig extends FieldConfigBasicType {
+export interface SelectCoreFormFieldConfig extends FieldConfigBasicTypeStack<any> {
   className?: string
 }
 
-export interface SelectCoreProps<OptionType>
-  extends DefaultFieldProps<undefined | string>,
-    DefaultFieldActionProps<string | number | null> {
+export interface SelectCoreProps<OptionType> extends DefaultFieldProps<undefined | string | number | null> {
   formFieldConfig: SelectCoreFormFieldConfig
   options: OptionType[]
-  placeholder?: string
 }
 
 function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: SelectCoreProps<OptionType>) {
@@ -29,8 +27,12 @@ function SelectCore<OptionType extends SelectItem, FieldConfig = any>(props: Sel
     if (typeof selected === 'object' && selected !== null && 'value' in selected) {
       selectedValue = selected.value
     }
-    props.onChange(props.formFieldConfig.column, selectedValue)
-    props.onBlur(props.formFieldConfig.column, selectedValue)
+    if (typeof props.onChange === 'function') {
+      props.onChange(props.formFieldConfig.column, selectedValue)
+    }
+    if (typeof props.onBlur === 'function') {
+      props.onBlur(props.formFieldConfig.column, selectedValue)
+    }
   }
 
   const handleNoOptions = (_obj: { inputValue: string }) => props.t('general.selectNoOptions')

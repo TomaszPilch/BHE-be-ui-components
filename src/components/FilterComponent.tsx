@@ -2,12 +2,12 @@ import React from 'react'
 import classNames from 'classnames'
 import { pathOr } from 'ramda'
 
-// components
+import { TranslateFunctionType } from '@bheui/form-logic/lib/types/TranslationTypes'
+import { SelectItem } from '@bheui/form-logic/lib/utilities/selects'
+
 import { TextField as FabricTextField } from '@fluentui/react'
 import SelectCore from './formItems/SelectCore'
 import { FilterType, ListSettingFilterOptionType } from '../types/ViewTypes'
-import { TranslateFunctionType } from '../types/TranslationTypes'
-import { SelectItem } from '../utilities/selects'
 
 const VALID_TYPES = ['textBox', 'selectBox']
 
@@ -44,7 +44,7 @@ export default class FilterComponent extends React.PureComponent<FilterComponent
     this.props.onChangeFilterValue(options.key, event.target.value, true)
   }
 
-  handleOnSelectChange = (_column: string, value: string | number | null) => {
+  handleOnSelectChange = (_column: string, value?: null | string | number) => {
     const { options } = this.props
     this.props.onChangeFilterValue(options.key, value, true)
   }
@@ -91,6 +91,7 @@ export default class FilterComponent extends React.PureComponent<FilterComponent
               options={this.getOptions()}
               t={t}
               value={pathOr('', [options.key], filterValues)}
+              placeholder=""
             />
           </div>
         )

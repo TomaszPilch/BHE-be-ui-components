@@ -2,6 +2,8 @@
 import { createReducer, createActions } from 'reduxsauce'
 import { assoc, assocPath, pipe, path } from 'ramda'
 
+import { ValidationErrorsType } from '@bheui/form-logic/lib/utilities/validationRules'
+
 // core
 import DataObjectInit from '../__core/DataObjectInit'
 
@@ -18,7 +20,6 @@ import {
   IOnEditLoadFormDataRequestSuccess,
   IOnEditSetFetching,
 } from './types/EditReduxTypes'
-import { ValidationErrorsType } from '../utilities/validationRules'
 import { FormConfig } from '../types/FormTypes'
 
 /* ------------- Types and Action Creators ------------- */

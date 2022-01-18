@@ -1,4 +1,4 @@
-import { ElementType } from 'react'
+import { ComponentType } from 'react'
 import dynamic from 'next/dynamic'
 
 import ActionPermissionFormField, {
@@ -65,4 +65,4 @@ export default {
   text: TextField,
   textArea: TextArea,
   widget: GeneralWidgetComponent,
-} as { [key: string]: ElementType }
+} as { [key: string]: ComponentType<FieldTypeProps> }

@@ -1,6 +1,6 @@
-import { FieldConfigBasicType, FormConfigWithTab } from '../types/FormTypes'
+import { FieldConfigBasicTypeStack, FormConfigWithTab } from '../types/FormTypes'
 
-const initValue = (formItem: FieldConfigBasicType) => {
+const initValue = (formItem: FieldConfigBasicTypeStack<string>) => {
   if (typeof formItem.defaultValue !== 'undefined') {
     return formItem.defaultValue
   }

@@ -2,21 +2,15 @@ import React, { memo } from 'react'
 import moment from 'moment'
 import { DatePicker, DayOfWeek, Label } from '@fluentui/react'
 
-// functions
-import { useFieldValidation } from '../../utilities/validation'
-import { getErrorText } from '../../utilities/utilities'
+import { DefaultFieldProps } from '@bheui/form-logic/lib/types/FormTypes'
+import { useFieldValidation } from '@bheui/form-logic/lib/utilities/validation'
+import { getErrorText } from '@bheui/form-logic/lib/utilities/utilities'
+import { FieldConfigBasicTypeStack } from '../../types/FormTypes'
 
-// types
-import { DefaultFieldActionProps, DefaultFieldProps } from '../../types/FormTypes'
-import { FieldConfigBasicType } from '../../types/FormTypes'
+export type DateFormFieldConfig = FieldConfigBasicTypeStack<'date'>
 
-export interface DateFormFieldConfig extends FieldConfigBasicType {
-  type: 'date'
-}
-
-export interface DateProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {
+export interface DateProps extends DefaultFieldProps<undefined | string> {
   formFieldConfig: DateFormFieldConfig
-  placeholder?: string
 }
 
 const Date = (props: DateProps) => {
@@ -24,8 +18,12 @@ const Date = (props: DateProps) => {
 
   const handleOnChange = (date: Date | null | undefined) => {
     const dateFormatted = moment(date).format('YYYY-MM-DD')
-    props.onChange(props.formFieldConfig.column, dateFormatted)
-    props.onBlur(props.formFieldConfig.column, dateFormatted)
+    if (typeof props.onChange === 'function') {
+      props.onChange(props.formFieldConfig.column, dateFormatted)
+    }
+    if (typeof props.onBlur === 'function') {
+      props.onBlur(props.formFieldConfig.column, dateFormatted)
+    }
     setTouched(true)
   }
 

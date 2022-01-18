@@ -2,15 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Label } from '@fluentui/react'
 import { Dashboard } from '@uppy/react'
 
+import { DefaultFieldProps } from '@bheui/form-logic/lib/types/FormTypes'
+
 import Uppy from '../../services/Uppy'
+import { FieldConfigBasicTypeStack } from '../../types/FormTypes'
 
-import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
+export type SingleFileUploadFieldConfig = FieldConfigBasicTypeStack<'file' | 'image'>
 
-export interface SingleFileUploadFieldConfig extends FieldConfigBasicType {
-  type: 'file' | 'image'
-}
-
-export interface SingleFileUploadProps extends DefaultFieldProps<string>, DefaultFieldActionProps<string> {
+export interface SingleFileUploadProps extends DefaultFieldProps<string> {
   formFieldConfig: SingleFileUploadFieldConfig
 }
 

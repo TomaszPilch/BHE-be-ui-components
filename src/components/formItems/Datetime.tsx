@@ -3,18 +3,14 @@ import moment, { Moment } from 'moment'
 import { Label } from '@fluentui/react'
 import DateTimeLibrary from 'react-datetime'
 
-// functions
-import { useFieldValidation } from '../../utilities/validation'
-import { getErrorText } from '../../utilities/utilities'
+import { DefaultFieldProps } from '@bheui/form-logic/lib/types/FormTypes'
+import { useFieldValidation } from '@bheui/form-logic/lib/utilities/validation'
+import { getErrorText } from '@bheui/form-logic/lib/utilities/utilities'
+import { FieldConfigBasicTypeStack } from '../../types/FormTypes'
 
-// types
-import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
+export type DatetimeFormFieldConfig = FieldConfigBasicTypeStack<'datetime'>
 
-export interface DatetimeFormFieldConfig extends FieldConfigBasicType {
-  type: 'datetime'
-}
-
-export interface DatetimeProps extends DefaultFieldProps<undefined | string>, DefaultFieldActionProps<string> {
+export interface DatetimeProps extends DefaultFieldProps<undefined | string> {
   formFieldConfig: DatetimeFormFieldConfig
 }
 
@@ -23,8 +19,12 @@ const Datetime = (props: DatetimeProps) => {
 
   const handleOnChange = (date: Moment | string) => {
     const dateFormatted = moment(date).format('YYYY-MM-DD HH:mm')
-    props.onChange(props.formFieldConfig.column, dateFormatted)
-    props.onBlur(props.formFieldConfig.column, dateFormatted)
+    if (typeof props.onChange === 'function') {
+      props.onChange(props.formFieldConfig.column, dateFormatted)
+    }
+    if (typeof props.onBlur === 'function') {
+      props.onBlur(props.formFieldConfig.column, dateFormatted)
+    }
     setTouched(true)
   }
 

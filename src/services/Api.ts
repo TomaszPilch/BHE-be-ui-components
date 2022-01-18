@@ -1,5 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import getConfig from 'next/config'
+
+import { ValidationErrorsType } from '@bheui/form-logic/lib/utilities/validationRules'
+
 import authInterceptor from './authInterceptor'
 
 import { FilterType, ListDataTypeResponse, ListSettingsType, LoadFormDataResponse } from '../types/ViewTypes'
@@ -8,7 +11,6 @@ import { NavigationItem } from '../types/NavigationTypes'
 import { FormConfigWithTab } from '../types/FormTypes'
 import { DailyPictureResponseType } from '../types/DailyPictureTypes'
 import { TranslationsType } from '../types/TranslationTypes'
-import { ValidationErrorsType } from '../utilities/validationRules'
 
 const { publicRuntimeConfig } = getConfig()
 

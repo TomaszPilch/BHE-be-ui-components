@@ -2,26 +2,21 @@ import React, { memo } from 'react'
 import AceEditor from 'react-ace'
 import { Label } from '@fluentui/react'
 
-import { useFieldValidation } from '../../utilities/validation'
-import { getErrorText } from '../../utilities/utilities'
-
 import 'brace/mode/json'
 import 'brace/mode/html'
 import 'brace/mode/xml'
 import 'brace/theme/tomorrow'
 import 'brace/mode/jade'
+import { DefaultFieldProps } from '@bheui/form-logic/lib/types/FormTypes'
+import { useFieldValidation } from '@bheui/form-logic/lib/utilities/validation'
+import { getErrorText } from '@bheui/form-logic/lib/utilities/utilities'
+import { FieldConfigBasicTypeStack } from '../../types/FormTypes'
 
-// types
-import { DefaultFieldActionProps, DefaultFieldProps, FieldConfigBasicType } from '../../types/FormTypes'
-
-export interface CodeFormFieldConfig extends FieldConfigBasicType {
-  type: 'code'
+export interface CodeFormFieldConfig extends FieldConfigBasicTypeStack<'code'> {
   code?: 'json' | 'html' | 'xml' | 'jade' | string
 }
 
-export interface CodeProps
-  extends DefaultFieldProps<undefined | string | Object>,
-    DefaultFieldActionProps<string | Object> {
+export interface CodeProps extends DefaultFieldProps<undefined | string | Object> {
   formFieldConfig: CodeFormFieldConfig
 }
 
@@ -30,12 +25,16 @@ const Code = (props: CodeProps) => {
 
   const handleOnChange = (value: string) => {
     setTouched(true)
-    props.onChange(props.formFieldConfig.column, value)
+    if (typeof props.onChange === 'function') {
+      props.onChange(props.formFieldConfig.column, value)
+    }
   }
 
   const handleOnBlur = () => {
     setTouched(true)
-    props.onBlur(props.formFieldConfig.column, props.value || '')
+    if (typeof props.onBlur === 'function') {
+      props.onBlur(props.formFieldConfig.column, props.value || '')
+    }
   }
 
   const errorText = isValid ? '' : getErrorText(errors, props.t)

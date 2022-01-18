@@ -1,6 +1,5 @@
 import React from 'react'
-
-import { TranslateFunctionType } from '../../types/TranslationTypes'
+import { TranslateFunctionType } from '@bheui/form-logic/lib/types/TranslationTypes'
 
 export type TranslationComponentProps = {
   column: { [key: string]: any }

@@ -1,14 +1,16 @@
 import React, { useCallback, useState } from 'react'
 import { Story, Meta } from '@storybook/react/types-6-0'
 import { assocPath } from 'ramda'
+import { PrimaryButton } from '@fluentui/react'
 
-import FormComponent, { FormComponentProps } from './FormComponent'
-import { CustomFormConfig } from '../formItems'
+import FormFactory, { FormComponentProps } from '@bheui/form-logic/lib/components/FormFactory'
+
+import formElements, { CustomFormConfig } from '../formItems'
 import { translateFunction } from '../../utilities/stories'
 
 export default {
-  title: 'Form/FormComponent',
-  component: FormComponent,
+  title: 'Form/FormFactory',
+  component: FormFactory,
   argTypes: {},
   args: {
     onChange: console.log,
@@ -18,14 +20,14 @@ export default {
 } as Meta
 
 const Template: Story<FormComponentProps<CustomFormConfig>> = (args) => {
-  return <FormComponent {...args} />
+  return <FormFactory {...args} />
 }
 
 export const Standalone = Template.bind({})
 Standalone.args = {
-  t: translateFunction,
-  showSubmitButton: true,
   standalone: true,
+  t: translateFunction,
+  formComponents: formElements,
   formConfig: [
     {
       type: 'datetime',
@@ -38,6 +40,11 @@ Standalone.args = {
       column: 'boolValue',
     },
   ],
+  submitButtonComponentCreator: (onSubmit) => (
+    <div className="submitButtonWrapper">
+      <PrimaryButton onClick={onSubmit} text="submit" type="submit" />
+    </div>
+  ),
 }
 
 const TemplateWithCustomData: Story<FormComponentProps<CustomFormConfig>> = (args) => {
@@ -47,13 +54,14 @@ const TemplateWithCustomData: Story<FormComponentProps<CustomFormConfig>> = (arg
     setData((prevData) => assocPath([key], value, prevData))
   }, [])
 
-  return <FormComponent {...args} data={data} onChange={onChange} onSubmit={console.log} />
+  // @ts-ignore
+  return <FormFactory {...args} data={data} onChange={onChange} onSubmit={console.log} />
 }
 
 export const CustomData = TemplateWithCustomData.bind({})
 CustomData.args = {
   t: translateFunction,
-  showSubmitButton: true,
+  formComponents: formElements,
   formConfig: [
     {
       type: 'datetime',
@@ -66,4 +74,9 @@ CustomData.args = {
       column: 'boolValue',
     },
   ],
+  submitButtonComponentCreator: (onSubmit) => (
+    <div className="submitButtonWrapper">
+      <PrimaryButton onClick={onSubmit} text="submit" type="submit" />
+    </div>
+  ),
 }

@@ -1,9 +1,13 @@
 import React from 'react'
 
-import SelectCore, { SelectCoreFormFieldConfig } from './SelectCore'
-import { FetchResourceType, SelectItem, useFieldWithFetchResourcesOption } from '../../utilities/selects'
+import {
+  FetchResourceType,
+  SelectItem,
+  useFieldWithFetchResourcesOption,
+} from '@bheui/form-logic/lib/utilities/selects'
 
-// types
+import SelectCore, { SelectCoreFormFieldConfig } from './SelectCore'
+
 import { SelectCoreProps } from './SelectCore'
 
 export interface SelectWithResourcesFormFieldConfig extends SelectCoreFormFieldConfig {

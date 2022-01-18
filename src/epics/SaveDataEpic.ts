@@ -3,6 +3,7 @@ import { ofType } from 'redux-observable'
 import { catchError, switchMap } from 'rxjs/operators'
 import { v4 } from 'uuid'
 import { toString } from 'ramda'
+import { ValidationErrorsType } from '@bheui/form-logic/lib/utilities/validationRules'
 
 // services
 import Uppy from '../services/Uppy'
@@ -23,7 +24,6 @@ import {
   IToBase64,
   IUploadFileRequest,
 } from '../redux/types/EditReduxTypes'
-import { ValidationErrorsType } from '../utilities/validationRules'
 
 const SaveDataEpic = (api: ApiEndpointsType, selfApi: ApiLoginEndpointsType) => [
   (action$: Observable<IOnEditSaveRequest>) =>

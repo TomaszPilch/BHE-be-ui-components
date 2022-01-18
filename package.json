@@ -1,6 +1,6 @@
 {
   "name": "@bheui/components",
-  "version": "2.0.0-alpha1",
+  "version": "2.0.0-rc1",
   "description": "Components fo BHE be UI",
   "main": "dist",
   "scripts": {
@@ -24,6 +24,7 @@
     "yarn.lock",
     "src/styles/*"
   ],
+  "license": "MIT",
   "author": "devX",
   "bugs": {
     "url": "https://github.com/TomaszPilch/BHE-be-ui-components/issues"
@@ -40,6 +41,7 @@
     "rxjs": "^6.6.3"
   },
   "dependencies": {
+    "@bheui/form-logic": "^0.1.0-rc5",
     "@uppy/core": "^1.14.0",
     "@uppy/react": "^1.10.10",
     "@uppy/store-redux": "^1.2.4",
