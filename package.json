@@ -1,6 +1,6 @@
 {
   "name": "@bheui/components",
-  "version": "2.0.0-rc1",
+  "version": "2.0.0-rc2",
   "description": "Components fo BHE be UI",
   "main": "dist",
   "scripts": {
@@ -41,7 +41,7 @@
     "rxjs": "^6.6.3"
   },
   "dependencies": {
-    "@bheui/form-logic": "^0.1.0-rc5",
+    "@bheui/form-logic": "^0.1.0-rc6",
     "@uppy/core": "^1.14.0",
     "@uppy/react": "^1.10.10",
     "@uppy/store-redux": "^1.2.4",

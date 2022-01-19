@@ -1881,10 +1881,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bheui/form-logic@^0.1.0-rc5":
-  version "0.1.0-rc5"
-  resolved "https://registry.yarnpkg.com/@bheui/form-logic/-/form-logic-0.1.0-rc5.tgz#25c6e37c76d48db60df36d1f5930366da094a99a"
-  integrity sha512-aDXLtgJDHjyS+ptF3De9L/1TTlZHjxAaSNrwjvDRWWQcuyWmyDCy6yAjMq6S+3nrY1ezksmZfdjdyqBhYT0foQ==
+"@bheui/form-logic@^0.1.0-rc6":
+  version "0.1.0-rc6"
+  resolved "https://registry.yarnpkg.com/@bheui/form-logic/-/form-logic-0.1.0-rc6.tgz#d9fd91ced4fc98ca79e482ca53576851d8d4b60a"
+  integrity sha512-TERlY5+0fEWJWPOmul9pi81/oRWqLKtneWgj0bcFMeFZlYeqstru3q7oeK/QAj3gUklWZdqg/W4wG2kvLlew3A==
   dependencies:
     devx-js-utilities "^0.1.7"
     ramda "^0.27.2"
