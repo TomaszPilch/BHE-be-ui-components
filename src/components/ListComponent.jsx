@@ -145,7 +145,7 @@ class ListComponent extends React.PureComponent<ListComponentProps> {
       ? [
           ...listColumns.map((colName) => ({
             key: colName,
-            maxWidth: colName === 'id' ? 30 : undefined,
+            maxWidth: colName === 'id' ? 50 : undefined,
             name: t(`dataTableColumns.${sanitizeColumnName(colName)}`),
             onRender: this.handleRenderCell,
             isSorted: column === colName,
