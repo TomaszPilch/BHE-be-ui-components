@@ -1,10 +1,10 @@
 {
   "name": "@bheui/components",
-  "version": "1.0.0-alpha15",
+  "version": "1.0.0-alpha16",
   "description": "Components fo BHE be UI",
   "main": "dist",
   "scripts": {
-    "prepare": "install-peers",
+    "preinstall": "install-peers",
     "prebuild": "rimraf lib && mkdir lib",
     "build": "tsc -p tsconfig.json",
     "test": "jest",
