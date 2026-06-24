@@ -163,7 +163,7 @@ class ListComponent<CustomComponentProps = {}> extends React.PureComponent<ListC
           ...listColumns.map((colName) => ({
             key: colName,
             minWidth: 120,
-            maxWidth: colName === 'id' ? 30 : undefined,
+            maxWidth: colName === 'id' ? 50 : undefined,
             name: t(`dataTableColumns.${sanitizeColumnName(colName)}`),
             onRender: this.handleRenderCell,
             isSorted: column === colName,
